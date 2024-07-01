@@ -1,6 +1,6 @@
 package nl.rgsnl.kib.service;
 
-import nl.rgsnl.kib.model.InspectionListCode;
+import nl.rgsnl.kib.model.list.InspectionListCode;
 
 import java.util.List;
 
