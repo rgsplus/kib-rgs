@@ -1,6 +1,7 @@
 package nl.rgs.kib.service.impl;
 
 import nl.rgs.kib.model.list.InspectionListCode;
+import nl.rgs.kib.model.method.InspectionMethodCode;
 import nl.rgs.kib.repository.InspectionListCodeRepository;
 import nl.rgs.kib.repository.InspectionMethodCodeRepository;
 import nl.rgs.kib.service.InspectionMethodCodeService;
@@ -17,12 +18,12 @@ public class InspectionMethodCodeServiceImpl implements InspectionMethodCodeServ
     private InspectionMethodCodeRepository inspectionMethodCodeRepository;
 
     @Override
-    public List<InspectionListCode> findAll() {
+    public List<InspectionMethodCode> findAll() {
         return List.of();
     }
 
     @Override
-    public Optional<InspectionListCode> findById(String id) {
+    public Optional<InspectionMethodCode> findById(String id) {
         return Optional.empty();
     }
 }
