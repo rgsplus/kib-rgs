@@ -20,11 +20,11 @@ public class InspectionListCodeServiceImpl implements InspectionListCodeService 
 
     @Override
     public List<InspectionListCode> findAll() {
-        return List.of();
+        return inspectionListCodeRepository.findAll();
     }
 
     @Override
-    public Optional<InspectionListCode> findById(String id) {
-        return Optional.empty();
+    public Optional<InspectionListCode> findById(ObjectId id) {
+        return inspectionListCodeRepository.findById(id);
     }
 }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.rgs.kib.model.list.InspectionListCode;
 import nl.rgs.kib.service.InspectionListCodeService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class InspectionListCodeController {
     @Autowired
     private InspectionListCodeService inspectionListCodeService;
 
-    @GetMapping()
+    @GetMapping("/findAll")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -30,7 +31,7 @@ public class InspectionListCodeController {
         return ResponseEntity.ok(inspectionListCodeService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/findById/{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -43,7 +44,7 @@ public class InspectionListCodeController {
             )
     })
     public ResponseEntity<InspectionListCode> findById(@PathVariable() String id) {
-        return inspectionListCodeService.findById(id)
+        return inspectionListCodeService.findById(new ObjectId(id))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
