@@ -26,7 +26,7 @@ public class InspectionMethodCode {
     private InspectionMethodCodeInput input;
 
     @NotNull()
-    @Schema(example = "DEFINITIVE")
+    @Schema(example = "NEN2767")
     private InspectionMethodCodeCalculationMethod calculationMethod;
 
     public String getId() {
