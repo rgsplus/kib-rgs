@@ -39,8 +39,8 @@ public class InspectionMethodCodeServiceImpl implements InspectionMethodCodeServ
     }
 
     @Override
-    public Optional<InspectionMethodCode> update(ObjectId id, InspectionMethodCode inspectionMethodCode) {
-        Optional<InspectionMethodCode> inspectionMethodCodeOptional = inspectionMethodCodeRepository.findById(id);
+    public Optional<InspectionMethodCode> update(InspectionMethodCode inspectionMethodCode) {
+        Optional<InspectionMethodCode> inspectionMethodCodeOptional = inspectionMethodCodeRepository.findById(new ObjectId(inspectionMethodCode.getId()));
         if(inspectionMethodCodeOptional.isEmpty()){
             return Optional.empty();
         }

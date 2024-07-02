@@ -15,7 +15,7 @@ public interface InspectionMethodCodeService {
 
     InspectionMethodCode create(CreateInspectionMethodCode createInspectionMethodCode);
 
-    Optional<InspectionMethodCode> update(ObjectId id, InspectionMethodCode inspectionMethodCode);
+    Optional<InspectionMethodCode> update(InspectionMethodCode inspectionMethodCode);
 
     Optional<InspectionMethodCode> deleteById(ObjectId id);
 }

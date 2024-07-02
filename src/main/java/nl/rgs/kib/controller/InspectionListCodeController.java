@@ -20,7 +20,7 @@ public class InspectionListCodeController {
     @Autowired
     private InspectionListCodeService inspectionListCodeService;
 
-    @GetMapping("/findAll")
+    @GetMapping()
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -31,7 +31,7 @@ public class InspectionListCodeController {
         return ResponseEntity.ok(inspectionListCodeService.findAll());
     }
 
-    @GetMapping("/findById/{id}")
+    @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",

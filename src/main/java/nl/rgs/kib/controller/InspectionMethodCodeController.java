@@ -23,7 +23,7 @@ public class InspectionMethodCodeController {
     @Autowired
     private InspectionMethodCodeService inspectionMethodCodeService;
 
-    @GetMapping("/findAll")
+    @GetMapping()
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -34,7 +34,7 @@ public class InspectionMethodCodeController {
         return ResponseEntity.ok(inspectionMethodCodeService.findAll());
     }
 
-    @GetMapping("/findById/{id}")
+    @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -52,7 +52,7 @@ public class InspectionMethodCodeController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
@@ -68,7 +68,7 @@ public class InspectionMethodCodeController {
         return ResponseEntity.status(201).body(inspectionMethodCodeService.create(createInspectionMethodCode));
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -85,13 +85,13 @@ public class InspectionMethodCodeController {
                     content = @Content()
             ),
     })
-    public ResponseEntity<InspectionMethodCode> update(@PathVariable() String id, @Valid() @RequestBody() InspectionMethodCode inspectionMethodCode) {
-        return inspectionMethodCodeService.update(new ObjectId(id), inspectionMethodCode)
+    public ResponseEntity<InspectionMethodCode> update(@Valid() @RequestBody() InspectionMethodCode inspectionMethodCode) {
+        return inspectionMethodCodeService.update(inspectionMethodCode)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("deleteById/{id}")
+    @DeleteMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
