@@ -5,18 +5,20 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import nl.rgs.kib.model.method.InspectionMethodCode;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data()
 public class InspectionListCodeItemValue {
-    @Id()
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
-    private ObjectId id;
+    @Field(name = "id")
+    private String id;
 
     @NotBlank()
     @Schema(example = "Roof")
@@ -35,14 +37,6 @@ public class InspectionListCodeItemValue {
 
     @NotNull()
     private List<InspectionListCodeItemValueStage> stages;
-
-    public String getId() {
-        return id.toHexString();
-    }
-
-    public void setId(String id) {
-        this.id = new ObjectId(id);
-    }
 
     public String getInspectionMethodCodeId() {
         return inspectionMethodCodeId.toHexString();
