@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Data()
-@AllArgsConstructor()
 @Document(collection = "inspection_list_code")
 public class InspectionListCode {
     @Id()
@@ -30,6 +29,9 @@ public class InspectionListCode {
 
     @NotNull()
     private List<InspectionListCodeItem> items;
+
+    @NotNull()
+    private List<InspectionListCodeLabel> labels;
 
     public String getId() {
         return id.toHexString();

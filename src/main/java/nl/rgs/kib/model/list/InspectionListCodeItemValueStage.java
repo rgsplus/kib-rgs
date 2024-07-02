@@ -1,4 +1,4 @@
-package nl.rgs.kib.model.item;
+package nl.rgs.kib.model.list;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
@@ -9,8 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data()
-@AllArgsConstructor()
-public class InspectionItemCodeStage {
+public class InspectionListCodeItemValueStage {
     @NotNull()
     @Min(1)
     @Max(10)

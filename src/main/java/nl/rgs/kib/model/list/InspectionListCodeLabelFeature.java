@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data()
-@AllArgsConstructor()
 public class InspectionListCodeLabelFeature {
     @NotNull()
     @Min(0)

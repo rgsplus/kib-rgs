@@ -46,7 +46,6 @@ public class InspectionMethodCodeServiceImpl implements InspectionMethodCodeServ
         }
 
         InspectionMethodCode inspectionMethodCodeToUpdate = inspectionMethodCodeOptional.get();
-
         inspectionMethodCodeToUpdate.setName(inspectionMethodCode.getName());
         inspectionMethodCodeToUpdate.setInput(inspectionMethodCode.getInput());
         inspectionMethodCodeToUpdate.setCalculationMethod(inspectionMethodCode.getCalculationMethod());
