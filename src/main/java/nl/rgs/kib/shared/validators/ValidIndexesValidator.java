@@ -2,11 +2,7 @@ package nl.rgs.kib.shared.validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.Data;
-import nl.rgs.kib.model.list.InspectionListItem;
-import nl.rgs.kib.model.list.InspectionListItemValue;
 import nl.rgs.kib.shared.models.Indexable;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

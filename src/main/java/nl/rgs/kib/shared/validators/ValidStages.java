@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueItemIdValidator.class)
-public @interface UniqueItemIds {
-    String message() default "Item id is not unique";
+@Constraint(validatedBy = ValidStagesValidator.class)
+public @interface ValidStages {
+    String message() default "Invalid stages";
     Class<?>[] groups() default {};
     Class<?>[] payload() default {};
 }
