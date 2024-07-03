@@ -3,18 +3,12 @@ package nl.rgs.kib.model.method;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import nl.rgs.kib.shared.models.AuditMetadata;
 import nl.rgs.kib.shared.models.BaseObject;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.UUID;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)

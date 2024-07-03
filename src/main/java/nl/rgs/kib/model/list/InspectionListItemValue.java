@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.shared.validators.ValidStages;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 

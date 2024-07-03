@@ -10,7 +10,6 @@ import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.service.InspectionListService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

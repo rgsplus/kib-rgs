@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import nl.rgs.kib.shared.models.AuditMetadata;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.UniqueItemIds;
 import nl.rgs.kib.shared.validators.UniqueLabelIds;

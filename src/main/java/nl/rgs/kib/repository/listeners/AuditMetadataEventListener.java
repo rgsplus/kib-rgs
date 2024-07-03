@@ -2,24 +2,20 @@ package nl.rgs.kib.repository.listeners;
 
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.shared.models.AuditMetadata;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Component()
 public class AuditMetadataEventListener extends AbstractMongoEventListener<Object> {
 
-    private final AuditorAware<String> auditorAware;
+    @Autowired()
+    private AuditorAware<String> auditorAware;
 
-    public AuditMetadataEventListener(AuditorAware<String> auditorAware) {
-        this.auditorAware = auditorAware;
-    }
-
-    @Override
+    @Override()
     public void onBeforeConvert(BeforeConvertEvent<Object> event) {
         Object source = event.getSource();
         InspectionMethod inspectionMethod = (InspectionMethod) source;
