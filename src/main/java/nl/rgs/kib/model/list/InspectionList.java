@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import nl.rgs.kib.shared.validators.UniqueItemIds;
 import nl.rgs.kib.shared.validators.UniqueLabelIds;
+import nl.rgs.kib.shared.validators.ValidIndexes;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -30,10 +31,12 @@ public class InspectionList {
 
     @NotNull()
     @UniqueItemIds()
+    @ValidIndexes()
     private List<InspectionListItem> items;
 
     @NotNull()
     @UniqueLabelIds()
+    @ValidIndexes()
     private List<InspectionListLabel> labels;
 
     public String getId() {

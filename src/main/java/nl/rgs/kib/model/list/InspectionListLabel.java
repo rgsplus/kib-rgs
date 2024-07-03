@@ -6,13 +6,15 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import nl.rgs.kib.shared.models.Indexable;
+import nl.rgs.kib.shared.validators.ValidIndexes;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data()
 @AllArgsConstructor()
-public class InspectionListLabel {
+public class InspectionListLabel implements Indexable {
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
     @Field(name = "id")
@@ -30,5 +32,7 @@ public class InspectionListLabel {
     @Schema(example = "General")
     private String group;
 
+    @NotNull()
+    @ValidIndexes()
     private List<InspectionListLabelFeature> features;
 }
