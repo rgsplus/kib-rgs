@@ -5,13 +5,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import nl.rgs.kib.shared.models.AuditMetadata;
+import nl.rgs.kib.shared.models.BaseObject;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
+
 @Data()
+@EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_method_code")
-public class InspectionMethod {
+public class InspectionMethod extends BaseObject  {
     @Id()
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")

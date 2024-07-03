@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import nl.rgs.kib.shared.models.AuditMetadata;
+import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.UniqueItemIds;
 import nl.rgs.kib.shared.validators.UniqueLabelIds;
 import nl.rgs.kib.shared.validators.ValidIndexes;
@@ -14,8 +17,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Data()
+@EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_list_code")
-public class InspectionList {
+public class InspectionList extends BaseObject {
     @Id()
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
