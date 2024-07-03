@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import nl.rgs.kib.shared.validators.UniqueItemIds;
+import nl.rgs.kib.shared.validators.UniqueLabelIds;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -27,9 +29,11 @@ public class InspectionList {
     private InspectionListStatus status;
 
     @NotNull()
+    @UniqueItemIds()
     private List<InspectionListItem> items;
 
     @NotNull()
+    @UniqueLabelIds()
     private List<InspectionListLabel> labels;
 
     public String getId() {
