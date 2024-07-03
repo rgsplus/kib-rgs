@@ -4,7 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import nl.rgs.kib.model.method.InspectionMethod;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
@@ -27,18 +29,10 @@ public class InspectionListItemValue {
     @Schema(example = "SERIOUSLY")
     private InspectionListItemValueCategory category;
 
+    @DBRef()
     @NotNull()
-    @Schema(example = "66223agefb61auj4365f12")
-    private ObjectId inspectionMethodId;
+    private InspectionMethod inspectionMethod;
 
     @NotNull()
     private List<InspectionListItemValueStage> stages;
-
-    public String getInspectionMethodId() {
-        return inspectionMethodId.toHexString();
-    }
-
-    public void setInspectionMethodId(String inspectionMethodId) {
-        this.inspectionMethodId = new ObjectId(inspectionMethodId);
-    }
 }
