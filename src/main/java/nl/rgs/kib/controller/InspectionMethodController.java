@@ -22,6 +22,22 @@ public class InspectionMethodController {
     @Autowired
     private InspectionMethodService inspectionMethodService;
 
+    @GetMapping("/count")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Found the count of inspection method"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
+            ),
+    })
+    public ResponseEntity<Long> count() {
+        return ResponseEntity.ok(inspectionMethodService.count());
+    }
+
     @GetMapping()
     @ApiResponses(value = {
             @ApiResponse(

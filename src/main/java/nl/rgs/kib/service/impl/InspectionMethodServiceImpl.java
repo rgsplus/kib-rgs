@@ -19,6 +19,11 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     private InspectionMethodRepository inspectionMethodRepository;
 
     @Override
+    public Long count() {
+        return inspectionMethodRepository.count();
+    }
+
+    @Override
     public List<InspectionMethod> findAll() {
         return inspectionMethodRepository.findAll();
     }

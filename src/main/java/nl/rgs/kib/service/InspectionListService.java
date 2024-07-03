@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InspectionListService {
+     Long count();
+
      List<InspectionList> findAll();
 
      Optional<InspectionList> findById(ObjectId id);
@@ -16,4 +18,5 @@ public interface InspectionListService {
      Optional<InspectionList> update(InspectionList inspectionMethod);
 
      Optional<InspectionList> deleteById(ObjectId id);
+
 }

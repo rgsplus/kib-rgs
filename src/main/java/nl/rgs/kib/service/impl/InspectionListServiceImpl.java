@@ -7,6 +7,7 @@ import nl.rgs.kib.service.InspectionListService;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Autowired
     private InspectionListRepository inspectionListRepository;
+
+    @Override
+    public Long count() {
+        return inspectionListRepository.count();
+    }
 
     @Override
     public List<InspectionList> findAll() {
