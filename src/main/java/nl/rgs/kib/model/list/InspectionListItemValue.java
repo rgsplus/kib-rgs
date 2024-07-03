@@ -3,7 +3,9 @@ package nl.rgs.kib.model.list;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.shared.validators.ValidStages;
 import org.bson.types.ObjectId;
@@ -13,6 +15,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.List;
 
 @Data()
+@NoArgsConstructor()
+@AllArgsConstructor()
 public class InspectionListItemValue {
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")

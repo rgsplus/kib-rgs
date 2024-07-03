@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.rgs.kib.shared.models.Indexable;
 import nl.rgs.kib.shared.validators.ValidIndexes;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Data()
 @AllArgsConstructor()
+@NoArgsConstructor()
 public class InspectionListLabel implements Indexable {
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
