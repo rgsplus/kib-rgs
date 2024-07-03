@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d4338c02-0540-4c93-81a0-896f84cc8167",
+		"_postman_id": "29112540-f634-48ab-8c38-b33e402f4468",
 		"name": "KIB-RGS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "3146170"
@@ -244,7 +244,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":0,\r\n            \"value\":{\r\n                \"id\":\"6s851d25d020f410221712b8\",\r\n                \"name\":\"Roof\",\r\n                \"group\":\"Wooden\",\r\n                \"category\":\"SERIOUSLY\",\r\n                \"inspectionMethodId\":\"6683e32b3d70be65f89e29ce\",\r\n                \"stages\":[]\r\n            }\r\n        }\r\n    ],\r\n    \"labels\":[]\r\n}",
+							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":0,\r\n            \"value\":{\r\n                \"id\":\"6s851d25d020f410221712b8\",\r\n                \"name\":\"Roof\",\r\n                \"group\":\"Wooden\",\r\n                \"category\":\"SERIOUSLY\",\r\n                \"inspectionMethod\":{\r\n                    \"id\":\"{inspectionMethodId}\"\r\n                },\r\n                \"stages\":[]\r\n            }\r\n        }\r\n    ],\r\n    \"labels\":[]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
