@@ -3,20 +3,20 @@ package nl.rgs.kib.model.method.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import nl.rgs.kib.model.method.InspectionMethodCodeCalculationMethod;
-import nl.rgs.kib.model.method.InspectionMethodCodeInput;
+import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
+import nl.rgs.kib.model.method.InspectionMethodInput;
 
-public record CreateInspectionMethodCode (
+public record CreateInspectionMethod (
     @NotBlank()
     @Schema(example = "QuickScan")
     String name,
 
     @NotNull()
     @Schema(example = "PERCENTAGE")
-    InspectionMethodCodeInput input,
+    InspectionMethodInput input,
 
     @NotNull()
     @Schema(example = "NEN2767")
-    InspectionMethodCodeCalculationMethod calculationMethod
+    InspectionMethodCalculationMethod calculationMethod
 ) {
 }

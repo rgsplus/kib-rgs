@@ -5,11 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.rgs.kib.model.list.InspectionListCode;
-import nl.rgs.kib.model.list.dto.CreateInspectionListCode;
-import nl.rgs.kib.model.method.InspectionMethodCode;
-import nl.rgs.kib.model.method.dto.CreateInspectionMethodCode;
-import nl.rgs.kib.service.InspectionListCodeService;
+import nl.rgs.kib.model.list.InspectionList;
+import nl.rgs.kib.model.list.dto.CreateInspectionList;
+import nl.rgs.kib.service.InspectionListService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/inspection-list-code")
-@Tag(name = "Inspection List Code")
-public class InspectionListCodeController {
+@RequestMapping("/inspection-list")
+@Tag(name = "Inspection List")
+public class InspectionListController {
     @Autowired
-    private InspectionListCodeService inspectionListCodeService;
+    private InspectionListService inspectionListService;
 
     @GetMapping()
     @ApiResponses(value = {
@@ -31,8 +29,8 @@ public class InspectionListCodeController {
                     description = "Found all inspection list codes"
             )
     })
-    public ResponseEntity<List<InspectionListCode>> findAll() {
-        return ResponseEntity.ok(inspectionListCodeService.findAll());
+    public ResponseEntity<List<InspectionList>> findAll() {
+        return ResponseEntity.ok(inspectionListService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -47,8 +45,8 @@ public class InspectionListCodeController {
                     content = @Content()
             )
     })
-    public ResponseEntity<InspectionListCode> findById(@PathVariable() String id) {
-        return inspectionListCodeService.findById(new ObjectId(id))
+    public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
+        return inspectionListService.findById(new ObjectId(id))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -65,8 +63,8 @@ public class InspectionListCodeController {
                     content = @Content()
             )
     })
-    public ResponseEntity<InspectionListCode> create(@Valid() @RequestBody() CreateInspectionListCode createInspectionListCode) {
-        return ResponseEntity.status(201).body(inspectionListCodeService.create(createInspectionListCode));
+    public ResponseEntity<InspectionList> create(@Valid() @RequestBody() CreateInspectionList createInspectionList) {
+        return ResponseEntity.status(201).body(inspectionListService.create(createInspectionList));
     }
 
     @PutMapping("{id}")
@@ -86,8 +84,8 @@ public class InspectionListCodeController {
                     content = @Content()
             ),
     })
-    public ResponseEntity<InspectionListCode> update(@Valid() @RequestBody() InspectionListCode inspectionListCode) {
-        return inspectionListCodeService.update(inspectionListCode)
+    public ResponseEntity<InspectionList> update(@Valid() @RequestBody() InspectionList inspectionList) {
+        return inspectionListService.update(inspectionList)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -105,8 +103,8 @@ public class InspectionListCodeController {
             )
     })
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return inspectionListCodeService.deleteById(new ObjectId(id))
-                .map(inspectionMethodCode -> ResponseEntity.noContent().<Void>build())
+        return inspectionListService.deleteById(new ObjectId(id))
+                .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }
 }

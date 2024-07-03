@@ -1,6 +1,6 @@
 package nl.rgs.kib.model.method;
 
-public enum InspectionMethodCodeCalculationMethod {
+public enum InspectionMethodCalculationMethod {
     NEN2767,
     RGD_BOEI,
 }

@@ -1,6 +1,6 @@
 package nl.rgs.kib.model.list;
 
-public enum InspectionListCodeStatus {
+public enum InspectionListStatus {
     CONCEPT,
     DEFINITIVE,
     ARCHIVE,

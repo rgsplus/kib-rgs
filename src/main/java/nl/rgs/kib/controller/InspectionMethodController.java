@@ -5,10 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.rgs.kib.model.list.InspectionListCode;
-import nl.rgs.kib.model.method.InspectionMethodCode;
-import nl.rgs.kib.model.method.dto.CreateInspectionMethodCode;
-import nl.rgs.kib.service.InspectionMethodCodeService;
+import nl.rgs.kib.model.method.InspectionMethod;
+import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
+import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/inspection-method-code")
-@Tag(name = "Inspection Method Code")
-public class InspectionMethodCodeController {
+@RequestMapping("/inspection-method")
+@Tag(name = "Inspection Method")
+public class InspectionMethodController {
     @Autowired
-    private InspectionMethodCodeService inspectionMethodCodeService;
+    private InspectionMethodService inspectionMethodService;
 
     @GetMapping()
     @ApiResponses(value = {
@@ -30,8 +29,8 @@ public class InspectionMethodCodeController {
                     description = "Found all inspection method codes"
             )
     })
-    public ResponseEntity<List<InspectionMethodCode>> findAll() {
-        return ResponseEntity.ok(inspectionMethodCodeService.findAll());
+    public ResponseEntity<List<InspectionMethod>> findAll() {
+        return ResponseEntity.ok(inspectionMethodService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -46,8 +45,8 @@ public class InspectionMethodCodeController {
                     content = @Content()
             )
     })
-    public ResponseEntity<InspectionMethodCode> findById(@PathVariable() String id) {
-        return inspectionMethodCodeService.findById(new ObjectId(id))
+    public ResponseEntity<InspectionMethod> findById(@PathVariable() String id) {
+        return inspectionMethodService.findById(new ObjectId(id))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -64,8 +63,8 @@ public class InspectionMethodCodeController {
                     content = @Content()
             )
     })
-    public ResponseEntity<InspectionMethodCode> create(@Valid() @RequestBody() CreateInspectionMethodCode createInspectionMethodCode) {
-        return ResponseEntity.status(201).body(inspectionMethodCodeService.create(createInspectionMethodCode));
+    public ResponseEntity<InspectionMethod> create(@Valid() @RequestBody() CreateInspectionMethod createInspectionMethod) {
+        return ResponseEntity.status(201).body(inspectionMethodService.create(createInspectionMethod));
     }
 
     @PutMapping("{id}")
@@ -85,8 +84,8 @@ public class InspectionMethodCodeController {
                     content = @Content()
             ),
     })
-    public ResponseEntity<InspectionMethodCode> update(@Valid() @RequestBody() InspectionMethodCode inspectionMethodCode) {
-        return inspectionMethodCodeService.update(inspectionMethodCode)
+    public ResponseEntity<InspectionMethod> update(@Valid() @RequestBody() InspectionMethod inspectionMethod) {
+        return inspectionMethodService.update(inspectionMethod)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -104,8 +103,8 @@ public class InspectionMethodCodeController {
             )
     })
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return inspectionMethodCodeService.deleteById(new ObjectId(id))
-                .map(inspectionMethodCode -> ResponseEntity.noContent().<Void>build())
+        return inspectionMethodService.deleteById(new ObjectId(id))
+                .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }
 }

@@ -3,18 +3,14 @@ package nl.rgs.kib.model.list;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import nl.rgs.kib.model.method.InspectionMethodCode;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data()
-public class InspectionListCodeItemValue {
+public class InspectionListItemValue {
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
     @Field(name = "id")
@@ -29,20 +25,20 @@ public class InspectionListCodeItemValue {
 
     @NotNull()
     @Schema(example = "SERIOUSLY")
-    private InspectionListCodeItemValueCategory category;
+    private InspectionListItemValueCategory category;
 
     @NotNull()
     @Schema(example = "66223agefb61auj4365f12")
-    private ObjectId inspectionMethodCodeId;
+    private ObjectId inspectionMethodId;
 
     @NotNull()
-    private List<InspectionListCodeItemValueStage> stages;
+    private List<InspectionListItemValueStage> stages;
 
-    public String getInspectionMethodCodeId() {
-        return inspectionMethodCodeId.toHexString();
+    public String getInspectionMethodId() {
+        return inspectionMethodId.toHexString();
     }
 
-    public void setInspectionMethodCodeId(String inspectionMethodCodeId) {
-        this.inspectionMethodCodeId = new ObjectId(inspectionMethodCodeId);
+    public void setInspectionMethodId(String inspectionMethodId) {
+        this.inspectionMethodId = new ObjectId(inspectionMethodId);
     }
 }

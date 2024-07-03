@@ -8,14 +8,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Data()
-public class InspectionListCodeLabelFeature {
+@AllArgsConstructor()
+public class InspectionListLabel {
+    @NotNull()
+    @Schema(example = "5f622c23aeefb61a54365f33")
+    @Field(name = "id")
+    private String id;
+
     @NotNull()
     @Min(0)
     @Schema(example = "1", minimum = "0")
     private Integer index;
 
     @NotBlank()
-    @Schema(example = "1990")
+    @Schema(example = "Construction year")
     private String name;
+
+    @Schema(example = "General")
+    private String group;
+
+    private List<InspectionListLabelFeature> features;
 }

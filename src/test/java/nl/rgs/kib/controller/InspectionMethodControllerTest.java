@@ -1,9 +1,9 @@
 package nl.rgs.kib.controller;
 
-import nl.rgs.kib.model.list.InspectionListCode;
-import nl.rgs.kib.model.method.InspectionMethodCode;
-import nl.rgs.kib.service.InspectionListCodeService;
-import nl.rgs.kib.service.InspectionMethodCodeService;
+import nl.rgs.kib.model.list.InspectionList;
+import nl.rgs.kib.model.method.InspectionMethod;
+import nl.rgs.kib.service.InspectionListService;
+import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +20,16 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(InspectionMethodCodeController.class)
+@WebMvcTest(InspectionMethodController.class)
 public class InspectionMethodControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private InspectionMethodCodeService inspectionMethodCodeService;
+    private InspectionMethodService inspectionMethodService;
 
-    private final static String domain = "/inspection-method-code";
+    private final static String domain = "/inspection-method";
 
     @Test
     @WithMockUser()
@@ -38,34 +38,34 @@ public class InspectionMethodControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(inspectionMethodCodeService).findAll();
+        verify(inspectionMethodService).findAll();
     }
 
     @Test
     @WithMockUser()
     public void findById_WhenExists_Returns200() throws Exception {
         ObjectId id = new ObjectId();
-        InspectionMethodCode inspectionMethodCode = new InspectionMethodCode();
-        inspectionMethodCode.setId(id.toHexString());
-        when(inspectionMethodCodeService.findById(id)).thenReturn(Optional.of(inspectionMethodCode));
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(id.toHexString());
+        when(inspectionMethodService.findById(id)).thenReturn(Optional.of(inspectionMethod));
 
         mockMvc.perform(get(domain + "/" + id.toHexString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(inspectionMethodCodeService).findById(id);
+        verify(inspectionMethodService).findById(id);
     }
 
     @Test
     @WithMockUser()
     public void findById_WhenNotExists_Returns404() throws Exception {
         ObjectId id = new ObjectId();
-        when(inspectionMethodCodeService.findById(id)).thenReturn(Optional.empty());
+        when(inspectionMethodService.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(get(domain + "/" + id.toHexString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(inspectionMethodCodeService).findById(id);
+        verify(inspectionMethodService).findById(id);
     }
 }

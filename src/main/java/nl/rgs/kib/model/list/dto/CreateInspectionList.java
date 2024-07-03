@@ -3,25 +3,25 @@ package nl.rgs.kib.model.list.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import nl.rgs.kib.model.list.InspectionListCodeItem;
-import nl.rgs.kib.model.list.InspectionListCodeStatus;
-import nl.rgs.kib.model.list.InspectionListCodeLabel;
+import nl.rgs.kib.model.list.InspectionListItem;
+import nl.rgs.kib.model.list.InspectionListStatus;
+import nl.rgs.kib.model.list.InspectionListLabel;
 
 import java.util.List;
 
-public record CreateInspectionListCode(
+public record CreateInspectionList(
         @NotBlank()
         @Schema(example = "RGS+ NEN_2767")
         String name,
 
         @NotNull()
         @Schema(example = "ACTIVE")
-        InspectionListCodeStatus status,
+        InspectionListStatus status,
 
         @NotNull()
-        List<InspectionListCodeItem> items,
+        List<InspectionListItem> items,
 
         @NotNull()
-        List<InspectionListCodeLabel> labels
+        List<InspectionListLabel> labels
 ) {
 }

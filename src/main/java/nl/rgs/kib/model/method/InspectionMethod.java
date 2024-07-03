@@ -1,37 +1,33 @@
-package nl.rgs.kib.model.list;
+package nl.rgs.kib.model.method;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data()
-@Document(collection = "inspection_list_code")
-public class InspectionListCode {
+@Document(collection = "inspection_method_code")
+public class InspectionMethod {
     @Id()
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
     private ObjectId id;
 
     @NotBlank()
-    @Schema(example = "RGS+ NEN_2767")
+    @Schema(example = "QuickScan")
     private String name;
 
     @NotNull()
-    @Schema(example = "ACTIVE")
-    private InspectionListCodeStatus status;
+    @Schema(example = "PERCENTAGE")
+    private InspectionMethodInput input;
 
     @NotNull()
-    private List<InspectionListCodeItem> items;
-
-    @NotNull()
-    private List<InspectionListCodeLabel> labels;
+    @Schema(example = "NEN2767")
+    private InspectionMethodCalculationMethod calculationMethod;
 
     public String getId() {
         return id.toHexString();
