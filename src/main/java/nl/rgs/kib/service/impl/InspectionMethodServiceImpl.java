@@ -5,6 +5,7 @@ import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.repository.InspectionMethodRepository;
 import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
-    public InspectionMethod create(CreateInspectionMethod createInspectionMethod) {
+    public InspectionMethod create(@NotNull() CreateInspectionMethod createInspectionMethod) {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setName(createInspectionMethod.name());
         inspectionMethod.setInput(createInspectionMethod.input());
@@ -37,7 +38,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
-    public Optional<InspectionMethod> update(InspectionMethod inspectionMethod) {
+    public Optional<InspectionMethod> update(@NotNull() InspectionMethod inspectionMethod) {
         Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId()));
         if(inspectionMethodOptional.isEmpty()){
             return Optional.empty();

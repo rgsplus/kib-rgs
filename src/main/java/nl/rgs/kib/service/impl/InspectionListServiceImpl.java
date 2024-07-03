@@ -5,6 +5,7 @@ import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
 import nl.rgs.kib.service.InspectionListService;
 import org.bson.types.ObjectId;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class InspectionListServiceImpl implements InspectionListService {
     }
 
     @Override
-    public InspectionList create(CreateInspectionList createInspectionList) {
+    public InspectionList create(@NotNull() CreateInspectionList createInspectionList) {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
@@ -38,7 +39,7 @@ public class InspectionListServiceImpl implements InspectionListService {
     }
 
     @Override
-    public Optional<InspectionList> update(InspectionList inspectionList) {
+    public Optional<InspectionList> update(@NotNull() InspectionList inspectionList) {
         Optional<InspectionList> optionalInspectionList = inspectionListRepository.findById(new ObjectId(inspectionList.getId()));
         if (optionalInspectionList.isEmpty()) {
             return Optional.empty();
