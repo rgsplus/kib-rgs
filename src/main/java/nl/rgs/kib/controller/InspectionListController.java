@@ -26,8 +26,13 @@ public class InspectionListController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Found all inspection list codes"
-            )
+                    description = "Found all inspection list"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
+            ),
     })
     public ResponseEntity<List<InspectionList>> findAll() {
         return ResponseEntity.ok(inspectionListService.findAll());
@@ -37,13 +42,18 @@ public class InspectionListController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Found the inspection list code"
+                    description = "Found the inspection list"
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Inspection list code not found",
+                    description = "Inspection list not found",
                     content = @Content()
-            )
+            ),
     })
     public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
         return inspectionListService.findById(new ObjectId(id))
@@ -55,13 +65,18 @@ public class InspectionListController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Created the inspection list code"
+                    description = "Created the inspection list"
             ),
             @ApiResponse(
                     responseCode = "400",
                     description = "Invalid input",
                     content = @Content()
-            )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
+            ),
     })
     public ResponseEntity<InspectionList> create(@Valid() @RequestBody() CreateInspectionList createInspectionList) {
         return ResponseEntity.status(201).body(inspectionListService.create(createInspectionList));
@@ -79,8 +94,13 @@ public class InspectionListController {
                     content = @Content()
             ),
             @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
+            ),
+            @ApiResponse(
                     responseCode = "404",
-                    description = "Inspection list code not found",
+                    description = "Inspection list not found",
                     content = @Content()
             ),
     })
@@ -94,13 +114,19 @@ public class InspectionListController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Deleted"
+                    description = "Deleted",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Inspection list code not found",
+                    description = "Inspection list not found",
                     content = @Content()
-            )
+            ),
     })
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
         return inspectionListService.deleteById(new ObjectId(id))
