@@ -23,7 +23,7 @@ public class InspectionList {
     private String name;
 
     @NotNull()
-    @Schema(example = "ACTIVE")
+    @Schema(example = "DEFINITIVE")
     private InspectionListStatus status;
 
     @NotNull()

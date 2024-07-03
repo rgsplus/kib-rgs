@@ -15,7 +15,7 @@ public record CreateInspectionList(
         String name,
 
         @NotNull()
-        @Schema(example = "ACTIVE")
+        @Schema(example = "DEFINITIVE")
         InspectionListStatus status,
 
         @NotNull()
