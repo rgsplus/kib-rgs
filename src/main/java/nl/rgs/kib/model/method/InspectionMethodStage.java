@@ -8,11 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.rgs.kib.shared.models.Stageable;
 
 @Data()
 @NoArgsConstructor()
 @AllArgsConstructor()
-public class InspectionMethodStage {
+public class InspectionMethodStage implements Stageable {
     @NotNull()
     @Min(1)
     @Max(10)
@@ -22,4 +23,4 @@ public class InspectionMethodStage {
     @NotBlank()
     @Schema(example = "Good")
     private String name;
-}   
+}

@@ -1,5 +1,5 @@
 package nl.rgs.kib.validators;
-import nl.rgs.kib.model.list.InspectionListItemValueStage;
+import nl.rgs.kib.shared.models.Stageable;
 import nl.rgs.kib.shared.validators.ValidStagesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,56 +29,52 @@ class ValidStagesValidatorTest {
 
     @Test
     void testIsValidWithUniqueValidStages() {
-        List<InspectionListItemValueStage> stages = List.of(
-                new InspectionListItemValueStage(
-                        0,
-                        "Bad",
-                        null
-                ),
-                new InspectionListItemValueStage(
-                        1,
-                        "Good",
-                        null
-                ),
-                new InspectionListItemValueStage(
-                        2,
-                        "Excellent",
-                        null
-                ));
+        List<StageableObject> stages = List.of(
+                new StageableObject(0),
+                new StageableObject(1),
+                new StageableObject(2)
+                );
         assertTrue(validator.isValid(stages, null));
     }
 
     @Test
     void testIsValidWithNonUniqueStages() {
-        List<InspectionListItemValueStage> stages = Arrays.asList(
-                new InspectionListItemValueStage(
-                        0,
-                        "Bad",
-                        null
-                ),
-                new InspectionListItemValueStage(
-                        0,
-                        "Good",
-                        null
-                ));
+        List<StageableObject> stages = Arrays.asList(
+                new StageableObject(0),
+                new StageableObject(0)
+        );
         assertFalse(validator.isValid(stages, null));
     }
 
     @Test
     void testIsValidWithNegativeStage() {
-        List<InspectionListItemValueStage> stages = Collections.singletonList(
-                new InspectionListItemValueStage(
-                        -1,
-                        "Bad",
-                        null
-                ));
+        List<StageableObject> stages = Collections.singletonList(new StageableObject(-1));
         assertFalse(validator.isValid(stages, null));
     }
 
     @Test
     void testIsValidWithNullStage() {
-        List<InspectionListItemValueStage> stages = Collections.singletonList(
-                new InspectionListItemValueStage(null, "Bad", null));
+        List<StageableObject> stages = Collections.singletonList(
+                new StageableObject(null)
+        );
         assertFalse(validator.isValid(stages, null));
+    }
+
+    public static class StageableObject implements Stageable {
+        private Integer stage;
+
+        public StageableObject(Integer stage) {
+            this.stage = stage;
+        }
+
+        @Override
+        public Integer getStage() {
+            return stage;
+        }
+
+        @Override
+        public void setStage(Integer stage) {
+            this.stage = stage;
+        }
     }
 }

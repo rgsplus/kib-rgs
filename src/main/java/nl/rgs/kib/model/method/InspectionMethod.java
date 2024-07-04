@@ -34,6 +34,7 @@ public class InspectionMethod extends BaseObject  {
     private InspectionMethodCalculationMethod calculationMethod;
 
     @NotNull()
+    @ValidStages()
     private List<InspectionMethodStage> stages;
 
     public String getId() {
