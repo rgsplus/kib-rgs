@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidIndexesValidator.class)
-public @interface ValidIndexes {
-    String message() default "Indexes are not valid";
+@Constraint(validatedBy = UniqueStagesValidator.class)
+public @interface UniqueStages {
+    String message() default "Stages are not unique";
     Class<?>[] groups() default {};
     Class<?>[] payload() default {};
 }

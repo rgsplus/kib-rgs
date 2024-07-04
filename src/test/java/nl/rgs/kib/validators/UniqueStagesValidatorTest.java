@@ -1,6 +1,6 @@
 package nl.rgs.kib.validators;
 import nl.rgs.kib.shared.models.Stageable;
-import nl.rgs.kib.shared.validators.ValidStagesValidator;
+import nl.rgs.kib.shared.validators.UniqueStagesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ValidStagesValidatorTest {
+class UniqueStagesValidatorTest {
 
-    private ValidStagesValidator validator;
+    private UniqueStagesValidator validator;
 
     @BeforeEach
     void setUp() {
-        validator = new ValidStagesValidator();
+        validator = new UniqueStagesValidator();
     }
 
     @Test
@@ -42,20 +42,6 @@ class ValidStagesValidatorTest {
         List<StageableObject> stages = Arrays.asList(
                 new StageableObject(0),
                 new StageableObject(0)
-        );
-        assertFalse(validator.isValid(stages, null));
-    }
-
-    @Test
-    void testIsValidWithNegativeStage() {
-        List<StageableObject> stages = Collections.singletonList(new StageableObject(-1));
-        assertFalse(validator.isValid(stages, null));
-    }
-
-    @Test
-    void testIsValidWithNullStage() {
-        List<StageableObject> stages = Collections.singletonList(
-                new StageableObject(null)
         );
         assertFalse(validator.isValid(stages, null));
     }

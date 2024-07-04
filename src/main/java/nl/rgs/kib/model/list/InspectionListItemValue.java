@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.method.InspectionMethod;
-import nl.rgs.kib.shared.validators.ValidStages;
+import nl.rgs.kib.shared.validators.UniqueStages;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -38,6 +38,6 @@ public class InspectionListItemValue {
     private InspectionMethod inspectionMethod;
 
     @NotNull()
-    @ValidStages()
+    @UniqueStages()
     private List<InspectionListItemValueStage> stages;
 }

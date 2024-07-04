@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
-import nl.rgs.kib.shared.validators.ValidStages;
+import nl.rgs.kib.shared.validators.UniqueStages;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -35,7 +35,7 @@ public class InspectionMethod extends BaseObject  {
     private InspectionMethodCalculationMethod calculationMethod;
 
     @NotNull()
-    @ValidStages()
+    @UniqueStages()
     @Valid()
     private List<InspectionMethodStage> stages;
 

@@ -1,19 +1,19 @@
 package nl.rgs.kib.validators;
 import nl.rgs.kib.shared.models.Indexable;
-import nl.rgs.kib.shared.validators.ValidIndexesValidator;
+import nl.rgs.kib.shared.validators.UniqueIndexesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ValidIndexesValidatorTest {
+class UniqueIndexesValidatorTest {
 
-    private ValidIndexesValidator validator;
+    private UniqueIndexesValidator validator;
 
     @BeforeEach
     void setUp() {
-        validator = new ValidIndexesValidator();
+        validator = new UniqueIndexesValidator();
     }
 
     @Test
@@ -35,12 +35,6 @@ class ValidIndexesValidatorTest {
     @Test
     void testIsValidWithNonUniqueIndexes() {
         List<Indexable> items = List.of(new IndexableObject(0), new IndexableObject(0));
-        assertFalse(validator.isValid(items, null));
-    }
-
-    @Test
-    void testIsValidWithNegativeIndex() {
-        List<Indexable> items = List.of(new IndexableObject(-1));
         assertFalse(validator.isValid(items, null));
     }
 

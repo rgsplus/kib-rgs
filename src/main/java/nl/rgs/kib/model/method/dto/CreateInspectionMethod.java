@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
 import nl.rgs.kib.model.method.InspectionMethodInput;
 import nl.rgs.kib.model.method.InspectionMethodStage;
-import nl.rgs.kib.shared.validators.ValidStages;
+import nl.rgs.kib.shared.validators.UniqueStages;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public record CreateInspectionMethod (
     InspectionMethodCalculationMethod calculationMethod,
 
     @NotNull()
-    @ValidStages()
+    @UniqueStages()
     @Valid()
     List<InspectionMethodStage> stages
 ) {

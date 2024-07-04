@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ValidIndexesValidator implements ConstraintValidator<ValidIndexes, List<?>> {
+public class UniqueIndexesValidator implements ConstraintValidator<UniqueIndexes, List<?>> {
     @Override
     public boolean isValid(List<?> items, ConstraintValidatorContext context) {
         if (items == null) {
@@ -21,9 +21,7 @@ public class ValidIndexesValidator implements ConstraintValidator<ValidIndexes, 
                 return false;
             }
 
-            Integer index = indexableItem.getIndex();
-
-            if (index == null || index < 0 || !uniqueIndexes.add(index)) {
+            if (!uniqueIndexes.add(indexableItem.getIndex())) {
                 return false;
             }
         }

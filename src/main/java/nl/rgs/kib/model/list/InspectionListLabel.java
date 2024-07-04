@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.shared.models.Indexable;
-import nl.rgs.kib.shared.validators.ValidIndexes;
+import nl.rgs.kib.shared.validators.UniqueIndexes;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class InspectionListLabel implements Indexable {
     private String group;
 
     @NotNull()
-    @ValidIndexes()
+    @UniqueIndexes()
     @Valid()
     private List<InspectionListLabelFeature> features;
 }
