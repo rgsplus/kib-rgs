@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"QuickScan\",\r\n    \"input\":\"PERCENTAGE\",\r\n    \"calculationMethod\":\"NEN2767\"\r\n}",
+							"raw": "{\r\n    \"name\":\"QuickScan\",\r\n    \"input\":\"PERCENTAGE\",\r\n    \"calculationMethod\":\"NEN2767\",\r\n    \"stages\":[\r\n        {\r\n            \"stage\":1,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":2,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":3,\r\n            \"name\":\"stage 3\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -103,7 +103,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"QuickScan edited\",\r\n    \"input\":\"PERCENTAGE\",\r\n    \"calculationMethod\":\"NEN2767\"\r\n}",
+							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"QuickScan edited\",\r\n    \"input\":\"PERCENTAGE\",\r\n    \"calculationMethod\":\"NEN2767\",\r\n    \"stages\":[\r\n        {\r\n            \"stage\":1,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":2,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":3,\r\n            \"name\":\"stage 3\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -244,7 +244,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":0,\r\n            \"value\":{\r\n                \"id\":\"6s851d25d020f410221712b8\",\r\n                \"name\":\"Roof\",\r\n                \"group\":\"Wooden\",\r\n                \"category\":\"SERIOUSLY\",\r\n                \"inspectionMethod\":{\r\n                    \"id\":\"{inspectionMethodId}\"\r\n                },\r\n                \"stages\":[]\r\n            }\r\n        }\r\n    ],\r\n    \"labels\":[]\r\n}",
+							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":0,\r\n            \"value\":{\r\n                \"id\":\"6s851d25d020f410221712b8\",\r\n                \"name\":\"Roof\",\r\n                \"group\":\"Wooden\",\r\n                \"category\":\"SERIOUSLY\",\r\n                \"inspectionMethod\":{\r\n                    \"id\":\"6683e0de3d70be65f89e29cc\"\r\n                },\r\n                \"stages\":[]\r\n            }\r\n        },\r\n        {\r\n            \"index\":1,\r\n            \"value\":{\r\n                \"id\":\"6s851d25d020f410221712b3\",\r\n                \"name\":\"Roof\",\r\n                \"group\":\"Wooden\",\r\n                \"category\":\"SERIOUSLY\",\r\n                \"inspectionMethod\":{\r\n                    \"id\":\"6683e0de3d70be65f89e29cc\"\r\n                },\r\n                \"stages\":[\r\n                    {\r\n                        \"stage\":\"1\",\r\n                        \"name\":\"satge 0\",\r\n                        \"max\":null\r\n                    },\r\n                    {\r\n                        \"stage\":1,\r\n                        \"name\":\"satge 1\", \r\n                        \"max\":null\r\n                    }\r\n                ]\r\n            }\r\n        }\r\n    ],\r\n    \"labels\":[\r\n        {\r\n            \"id\":\"5f622c23aeefb61a54365f33\",\r\n            \"name\":\"label 1\",\r\n            \"index\": 0,\r\n            \"group\":null,\r\n            \"features\":[]\r\n        },\r\n        {\r\n            \"id\":\"5f622c23aeefb61a54365f31\",\r\n            \"name\":\"label 2\",\r\n            \"index\": 1,\r\n            \"group\":null,\r\n            \"features\":[]\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
