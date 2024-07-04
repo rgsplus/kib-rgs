@@ -17,7 +17,7 @@ import java.util.List;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
-@Document(collection = "inspection_list_code")
+@Document(collection = "inspection_list")
 public class InspectionList extends BaseObject {
     @Id()
     @NotNull()

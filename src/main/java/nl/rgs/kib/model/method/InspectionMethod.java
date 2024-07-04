@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
-@Document(collection = "inspection_method_code")
+@Document(collection = "inspection_method")
 public class InspectionMethod extends BaseObject  {
     @Id()
     @NotNull()
