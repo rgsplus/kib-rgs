@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.method.InspectionMethodStage;
+import org.hibernate.validator.constraints.URL;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
@@ -18,4 +19,8 @@ public class InspectionListItemValueStage extends InspectionMethodStage {
     @Max(100)
     @Schema(example = "25", minimum = "0", maximum = "100")
     private Double max;
+
+    @URL()
+    @Schema(example = "https://example.com/image.jpg")
+    private String image;
 }
