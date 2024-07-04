@@ -38,6 +38,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
         inspectionMethod.setName(createInspectionMethod.name());
         inspectionMethod.setInput(createInspectionMethod.input());
         inspectionMethod.setCalculationMethod(createInspectionMethod.calculationMethod());
+        inspectionMethod.setStages(createInspectionMethod.stages());
         return inspectionMethodRepository.save(inspectionMethod);
     }
 
@@ -52,6 +53,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
         inspectionMethodToUpdate.setName(inspectionMethod.getName());
         inspectionMethodToUpdate.setInput(inspectionMethod.getInput());
         inspectionMethodToUpdate.setCalculationMethod(inspectionMethod.getCalculationMethod());
+        inspectionMethodToUpdate.setStages(inspectionMethod.getStages());
 
         return Optional.of(inspectionMethodRepository.save(inspectionMethodToUpdate));
     }

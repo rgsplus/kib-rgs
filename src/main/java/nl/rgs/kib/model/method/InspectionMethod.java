@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
+import nl.rgs.kib.shared.validators.ValidStages;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.List;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
@@ -30,6 +32,9 @@ public class InspectionMethod extends BaseObject  {
     @NotNull()
     @Schema(example = "NEN2767")
     private InspectionMethodCalculationMethod calculationMethod;
+
+    @NotNull()
+    private List<InspectionMethodStage> stages;
 
     public String getId() {
         return id.toHexString();

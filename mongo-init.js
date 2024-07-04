@@ -16,6 +16,20 @@ const createInspectionMethods = async (db) => {
       name: "QuickScan",
       input: "STAGE",
       calculationMethod: "NEN2767",
+      stages: [
+        {
+          stage: 1,
+          name: "Stage 1",
+        },
+        {
+          stage: 2,
+          name: "Stage 2",
+        },
+        {
+          stage: 3,
+          name: "Stage 3",
+        },
+      ],
       _metadata: {
         created: new Date(),
         createdBy: null,
@@ -27,6 +41,20 @@ const createInspectionMethods = async (db) => {
       name: "URL2005",
       input: "PERCENTAGE",
       calculationMethod: null,
+      stages: [
+        {
+          stage: 1,
+          name: "Stage 1",
+        },
+        {
+          stage: 5,
+          name: "Stage 2",
+        },
+        {
+          stage: 10,
+          name: "Stage 3",
+        },
+      ],
       _metadata: {
         created: new Date(),
         createdBy: null,
@@ -38,6 +66,48 @@ const createInspectionMethods = async (db) => {
       name: "CRI Method",
       input: "PERCENTAGE",
       calculationMethod: null,
+      stages: [
+        {
+          stage: 1,
+          name: "Stage 1",
+        },
+        {
+          stage: 2,
+          name: "Stage 2",
+        },
+        {
+          stage: 3,
+          name: "Stage 3",
+        },
+        {
+          stage: 4,
+          name: "Stage 4",
+        },
+        {
+          stage: 5,
+          name: "Stage 5",
+        },
+        {
+          stage: 6,
+          name: "Stage 6",
+        },
+        {
+          stage: 7,
+          name: "Stage 7",
+        },
+        {
+          stage: 8,
+          name: "Stage 8",
+        },
+        {
+          stage: 9,
+          name: "Stage 9",
+        },
+        {
+          stage: 10,
+          name: "Stage 10",
+        },
+      ],
       _metadata: {
         created: new Date(),
         createdBy: null,
@@ -48,7 +118,7 @@ const createInspectionMethods = async (db) => {
   ]);
 };
 
-const createInspectionList = async (db, inspectionMethodInsertResult) => {
+const createInspectionList = async (db, inspectionMethodsResult) => {
   return await db.inspection_list.insertMany([
     {
       name: "RGS+ NEN_2767",
@@ -61,11 +131,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Roof",
             group: "Wooden",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["0"]
+              inspectionMethodsResult[0]._id
             ),
+            stages: inspectionMethodsResult[0].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -75,11 +149,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Facade",
             group: "Wooden",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["0"]
+              inspectionMethodsResult[0]._id
             ),
+            stages: inspectionMethodsResult[0].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -89,11 +167,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Roof",
             group: "Concrete",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["1"]
+              inspectionMethodsResult[1]._id
             ),
+            stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: index === 0 ? 25 : null,
+            })),
           },
         },
         {
@@ -103,11 +185,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Facade",
             group: "Concrete",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["1"]
+              inspectionMethodsResult[1]._id
             ),
+            stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: index === 0 ? 25 : null,
+            })),
           },
         },
         {
@@ -117,11 +203,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Roof",
             group: "Steel",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["2"]
+              inspectionMethodsResult[2]._id
             ),
+            stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: index === 0 ? 25 : index === 1 ? 50 : null,
+            })),
           },
         },
         {
@@ -131,11 +221,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Facade",
             group: "Steel",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["2"]
+              inspectionMethodsResult[2]._id
             ),
+            stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: index === 0 ? 25 : index === 1 ? 50 : null,
+            })),
           },
         },
       ],
@@ -207,11 +301,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Roof",
             group: "Wooden",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["0"]
+              inspectionMethodsResult[0]._id
             ),
+            stages: inspectionMethodsResult[0].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -221,11 +319,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Facade",
             group: "Wooden",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["0"]
+              inspectionMethodsResult[0]._id
             ),
+            stages: inspectionMethodsResult[0].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -235,11 +337,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Roof",
             group: "Concrete",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["1"]
+              inspectionMethodsResult[1]._id
             ),
+            stages: inspectionMethodsResult[1].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -249,11 +355,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Facade",
             group: "Concrete",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["1"]
+              inspectionMethodsResult[1]._id
             ),
+            stages: inspectionMethodsResult[1].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -263,11 +373,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Roof",
             group: "Steel",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["2"]
+              inspectionMethodsResult[2]._id
             ),
+            stages: inspectionMethodsResult[2].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
         {
@@ -277,11 +391,15 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
             name: "Facade",
             group: "Steel",
             category: "SERIOUS",
-            stages: [],
             inspectionMethod: new DBRef(
               "inspection_method",
-              inspectionMethodInsertResult.insertedIds["2"]
+              inspectionMethodsResult[2]._id
             ),
+            stages: inspectionMethodsResult[2].stages.map((stage) => ({
+              stage: stage.stage,
+              naam: stage.name,
+              max: null,
+            })),
           },
         },
       ],
@@ -296,18 +414,17 @@ const createInspectionList = async (db, inspectionMethodInsertResult) => {
   ]);
 };
 
-createInspectionMethods(db).then(
-  (inspectionMethodInsertResult) => {
-    createInspectionList(db, inspectionMethodInsertResult).then(
-      (inspectionListInsertResult) => {
-        console.log("Inspection list created");
-      },
-      (error) => {
-        console.log("Error creating inspection list", error);
-      }
-    );
-  },
-  (error) => {
-    console.log("Error creating inspection methods", error);
-  }
-);
+const getInspectionMethods = async (db) => {
+  return await db.inspection_method.find({}).toArray();
+};
+
+const executeScript = async (db) => {
+  const inspectionMethodsResult = await createInspectionMethods(db);
+  const inspectionMethods = await getInspectionMethods(db);
+  const inspectionListResult = await createInspectionList(
+    db,
+    inspectionMethods
+  );
+};
+
+executeScript(db);

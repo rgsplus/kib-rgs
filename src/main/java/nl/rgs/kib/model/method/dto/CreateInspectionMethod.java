@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
 import nl.rgs.kib.model.method.InspectionMethodInput;
+import nl.rgs.kib.model.method.InspectionMethodStage;
+
+import java.util.List;
 
 public record CreateInspectionMethod (
     @NotBlank()
@@ -17,6 +20,9 @@ public record CreateInspectionMethod (
 
     @NotNull()
     @Schema(example = "NEN2767")
-    InspectionMethodCalculationMethod calculationMethod
+    InspectionMethodCalculationMethod calculationMethod,
+
+    @NotNull()
+    List<InspectionMethodStage> stages
 ) {
 }
