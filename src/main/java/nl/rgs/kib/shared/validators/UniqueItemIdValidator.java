@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import nl.rgs.kib.model.list.InspectionListItem;
 import nl.rgs.kib.model.list.InspectionListItemValue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;

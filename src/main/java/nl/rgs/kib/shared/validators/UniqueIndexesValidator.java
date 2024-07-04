@@ -3,6 +3,7 @@ package nl.rgs.kib.shared.validators;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import nl.rgs.kib.shared.models.Indexable;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

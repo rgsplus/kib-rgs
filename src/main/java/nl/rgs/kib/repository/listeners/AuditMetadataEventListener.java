@@ -1,6 +1,5 @@
 package nl.rgs.kib.repository.listeners;
 
-import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.shared.models.AuditMetadata;
 import nl.rgs.kib.shared.models.BaseObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent;
 import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 
 @Component()

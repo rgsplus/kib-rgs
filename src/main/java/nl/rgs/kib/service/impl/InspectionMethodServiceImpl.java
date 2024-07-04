@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     @Override
     public Optional<InspectionMethod> update(@NotNull() InspectionMethod inspectionMethod) {
         Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId()));
-        if(inspectionMethodOptional.isEmpty()){
+        if (inspectionMethodOptional.isEmpty()) {
             return Optional.empty();
         }
 
@@ -61,7 +62,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     @Override
     public Optional<InspectionMethod> deleteById(ObjectId id) {
         Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(id);
-        if(inspectionMethodOptional.isEmpty()){
+        if (inspectionMethodOptional.isEmpty()) {
             return Optional.empty();
         }
 

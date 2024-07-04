@@ -9,14 +9,15 @@ import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.UniqueStages;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_method")
-public class InspectionMethod extends BaseObject  {
+public class InspectionMethod extends BaseObject {
     @Id()
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
