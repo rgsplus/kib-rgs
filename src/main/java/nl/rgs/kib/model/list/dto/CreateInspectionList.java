@@ -1,6 +1,7 @@
 package nl.rgs.kib.model.list.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.list.InspectionListItem;
@@ -19,9 +20,11 @@ public record CreateInspectionList(
         InspectionListStatus status,
 
         @NotNull()
+        @Valid()
         List<InspectionListItem> items,
 
         @NotNull()
+        @Valid()
         List<InspectionListLabel> labels
 ) {
 }

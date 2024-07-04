@@ -1,6 +1,7 @@
 package nl.rgs.kib.model.list;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -35,11 +36,13 @@ public class InspectionList extends BaseObject {
     @NotNull()
     @UniqueItemIds()
     @ValidIndexes()
+    @Valid()
     private List<InspectionListItem> items;
 
     @NotNull()
     @UniqueLabelIds()
     @ValidIndexes()
+    @Valid()
     private List<InspectionListLabel> labels;
 
     public String getId() {
