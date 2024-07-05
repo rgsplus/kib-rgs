@@ -23,7 +23,7 @@ public class InspectionListLabel implements Indexable, Ideable {
     @Schema(example = "5f622c23aeefb61a54365f33")
     @Field(name = "id")
     private String id;
-    
+
     @Min(0)
     @NotNull()
     @Schema(example = "1", minimum = "0")
@@ -35,7 +35,6 @@ public class InspectionListLabel implements Indexable, Ideable {
 
     @Schema(example = "General")
     private String group;
-
 
     @Valid()
     @NotNull()

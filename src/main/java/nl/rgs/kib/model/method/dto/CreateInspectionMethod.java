@@ -11,6 +11,17 @@ import nl.rgs.kib.shared.validators.UniqueStages;
 
 import java.util.List;
 
+/**
+ * CreateInspectionMethod
+ * <p>
+ * DTO for creating an InspectionMethod
+ * <p>
+ *
+ * @param name
+ * @param input
+ * @param calculationMethod
+ * @param stages
+ */
 public record CreateInspectionMethod(
         @NotBlank()
         @Schema(example = "QuickScan")

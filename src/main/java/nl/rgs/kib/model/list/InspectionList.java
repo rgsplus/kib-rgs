@@ -31,8 +31,7 @@ public class InspectionList extends BaseObject {
     @NotNull()
     @Schema(example = "DEFINITIVE")
     private InspectionListStatus status;
-
-
+    
     @Valid()
     @NotNull()
     @UniqueIds()

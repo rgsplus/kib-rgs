@@ -12,6 +12,17 @@ import nl.rgs.kib.shared.validators.UniqueIndexes;
 
 import java.util.List;
 
+/**
+ * CreateInspectionList
+ * <p>
+ * DTO for creating an InspectionList
+ * <p>
+ *
+ * @param name
+ * @param status
+ * @param items
+ * @param labels
+ */
 public record CreateInspectionList(
         @NotBlank()
         @Schema(example = "RGS+ NEN_2767")
