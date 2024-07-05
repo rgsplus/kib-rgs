@@ -34,15 +34,15 @@ But it doesn't work on MongoDB as the documentation says as other users have rep
 @AllArgsConstructor()
 @NoArgsConstructor()
 public class AuditMetadata {
-    @CreatedDate()
-    public LocalDateTime created;
-
     @CreatedBy()
-    public String createdBy;
+    private String createdBy;
 
     @LastModifiedDate()
-    public LocalDateTime updated;
+    private LocalDateTime updated;
 
     @LastModifiedBy()
-    public String updatedBy;
+    private String updatedBy;
+    
+    @CreatedDate()
+    private LocalDateTime created;
 }
