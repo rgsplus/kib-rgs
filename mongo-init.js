@@ -126,111 +126,105 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
       items: [
         {
           index: 0,
-          value: {
-            id: generateUuid(),
-            name: "Roof",
-            group: "Wooden",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[0]._id
-            ),
-            stages: inspectionMethodsResult[0].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Roof",
+          group: "Wooden",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[0]._id
+          ),
+          stages: inspectionMethodsResult[0].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 1,
-          value: {
-            id: generateUuid(),
-            name: "Facade",
-            group: "Wooden",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[0]._id
-            ),
-            stages: inspectionMethodsResult[0].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Facade",
+          group: "Wooden",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[0]._id
+          ),
+          stages: inspectionMethodsResult[0].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 2,
-          value: {
-            id: generateUuid(),
-            name: "Roof",
-            group: "Concrete",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[1]._id
-            ),
-            stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: index === 0 ? 25 : null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Roof",
+          group: "Concrete",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[1]._id
+          ),
+          stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: index === 0 ? 25 : null,
+            image: null,
+          })),
         },
         {
           index: 3,
-          value: {
-            id: generateUuid(),
-            name: "Facade",
-            group: "Concrete",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[1]._id
-            ),
-            stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: index === 0 ? 25 : null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Facade",
+          group: "Concrete",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[1]._id
+          ),
+          stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: index === 0 ? 25 : null,
+            image: null,
+          })),
         },
         {
           index: 4,
-          value: {
-            id: generateUuid(),
-            name: "Roof",
-            group: "Steel",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[2]._id
-            ),
-            stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: index === 0 ? 25 : index === 1 ? 50 : null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Roof",
+          group: "Steel",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[2]._id
+          ),
+          stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: index === 0 ? 25 : index === 1 ? 50 : null,
+            image: null,
+          })),
         },
         {
           index: 5,
-          value: {
-            id: generateUuid(),
-            name: "Facade",
-            group: "Steel",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[2]._id
-            ),
-            stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: index === 0 ? 25 : index === 1 ? 50 : null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Facade",
+          group: "Steel",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[2]._id
+          ),
+          stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: index === 0 ? 25 : index === 1 ? 50 : null,
+            image: null,
+          })),
         },
       ],
       labels: [
@@ -296,111 +290,105 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
       items: [
         {
           index: 0,
-          value: {
-            id: generateUuid(),
-            name: "Roof",
-            group: "Wooden",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[0]._id
-            ),
-            stages: inspectionMethodsResult[0].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Roof",
+          group: "Wooden",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[0]._id
+          ),
+          stages: inspectionMethodsResult[0].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 1,
-          value: {
-            id: generateUuid(),
-            name: "Facade",
-            group: "Wooden",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[0]._id
-            ),
-            stages: inspectionMethodsResult[0].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Facade",
+          group: "Wooden",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[0]._id
+          ),
+          stages: inspectionMethodsResult[0].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 2,
-          value: {
-            id: generateUuid(),
-            name: "Roof",
-            group: "Concrete",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[1]._id
-            ),
-            stages: inspectionMethodsResult[1].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Roof",
+          group: "Concrete",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[1]._id
+          ),
+          stages: inspectionMethodsResult[1].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 3,
-          value: {
-            id: generateUuid(),
-            name: "Facade",
-            group: "Concrete",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[1]._id
-            ),
-            stages: inspectionMethodsResult[1].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Facade",
+          group: "Concrete",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[1]._id
+          ),
+          stages: inspectionMethodsResult[1].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 4,
-          value: {
-            id: generateUuid(),
-            name: "Roof",
-            group: "Steel",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[2]._id
-            ),
-            stages: inspectionMethodsResult[2].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Roof",
+          group: "Steel",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[2]._id
+          ),
+          stages: inspectionMethodsResult[2].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
         {
           index: 5,
-          value: {
-            id: generateUuid(),
-            name: "Facade",
-            group: "Steel",
-            category: "SERIOUS",
-            inspectionMethod: new DBRef(
-              "inspection_method",
-              inspectionMethodsResult[2]._id
-            ),
-            stages: inspectionMethodsResult[2].stages.map((stage) => ({
-              stage: stage.stage,
-              naam: stage.name,
-              max: null,
-            })),
-          },
+          id: generateUuid(),
+          name: "Facade",
+          group: "Steel",
+          category: "SERIOUS",
+          inspectionMethod: new DBRef(
+            "inspection_method",
+            inspectionMethodsResult[2]._id
+          ),
+          stages: inspectionMethodsResult[2].stages.map((stage) => ({
+            stage: stage.stage,
+            naam: stage.name,
+            max: null,
+            image: null,
+          })),
         },
       ],
       labels: [],
