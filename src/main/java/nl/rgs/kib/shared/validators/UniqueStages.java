@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueStagesValidator.class)
 public @interface UniqueStages {
-    String message() default "Stages are not unique";
+    String message() default "Stages must be unique";
 
     Class<?>[] groups() default {};
 

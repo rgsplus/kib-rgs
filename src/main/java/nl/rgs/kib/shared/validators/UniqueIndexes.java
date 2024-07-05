@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueIndexesValidator.class)
 public @interface UniqueIndexes {
-    String message() default "Indexes are not unique";
+    String message() default "Indexes must be unique";
 
     Class<?>[] groups() default {};
 

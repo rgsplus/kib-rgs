@@ -7,9 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.list.InspectionListItem;
 import nl.rgs.kib.model.list.InspectionListLabel;
 import nl.rgs.kib.model.list.InspectionListStatus;
+import nl.rgs.kib.shared.validators.UniqueIds;
 import nl.rgs.kib.shared.validators.UniqueIndexes;
-import nl.rgs.kib.shared.validators.UniqueItemIds;
-import nl.rgs.kib.shared.validators.UniqueLabelIds;
 
 import java.util.List;
 
@@ -22,16 +21,16 @@ public record CreateInspectionList(
         @Schema(example = "DEFINITIVE")
         InspectionListStatus status,
 
-        @NotNull()
-        @UniqueItemIds()
-        @UniqueIndexes()
         @Valid()
+        @NotNull()
+        @UniqueIds()
+        @UniqueIndexes()
         List<InspectionListItem> items,
 
-        @NotNull()
-        @UniqueLabelIds()
-        @UniqueIndexes()
         @Valid()
+        @NotNull()
+        @UniqueIds()
+        @UniqueIndexes()
         List<InspectionListLabel> labels
 ) {
 }

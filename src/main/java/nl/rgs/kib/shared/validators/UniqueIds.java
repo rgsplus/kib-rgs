@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueLabelIdValidator.class)
-public @interface UniqueLabelIds {
-    String message() default "Label id is not unique";
+@Constraint(validatedBy = UniqueIdsValidator.class)
+public @interface UniqueIds {
+    String message() default "Ids must be unique";
 
     Class<?>[] groups() default {};
 

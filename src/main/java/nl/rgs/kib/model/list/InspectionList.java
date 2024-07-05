@@ -7,9 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
+import nl.rgs.kib.shared.validators.UniqueIds;
 import nl.rgs.kib.shared.validators.UniqueIndexes;
-import nl.rgs.kib.shared.validators.UniqueItemIds;
-import nl.rgs.kib.shared.validators.UniqueLabelIds;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -33,16 +32,17 @@ public class InspectionList extends BaseObject {
     @Schema(example = "DEFINITIVE")
     private InspectionListStatus status;
 
-    @NotNull()
-    @UniqueItemIds()
-    @UniqueIndexes()
+
     @Valid()
+    @NotNull()
+    @UniqueIds()
+    @UniqueIndexes()
     private List<InspectionListItem> items;
 
-    @NotNull()
-    @UniqueLabelIds()
-    @UniqueIndexes()
     @Valid()
+    @NotNull()
+    @UniqueIds()
+    @UniqueIndexes()
     private List<InspectionListLabel> labels;
 
     public String getId() {

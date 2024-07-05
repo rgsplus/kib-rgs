@@ -1,12 +1,16 @@
 package nl.rgs.kib.validators;
+
 import nl.rgs.kib.shared.models.Stageable;
 import nl.rgs.kib.shared.validators.UniqueStagesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UniqueStagesValidatorTest {
 
@@ -33,17 +37,33 @@ class UniqueStagesValidatorTest {
                 new StageableObject(0),
                 new StageableObject(1),
                 new StageableObject(2)
-                );
+        );
         assertTrue(validator.isValid(stages, null));
     }
 
     @Test
-    void testIsValidWithNonUniqueStages() {
+    void testIsInvalidWithNonUniqueStages() {
         List<StageableObject> stages = Arrays.asList(
                 new StageableObject(0),
                 new StageableObject(0)
         );
         assertFalse(validator.isValid(stages, null));
+    }
+
+    @Test
+    void testIsValidWithNullValue() {
+        List<StageableObject> items = List.of(
+                new StageableObject(null),
+                new StageableObject(null)
+        );
+
+        assertTrue(validator.isValid(items, null));
+    }
+
+    @Test
+    void testIsValidWithNonStageableObject() {
+        List<?> items = List.of(new Object());
+        assertFalse(validator.isValid(items, null));
     }
 
     public static class StageableObject implements Stageable {

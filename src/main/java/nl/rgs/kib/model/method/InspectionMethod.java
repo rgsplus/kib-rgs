@@ -35,9 +35,9 @@ public class InspectionMethod extends BaseObject {
     @Schema(example = "NEN2767")
     private InspectionMethodCalculationMethod calculationMethod;
 
+    @Valid()
     @NotNull()
     @UniqueStages()
-    @Valid()
     private List<InspectionMethodStage> stages;
 
     public String getId() {

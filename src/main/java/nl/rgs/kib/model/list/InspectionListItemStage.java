@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.URL;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor()
 @AllArgsConstructor()
-public class InspectionListItemValueStage extends InspectionMethodStage {
+public class InspectionListItemStage extends InspectionMethodStage {
     @Min(0)
     @Max(100)
     @Schema(example = "25", minimum = "0", maximum = "100")

@@ -11,22 +11,22 @@ import nl.rgs.kib.shared.validators.UniqueStages;
 
 import java.util.List;
 
-public record CreateInspectionMethod (
-    @NotBlank()
-    @Schema(example = "QuickScan")
-    String name,
+public record CreateInspectionMethod(
+        @NotBlank()
+        @Schema(example = "QuickScan")
+        String name,
 
-    @NotNull()
-    @Schema(example = "PERCENTAGE")
-    InspectionMethodInput input,
+        @NotNull()
+        @Schema(example = "PERCENTAGE")
+        InspectionMethodInput input,
 
-    @NotNull()
-    @Schema(example = "NEN2767")
-    InspectionMethodCalculationMethod calculationMethod,
+        @NotNull()
+        @Schema(example = "NEN2767")
+        InspectionMethodCalculationMethod calculationMethod,
 
-    @NotNull()
-    @UniqueStages()
-    @Valid()
-    List<InspectionMethodStage> stages
+        @Valid()
+        @NotNull()
+        @UniqueStages()
+        List<InspectionMethodStage> stages
 ) {
 }

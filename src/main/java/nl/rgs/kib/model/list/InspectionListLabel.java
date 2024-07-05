@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.rgs.kib.shared.models.Ideable;
 import nl.rgs.kib.shared.models.Indexable;
 import nl.rgs.kib.shared.validators.UniqueIndexes;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -17,14 +18,14 @@ import java.util.List;
 @Data()
 @AllArgsConstructor()
 @NoArgsConstructor()
-public class InspectionListLabel implements Indexable {
+public class InspectionListLabel implements Indexable, Ideable {
     @NotNull()
     @Schema(example = "5f622c23aeefb61a54365f33")
     @Field(name = "id")
     private String id;
-
-    @NotNull()
+    
     @Min(0)
+    @NotNull()
     @Schema(example = "1", minimum = "0")
     private Integer index;
 
@@ -35,8 +36,9 @@ public class InspectionListLabel implements Indexable {
     @Schema(example = "General")
     private String group;
 
+
+    @Valid()
     @NotNull()
     @UniqueIndexes()
-    @Valid()
     private List<InspectionListLabelFeature> features;
 }

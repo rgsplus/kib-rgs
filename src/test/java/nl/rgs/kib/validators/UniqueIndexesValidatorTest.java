@@ -1,11 +1,15 @@
 package nl.rgs.kib.validators;
+
 import nl.rgs.kib.shared.models.Indexable;
 import nl.rgs.kib.shared.validators.UniqueIndexesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Collections;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UniqueIndexesValidatorTest {
 
@@ -33,9 +37,19 @@ class UniqueIndexesValidatorTest {
     }
 
     @Test
-    void testIsValidWithNonUniqueIndexes() {
+    void testIsInvalidWithNonUniqueIndexes() {
         List<Indexable> items = List.of(new IndexableObject(0), new IndexableObject(0));
         assertFalse(validator.isValid(items, null));
+    }
+
+    @Test
+    void testIsValidWithNullValue() {
+        List<Indexable> items = List.of(
+                new IndexableObject(null),
+                new IndexableObject(null)
+        );
+
+        assertTrue(validator.isValid(items, null));
     }
 
     @Test

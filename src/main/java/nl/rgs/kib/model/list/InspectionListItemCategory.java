@@ -1,6 +1,6 @@
 package nl.rgs.kib.model.list;
 
-public enum InspectionListItemValueCategory {
+public enum InspectionListItemCategory {
     SERIOUS,
     SERIOUSLY,
     SLIGHT,

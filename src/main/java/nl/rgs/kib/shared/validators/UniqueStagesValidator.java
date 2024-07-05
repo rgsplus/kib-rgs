@@ -22,6 +22,10 @@ public class UniqueStagesValidator implements ConstraintValidator<UniqueStages, 
                 return false;
             }
 
+            if (stage.getStage() == null) {
+                continue;
+            }
+
             if (!uniqueStages.add(stage.getStage())) {
                 return false;
             }
