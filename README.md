@@ -73,7 +73,7 @@ docker-compose up --build
 To run the application, you can use the following command:
 
 ```shell
-./mvnw spring-boot:run
+./gradlew bootRun
 ```
 
 Or you can run the application using your IDE.
