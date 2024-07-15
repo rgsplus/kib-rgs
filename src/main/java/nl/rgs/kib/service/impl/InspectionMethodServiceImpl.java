@@ -1,7 +1,6 @@
 package nl.rgs.kib.service.impl;
 
 import nl.rgs.kib.model.method.InspectionMethod;
-import nl.rgs.kib.model.method.InspectionMethodStage;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.repository.InspectionMethodRepository;
 import nl.rgs.kib.service.InspectionMethodService;
@@ -10,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,10 +39,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
         inspectionMethod.setName(createInspectionMethod.name());
         inspectionMethod.setInput(createInspectionMethod.input());
         inspectionMethod.setCalculationMethod(createInspectionMethod.calculationMethod());
-        inspectionMethod.setStages(
-                createInspectionMethod.stages().stream()
-                        .sorted(Comparator.comparing(InspectionMethodStage::getStage))
-                        .toList());
+        inspectionMethod.setStages(InspectionMethod.sortStages(createInspectionMethod.stages()));
 
         return inspectionMethodRepository.save(inspectionMethod);
     }
@@ -60,10 +55,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
         inspectionMethodToUpdate.setName(inspectionMethod.getName());
         inspectionMethodToUpdate.setInput(inspectionMethod.getInput());
         inspectionMethodToUpdate.setCalculationMethod(inspectionMethod.getCalculationMethod());
-        inspectionMethodToUpdate.setStages(
-                inspectionMethod.getStages().stream()
-                        .sorted(Comparator.comparing(InspectionMethodStage::getStage))
-                        .toList());
+        inspectionMethodToUpdate.setStages(InspectionMethod.sortStages(inspectionMethod.getStages()));
 
         return Optional.of(inspectionMethodRepository.save(inspectionMethodToUpdate));
     }

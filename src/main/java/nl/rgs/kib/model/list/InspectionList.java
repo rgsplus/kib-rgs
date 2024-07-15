@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Data()
@@ -31,7 +32,7 @@ public class InspectionList extends BaseObject {
     @NotNull()
     @Schema(example = "DEFINITIVE")
     private InspectionListStatus status;
-    
+
     @Valid()
     @NotNull()
     @UniqueIds()
@@ -43,6 +44,24 @@ public class InspectionList extends BaseObject {
     @UniqueIds()
     @UniqueIndexes()
     private List<InspectionListLabel> labels;
+
+    public static List<InspectionListItem> sortItemsAndStages(List<InspectionListItem> items) {
+        return items.stream()
+                .sorted(Comparator.comparing(InspectionListItem::getIndex))
+                .peek(item -> item.setStages(item.getStages().stream()
+                        .sorted(Comparator.comparing(InspectionListItemStage::getStage))
+                        .toList()))
+                .toList();
+    }
+
+    public static List<InspectionListLabel> sortLabelsAndFeatures(List<InspectionListLabel> labels) {
+        return labels.stream()
+                .sorted(Comparator.comparing(InspectionListLabel::getIndex))
+                .peek(label -> label.setFeatures(label.getFeatures().stream()
+                        .sorted(Comparator.comparing(InspectionListLabelFeature::getIndex))
+                        .toList()))
+                .toList();
+    }
 
     public String getId() {
         return id.toHexString();

@@ -12,6 +12,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Data()
@@ -39,6 +40,12 @@ public class InspectionMethod extends BaseObject {
     @NotNull()
     @UniqueStages()
     private List<InspectionMethodStage> stages;
+
+    public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {
+        return stages.stream()
+                .sorted(Comparator.comparing(InspectionMethodStage::getStage))
+                .toList();
+    }
 
     public String getId() {
         return id.toHexString();

@@ -1,6 +1,6 @@
 package nl.rgs.kib.service.impl;
 
-import nl.rgs.kib.model.list.*;
+import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
 import nl.rgs.kib.service.InspectionListService;
@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,19 +38,9 @@ public class InspectionListServiceImpl implements InspectionListService {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
-        inspectionList.setItems(createInspectionList.items().stream()
-                .sorted(Comparator.comparing(InspectionListItem::getIndex))
-                .peek(item -> item.setStages(item.getStages().stream()
-                        .sorted(Comparator.comparing(InspectionListItemStage::getStage))
-                        .toList()))
-                .toList());
-        inspectionList.setLabels(
-                createInspectionList.labels().stream()
-                        .sorted(Comparator.comparing(InspectionListLabel::getIndex))
-                        .peek(label -> label.setFeatures(label.getFeatures().stream()
-                                .sorted(Comparator.comparing(InspectionListLabelFeature::getIndex))
-                                .toList()))
-                        .toList());
+        inspectionList.setItems(InspectionList.sortItemsAndStages(createInspectionList.items()));
+        inspectionList.setLabels(InspectionList.sortLabelsAndFeatures(createInspectionList.labels()));
+
         return inspectionListRepository.save(inspectionList);
     }
 
@@ -65,20 +54,8 @@ public class InspectionListServiceImpl implements InspectionListService {
         InspectionList existingInspectionList = optionalInspectionList.get();
         existingInspectionList.setName(inspectionList.getName());
         existingInspectionList.setStatus(inspectionList.getStatus());
-        existingInspectionList.setItems(
-                inspectionList.getItems().stream()
-                        .sorted(Comparator.comparing(InspectionListItem::getIndex))
-                        .peek(item -> item.setStages(item.getStages().stream()
-                                .sorted(Comparator.comparing(InspectionListItemStage::getStage))
-                                .toList()))
-                        .toList());
-        existingInspectionList.setLabels(
-                inspectionList.getLabels().stream()
-                        .sorted(Comparator.comparing(InspectionListLabel::getIndex))
-                        .peek(label -> label.setFeatures(label.getFeatures().stream()
-                                .sorted(Comparator.comparing(InspectionListLabelFeature::getIndex))
-                                .toList()))
-                        .toList());
+        existingInspectionList.setItems(InspectionList.sortItemsAndStages(inspectionList.getItems()));
+        existingInspectionList.setLabels(InspectionList.sortLabelsAndFeatures(inspectionList.getLabels()));
 
         return Optional.of(inspectionListRepository.save(existingInspectionList));
     }
