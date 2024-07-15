@@ -10,6 +10,7 @@ This project is an API REST for a simple registration system of `InspectionMetho
   - [Creating the `application.properties` File](#creating-the-applicationproperties-file)
   - [Running MongoDB with Docker](#running-mongodb-with-docker)
   - [Running the Application](#running-the-application)
+- [Swagger](#swagger)
 - [Postman](#postman)
 - [License](#license)
 
@@ -77,6 +78,10 @@ To run the application, you can use the following command:
 ```
 
 Or you can run the application using your IDE.
+
+## Swagger <a name="swagger"></a>
+
+To access the Swagger documentation, you can access the following URL: `http://localhost:8080/swagger-ui/index.html`.
 
 ## Postman <a name="postman"></a>
 
