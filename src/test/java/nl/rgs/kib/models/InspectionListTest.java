@@ -1,6 +1,13 @@
 package nl.rgs.kib.models;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import nl.rgs.kib.model.list.*;
+import nl.rgs.kib.model.method.InspectionMethod;
+import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
+import nl.rgs.kib.model.method.InspectionMethodInput;
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -12,9 +19,159 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InspectionListTest {
 
+    InspectionMethod inspectionMethod;
+
+    @BeforeEach
+    public void setUp() {
+        inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+        inspectionMethod.setName("test");
+        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setStages(List.of());
+    }
+
     @Nested
     public class InspectionListValidations {
-        //TODO: Implement tests for InspectionList validations
+
+        private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+        @Test
+        public void testInspectionListIdNotNullValidator() {
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Id should not be null.");
+        }
+
+        @Test
+        public void testInspectionListNameNotNullValidator() {
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName(null);
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
+        }
+
+        @Test
+        public void testInspectionListNameNotBlankValidator() {
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName(" ");
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
+        }
+
+        @Test
+        public void testInspectionListStatusNotNullValidator() {
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(null);
+            assertEquals(1, validator.validate(inspectionList).size(), "Status should not be null.");
+        }
+
+        @Test
+        public void testInspectionListItemsNotNullValidator() {
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(null);
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Items should not be null.");
+        }
+
+        @Test
+        public void testInspectionListItemsUniqueIdsValidator() {
+            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SERIOUS, inspectionMethod, List.of());
+            InspectionListItem item2 = new InspectionListItem(2, "id1", "Item 2", null, InspectionListItemCategory.SERIOUS, inspectionMethod, List.of());
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of(item1, item2));
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique ids.");
+        }
+
+        @Test
+        public void testInspectionListItemsUniqueIndexesValidator() {
+            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SERIOUS, inspectionMethod, List.of());
+            InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 2", null, InspectionListItemCategory.SERIOUS, inspectionMethod, List.of());
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of(item1, item2));
+            inspectionList.setLabels(List.of());
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique indexes.");
+        }
+
+        @Test
+        public void testInspectionListLabelsNotNullValidator() {
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(null);
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Labels should not be null.");
+        }
+
+        @Test
+        public void testInspectionListLabelsUniqueIdsValidator() {
+            InspectionListLabel label1 = new InspectionListLabel("id1", 1, "Label 1", null, List.of());
+            InspectionListLabel label2 = new InspectionListLabel("id1", 2, "Label 2", null, List.of());
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(List.of(label1, label2));
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Labels should have unique ids.");
+        }
+
+        @Test
+        public void testInspectionListLabelsUniqueIndexesValidator() {
+            InspectionListLabel label1 = new InspectionListLabel("id1", 1, "Label 1", null, List.of());
+            InspectionListLabel label2 = new InspectionListLabel("id2", 1, "Label 2", null, List.of());
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of());
+            inspectionList.setLabels(List.of(label1, label2));
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+            assertEquals(1, validator.validate(inspectionList).size(), "Labels should have unique indexes.");
+        }
+
+        @Nested
+        public class InspectionListItemValidations {
+            //TODO: Add tests for InspectionListItem validations
+
+            @Nested
+            public class InspectionListItemStageValidations {
+                //TODO: Add tests for InspectionListItemStage validations
+            }
+        }
+
+        @Nested
+        public class InspectionListLabelValidations {
+            //TODO: Add tests for InspectionListLabel validations
+
+            @Nested
+            public class InspectionListLabelFeatureValidations {
+                //TODO: Add tests for InspectionListLabelFeature validations
+            }
+        }
     }
 
     @Nested
@@ -47,7 +204,7 @@ public class InspectionListTest {
             InspectionListItemStage stage1 = new InspectionListItemStage();
             stage1.setStage(1);
             stage1.setName("Stage 1");
-            InspectionListItem item = new InspectionListItem(1, "id1", "Item 1", null, null, null, Arrays.asList(stage1));
+            InspectionListItem item = new InspectionListItem(1, "id1", "Item 1", null, null, null, List.of(stage1));
             List<InspectionListItem> sortedItems = InspectionList.sortItemsAndStages(List.of(item));
             assertEquals(1, sortedItems.size(), "Sorted list should contain one element.");
             assertEquals(stage1, sortedItems.getFirst().getStages().getFirst(), "The single element should match the original.");

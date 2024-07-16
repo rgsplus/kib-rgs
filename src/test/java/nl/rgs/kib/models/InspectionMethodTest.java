@@ -107,86 +107,91 @@ public class InspectionMethodTest {
             assertEquals(0, validator.validate(inspectionMethod).size(), "InspectionMethod stages must be unique.");
         }
 
-        @Test
-        public void testInspectionMethodStageNotNullValidator() {
-            InspectionMethod inspectionMethod = new InspectionMethod();
-            inspectionMethod.setId(new ObjectId().toHexString());
-            inspectionMethod.setName("Test");
-            inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
-            InspectionMethodStage stage = new InspectionMethodStage();
-            stage.setStage(null);
-            stage.setName("Test");
-            inspectionMethod.setStages(List.of(stage));
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages are required.");
-        }
+        @Nested
+        public class InspectionMethodStageValidations {
 
-        @Test
-        public void testInspectionMethodStageMin1Validator() {
-            InspectionMethod inspectionMethod = new InspectionMethod();
-            inspectionMethod.setId(new ObjectId().toHexString());
-            inspectionMethod.setName("Test");
-            inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
-            InspectionMethodStage stage = new InspectionMethodStage();
-            stage.setStage(0);
-            stage.setName("Test");
-            inspectionMethod.setStages(List.of(stage));
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a minimum value of 1.");
 
-            stage.setStage(1);
-            assertEquals(0, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a minimum value of 1.");
+            @Test
+            public void testInspectionMethodStageNotNullValidator() {
+                InspectionMethod inspectionMethod = new InspectionMethod();
+                inspectionMethod.setId(new ObjectId().toHexString());
+                inspectionMethod.setName("Test");
+                inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                InspectionMethodStage stage = new InspectionMethodStage();
+                stage.setStage(null);
+                stage.setName("Test");
+                inspectionMethod.setStages(List.of(stage));
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages are required.");
+            }
 
-            stage.setStage(-5);
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a minimum value of 1.");
-        }
+            @Test
+            public void testInspectionMethodStageMin1Validator() {
+                InspectionMethod inspectionMethod = new InspectionMethod();
+                inspectionMethod.setId(new ObjectId().toHexString());
+                inspectionMethod.setName("Test");
+                inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                InspectionMethodStage stage = new InspectionMethodStage();
+                stage.setStage(0);
+                stage.setName("Test");
+                inspectionMethod.setStages(List.of(stage));
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a minimum value of 1.");
 
-        @Test
-        public void testInspectionMethodStageMax10Validator() {
-            InspectionMethod inspectionMethod = new InspectionMethod();
-            inspectionMethod.setId(new ObjectId().toHexString());
-            inspectionMethod.setName("Test");
-            inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
-            InspectionMethodStage stage = new InspectionMethodStage();
-            stage.setStage(11);
-            stage.setName("Test");
-            inspectionMethod.setStages(List.of(stage));
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a maximum value of 10.");
+                stage.setStage(1);
+                assertEquals(0, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a minimum value of 1.");
 
-            stage.setStage(10);
-            assertEquals(0, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a maximum value of 10.");
+                stage.setStage(-5);
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a minimum value of 1.");
+            }
 
-            stage.setStage(15);
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a maximum value of 10.");
-        }
+            @Test
+            public void testInspectionMethodStageMax10Validator() {
+                InspectionMethod inspectionMethod = new InspectionMethod();
+                inspectionMethod.setId(new ObjectId().toHexString());
+                inspectionMethod.setName("Test");
+                inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                InspectionMethodStage stage = new InspectionMethodStage();
+                stage.setStage(11);
+                stage.setName("Test");
+                inspectionMethod.setStages(List.of(stage));
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a maximum value of 10.");
 
-        @Test
-        public void testInspectionMethodStageNameNotNullValidator() {
-            InspectionMethod inspectionMethod = new InspectionMethod();
-            inspectionMethod.setId(new ObjectId().toHexString());
-            inspectionMethod.setName("Test");
-            inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
-            InspectionMethodStage stage = new InspectionMethodStage();
-            stage.setStage(1);
-            stage.setName(null);
-            inspectionMethod.setStages(List.of(stage));
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stage name is required.");
-        }
+                stage.setStage(10);
+                assertEquals(0, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a maximum value of 10.");
 
-        @Test
-        public void testInspectionMethodStageNameNotBlankValidator() {
-            InspectionMethod inspectionMethod = new InspectionMethod();
-            inspectionMethod.setId(new ObjectId().toHexString());
-            inspectionMethod.setName("Test");
-            inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
-            InspectionMethodStage stage = new InspectionMethodStage();
-            stage.setStage(1);
-            stage.setName("");
-            inspectionMethod.setStages(List.of(stage));
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stage name is required.");
+                stage.setStage(15);
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages must have a maximum value of 10.");
+            }
+
+            @Test
+            public void testInspectionMethodStageNameNotNullValidator() {
+                InspectionMethod inspectionMethod = new InspectionMethod();
+                inspectionMethod.setId(new ObjectId().toHexString());
+                inspectionMethod.setName("Test");
+                inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                InspectionMethodStage stage = new InspectionMethodStage();
+                stage.setStage(1);
+                stage.setName(null);
+                inspectionMethod.setStages(List.of(stage));
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stage name is required.");
+            }
+
+            @Test
+            public void testInspectionMethodStageNameNotBlankValidator() {
+                InspectionMethod inspectionMethod = new InspectionMethod();
+                inspectionMethod.setId(new ObjectId().toHexString());
+                inspectionMethod.setName("Test");
+                inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                InspectionMethodStage stage = new InspectionMethodStage();
+                stage.setStage(1);
+                stage.setName("");
+                inspectionMethod.setStages(List.of(stage));
+                assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stage name is required.");
+            }
         }
     }
 
