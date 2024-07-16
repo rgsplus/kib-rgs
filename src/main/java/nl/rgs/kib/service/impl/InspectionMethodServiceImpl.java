@@ -46,28 +46,20 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
 
     @Override
     public Optional<InspectionMethod> update(@NotNull() InspectionMethod inspectionMethod) {
-        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId()));
-        if (inspectionMethodOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        InspectionMethod inspectionMethodToUpdate = inspectionMethodOptional.get();
-        inspectionMethodToUpdate.setName(inspectionMethod.getName());
-        inspectionMethodToUpdate.setInput(inspectionMethod.getInput());
-        inspectionMethodToUpdate.setCalculationMethod(inspectionMethod.getCalculationMethod());
-        inspectionMethodToUpdate.setStages(InspectionMethod.sortStages(inspectionMethod.getStages()));
-
-        return Optional.of(inspectionMethodRepository.save(inspectionMethodToUpdate));
+        return inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId())).map(existingMethod -> {
+            existingMethod.setName(inspectionMethod.getName());
+            existingMethod.setInput(inspectionMethod.getInput());
+            existingMethod.setCalculationMethod(inspectionMethod.getCalculationMethod());
+            existingMethod.setStages(InspectionMethod.sortStages(inspectionMethod.getStages()));
+            
+            return inspectionMethodRepository.save(existingMethod);
+        });
     }
 
     @Override
     public Optional<InspectionMethod> deleteById(ObjectId id) {
-        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(id);
-        if (inspectionMethodOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        inspectionMethodRepository.deleteById(id);
-        return inspectionMethodOptional;
+        Optional<InspectionMethod> inspectionMethod = inspectionMethodRepository.findById(id);
+        inspectionMethod.ifPresent(method -> inspectionMethodRepository.deleteById(id));
+        return inspectionMethod;
     }
 }

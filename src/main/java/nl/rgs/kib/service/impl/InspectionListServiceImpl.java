@@ -46,28 +46,20 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Override
     public Optional<InspectionList> update(@NotNull() InspectionList inspectionList) {
-        Optional<InspectionList> optionalInspectionList = inspectionListRepository.findById(new ObjectId(inspectionList.getId()));
-        if (optionalInspectionList.isEmpty()) {
-            return Optional.empty();
-        }
-
-        InspectionList existingInspectionList = optionalInspectionList.get();
-        existingInspectionList.setName(inspectionList.getName());
-        existingInspectionList.setStatus(inspectionList.getStatus());
-        existingInspectionList.setItems(InspectionList.sortItemsAndStages(inspectionList.getItems()));
-        existingInspectionList.setLabels(InspectionList.sortLabelsAndFeatures(inspectionList.getLabels()));
-
-        return Optional.of(inspectionListRepository.save(existingInspectionList));
+        return inspectionListRepository.findById(new ObjectId(inspectionList.getId())).map(existingList -> {
+            existingList.setName(inspectionList.getName());
+            existingList.setStatus(inspectionList.getStatus());
+            existingList.setItems(InspectionList.sortItemsAndStages(inspectionList.getItems()));
+            existingList.setLabels(InspectionList.sortLabelsAndFeatures(inspectionList.getLabels()));
+            
+            return inspectionListRepository.save(existingList);
+        });
     }
 
     @Override
     public Optional<InspectionList> deleteById(ObjectId id) {
-        Optional<InspectionList> optionalInspectionList = inspectionListRepository.findById(id);
-        if (optionalInspectionList.isEmpty()) {
-            return Optional.empty();
-        }
-
-        inspectionListRepository.deleteById(id);
-        return optionalInspectionList;
+        Optional<InspectionList> inspectionList = inspectionListRepository.findById(id);
+        inspectionList.ifPresent(list -> inspectionListRepository.deleteById(id));
+        return inspectionList;
     }
 }
