@@ -1,8 +1,6 @@
 package nl.rgs.kib.controller;
 
-import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.method.InspectionMethod;
-import nl.rgs.kib.service.InspectionListService;
 import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -12,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -23,13 +21,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(InspectionMethodController.class)
 public class InspectionMethodControllerTest {
 
+    private final static String domain = "/inspection-method";
+    
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private InspectionMethodService inspectionMethodService;
-
-    private final static String domain = "/inspection-method";
 
     @Test
     @WithMockUser()
@@ -68,4 +65,9 @@ public class InspectionMethodControllerTest {
 
         verify(inspectionMethodService).findById(id);
     }
+
+    //TODO: Implement tests for count endpoint
+    //TODO: Implement tests for create endpoint
+    //TODO: Implement tests for update endpoint
+    //TODO: Implement tests for delete endpoint
 }

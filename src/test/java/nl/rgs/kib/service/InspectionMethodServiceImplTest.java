@@ -53,4 +53,9 @@ public class InspectionMethodServiceImplTest {
         assertEquals(expected, result.get());
         verify(inspectionMethodRepository).findById(id);
     }
+
+    //TODO: Implement tests for count method
+    //TODO: Implement tests for create method
+    //TODO: Implement tests for update method
+    //TODO: Implement tests for delete method
 }
