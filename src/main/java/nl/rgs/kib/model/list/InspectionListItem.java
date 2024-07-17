@@ -1,6 +1,7 @@
 package nl.rgs.kib.model.list;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +46,7 @@ public class InspectionListItem implements Indexable, Ideable {
     @NotNull()
     private InspectionMethod inspectionMethod;
 
+    @Valid()
     @NotNull()
     @UniqueStages()
     private List<InspectionListItemStage> stages;

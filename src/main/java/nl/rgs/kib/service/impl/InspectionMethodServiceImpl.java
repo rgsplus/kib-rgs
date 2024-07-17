@@ -1,7 +1,6 @@
 package nl.rgs.kib.service.impl;
 
 import nl.rgs.kib.model.method.InspectionMethod;
-import nl.rgs.kib.model.method.InspectionMethodStage;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.repository.InspectionMethodRepository;
 import nl.rgs.kib.service.InspectionMethodService;
@@ -10,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,41 +39,27 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
         inspectionMethod.setName(createInspectionMethod.name());
         inspectionMethod.setInput(createInspectionMethod.input());
         inspectionMethod.setCalculationMethod(createInspectionMethod.calculationMethod());
-        inspectionMethod.setStages(
-                createInspectionMethod.stages().stream()
-                        .sorted(Comparator.comparing(InspectionMethodStage::getStage))
-                        .toList());
+        inspectionMethod.setStages(InspectionMethod.sortStages(createInspectionMethod.stages()));
 
         return inspectionMethodRepository.save(inspectionMethod);
     }
 
     @Override
     public Optional<InspectionMethod> update(@NotNull() InspectionMethod inspectionMethod) {
-        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId()));
-        if (inspectionMethodOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        InspectionMethod inspectionMethodToUpdate = inspectionMethodOptional.get();
-        inspectionMethodToUpdate.setName(inspectionMethod.getName());
-        inspectionMethodToUpdate.setInput(inspectionMethod.getInput());
-        inspectionMethodToUpdate.setCalculationMethod(inspectionMethod.getCalculationMethod());
-        inspectionMethodToUpdate.setStages(
-                inspectionMethod.getStages().stream()
-                        .sorted(Comparator.comparing(InspectionMethodStage::getStage))
-                        .toList());
-
-        return Optional.of(inspectionMethodRepository.save(inspectionMethodToUpdate));
+        return inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId())).map(existingMethod -> {
+            existingMethod.setName(inspectionMethod.getName());
+            existingMethod.setInput(inspectionMethod.getInput());
+            existingMethod.setCalculationMethod(inspectionMethod.getCalculationMethod());
+            existingMethod.setStages(InspectionMethod.sortStages(inspectionMethod.getStages()));
+            
+            return inspectionMethodRepository.save(existingMethod);
+        });
     }
 
     @Override
     public Optional<InspectionMethod> deleteById(ObjectId id) {
-        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodRepository.findById(id);
-        if (inspectionMethodOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        inspectionMethodRepository.deleteById(id);
-        return inspectionMethodOptional;
+        Optional<InspectionMethod> inspectionMethod = inspectionMethodRepository.findById(id);
+        inspectionMethod.ifPresent(method -> inspectionMethodRepository.deleteById(id));
+        return inspectionMethod;
     }
 }

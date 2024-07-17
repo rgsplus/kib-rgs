@@ -1,8 +1,10 @@
 package nl.rgs.kib.controller;
 
-import nl.rgs.kib.model.list.InspectionList;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.rgs.kib.model.method.InspectionMethod;
-import nl.rgs.kib.service.InspectionListService;
+import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
+import nl.rgs.kib.model.method.InspectionMethodInput;
+import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -12,24 +14,46 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(InspectionMethodController.class)
 public class InspectionMethodControllerTest {
 
+    private final static String domain = "/inspection-method";
+
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private InspectionMethodService inspectionMethodService;
 
-    private final static String domain = "/inspection-method";
+    @Test
+    @WithMockUser()
+    public void count_Returns200() throws Exception {
+        mockMvc.perform(get(domain + "/count")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(inspectionMethodService).count();
+    }
+
+    @Test
+    public void count_WithoutAuthentication_Returns401() throws Exception {
+        mockMvc.perform(get(domain + "/count")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 
     @Test
     @WithMockUser()
@@ -39,6 +63,13 @@ public class InspectionMethodControllerTest {
                 .andExpect(status().isOk());
 
         verify(inspectionMethodService).findAll();
+    }
+
+    @Test
+    public void findAll_WithoutAuthentication_Returns401() throws Exception {
+        mockMvc.perform(get(domain)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -67,5 +98,192 @@ public class InspectionMethodControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(inspectionMethodService).findById(id);
+    }
+
+    @Test
+    public void findById_WithoutAuthentication_Returns401() throws Exception {
+        ObjectId id = new ObjectId();
+        mockMvc.perform(get(domain + "/" + id.toHexString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns201() throws Exception {
+        CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
+                "test",
+                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodCalculationMethod.NEN2767,
+                List.of()
+        );
+
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+        inspectionMethod.setName(createInspectionMethod.name());
+        inspectionMethod.setInput(createInspectionMethod.input());
+        inspectionMethod.setCalculationMethod(createInspectionMethod.calculationMethod());
+        inspectionMethod.setStages(createInspectionMethod.stages());
+
+        when(inspectionMethodService.create(createInspectionMethod)).thenReturn(inspectionMethod);
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createInspectionMethod)))
+                .andExpect(status().isCreated());
+
+        verify(inspectionMethodService).create(createInspectionMethod);
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_WhenInvalid_Returns400() throws Exception {
+        CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
+                null,
+                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodCalculationMethod.NEN2767,
+                List.of()
+        );
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createInspectionMethod)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void create_WithoutAuthentication_Returns401() throws Exception {
+        CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
+                "test",
+                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodCalculationMethod.NEN2767,
+                List.of()
+        );
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createInspectionMethod)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenExists_Returns200() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+        inspectionMethod.setName("test");
+        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+        inspectionMethod.setStages(List.of());
+
+        when(inspectionMethodService.update(inspectionMethod)).thenReturn(Optional.of(inspectionMethod));
+
+        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                .andExpect(status().isOk());
+
+        verify(inspectionMethodService).update(inspectionMethod);
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenInvalid_Returns400() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+        inspectionMethod.setName(null);
+        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+        inspectionMethod.setStages(List.of());
+
+        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenNotExists_Returns404() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+        inspectionMethod.setName("test");
+        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+        inspectionMethod.setStages(List.of());
+
+        when(inspectionMethodService.update(inspectionMethod)).thenReturn(Optional.empty());
+
+        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                .andExpect(status().isNotFound());
+
+        verify(inspectionMethodService).update(inspectionMethod);
+    }
+
+    @Test
+    public void update_WithoutAuthentication_Returns401() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+        inspectionMethod.setName("test");
+        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
+        inspectionMethod.setStages(List.of());
+
+        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteById_WhenExists_Returns204() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+
+        when(inspectionMethodService.deleteById(new ObjectId(inspectionMethod.getId()))).thenReturn(Optional.of(inspectionMethod));
+
+        mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(inspectionMethodService).deleteById(new ObjectId(inspectionMethod.getId()));
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteById_WhenNotExists_Returns404() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+
+        when(inspectionMethodService.deleteById(new ObjectId(inspectionMethod.getId()))).thenReturn(Optional.empty());
+
+        mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(inspectionMethodService).deleteById(new ObjectId(inspectionMethod.getId()));
+    }
+
+    @Test
+    public void deleteById_WithoutAuthentication_Returns401() throws Exception {
+        InspectionMethod inspectionMethod = new InspectionMethod();
+        inspectionMethod.setId(new ObjectId().toHexString());
+
+        mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 }

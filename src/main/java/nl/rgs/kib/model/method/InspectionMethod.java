@@ -12,7 +12,9 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
@@ -31,7 +33,6 @@ public class InspectionMethod extends BaseObject {
     @Schema(example = "PERCENTAGE")
     private InspectionMethodInput input;
 
-    @NotNull()
     @Schema(example = "NEN2767")
     private InspectionMethodCalculationMethod calculationMethod;
 
@@ -40,11 +41,17 @@ public class InspectionMethod extends BaseObject {
     @UniqueStages()
     private List<InspectionMethodStage> stages;
 
+    public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {
+        return stages.stream()
+                .sorted(Comparator.comparing(InspectionMethodStage::getStage))
+                .toList();
+    }
+
     public String getId() {
-        return id.toHexString();
+        return Optional.ofNullable(id).map(ObjectId::toHexString).orElse(null);
     }
 
     public void setId(String id) {
-        this.id = new ObjectId(id);
+        this.id = Optional.ofNullable(id).map(ObjectId::new).orElse(null);
     }
 }
