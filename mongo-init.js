@@ -1,5 +1,3 @@
-console.log("mongo-init.js script is running");
-
 const generateUuid = () => {
   const s4 = () => {
     return Math.floor((1 + Math.random()) * 0x10000)

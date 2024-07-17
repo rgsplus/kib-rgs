@@ -43,3 +43,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named('bootBuildImage') {
+	imageName = "public.ecr.aws/w2w0l1s3/kib-rgs:latest"
+	builder = 'paketobuildpacks/builder-jammy-full'
+	environment = ['BP_JVM_VERSION' : '21', 'BP_NATIVE_IMAGE': 'false', 'BPE_OVERRIDE_BPL_JVM_THREAD_COUNT': '125',
+				   'BPE_APPEND_JAVA_TOOL_OPTIONS': '']
+	publish = false
+}
