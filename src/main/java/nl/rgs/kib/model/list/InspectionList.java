@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
@@ -64,7 +65,7 @@ public class InspectionList extends BaseObject {
     }
 
     public String getId() {
-        return id.toHexString();
+        return Optional.ofNullable(id).map(ObjectId::toHexString).orElse(null);
     }
 
     public void setId(String id) {
