@@ -1,6 +1,9 @@
 package nl.rgs.kib.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.rgs.kib.model.list.InspectionList;
+import nl.rgs.kib.model.list.InspectionListStatus;
+import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.service.InspectionListService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -11,22 +14,45 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(InspectionListController.class)
 public class InspectionListControllerTest {
 
     private final static String domain = "/inspection-list";
-    
+
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @MockBean
     private InspectionListService inspectionListService;
+
+    @Test
+    @WithMockUser()
+    public void count_Returns200() throws Exception {
+        mockMvc.perform(get(domain + "/count")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(inspectionListService).count();
+    }
+
+    @Test
+    public void count_WithoutAuthentication_Returns401() throws Exception {
+        mockMvc.perform(get(domain + "/count")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 
     @Test
     @WithMockUser()
@@ -36,6 +62,13 @@ public class InspectionListControllerTest {
                 .andExpect(status().isOk());
 
         verify(inspectionListService).findAll();
+    }
+
+    @Test
+    public void findAll_WithoutAuthentication_Returns401() throws Exception {
+        mockMvc.perform(get(domain)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -66,8 +99,190 @@ public class InspectionListControllerTest {
         verify(inspectionListService).findById(id);
     }
 
-    //TODO: Implement tests for count endpoint
-    //TODO: Implement tests for create endpoint
-    //TODO: Implement tests for update endpoint
-    //TODO: Implement tests for delete endpoint
+    @Test
+    public void findById_WithoutAuthentication_Returns401() throws Exception {
+        ObjectId id = new ObjectId();
+        mockMvc.perform(get(domain + "/" + id.toHexString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns201() throws Exception {
+        CreateInspectionList createInspectionList = new CreateInspectionList(
+                "test",
+                InspectionListStatus.CONCEPT,
+                List.of(),
+                List.of()
+        );
+
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+        inspectionList.setName(createInspectionList.name());
+        inspectionList.setStatus(createInspectionList.status());
+        inspectionList.setItems(createInspectionList.items());
+        inspectionList.setLabels(createInspectionList.labels());
+
+        when(inspectionListService.create(createInspectionList)).thenReturn(inspectionList);
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createInspectionList)))
+                .andExpect(status().isCreated());
+
+        verify(inspectionListService).create(createInspectionList);
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_WhenInvalid_Returns400() throws Exception {
+        CreateInspectionList createInspectionList = new CreateInspectionList(
+                null,
+                InspectionListStatus.CONCEPT,
+                List.of(),
+                List.of()
+        );
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createInspectionList)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void create_WithoutAuthentication_Returns401() throws Exception {
+        CreateInspectionList createInspectionList = new CreateInspectionList(
+                "test",
+                InspectionListStatus.CONCEPT,
+                List.of(),
+                List.of()
+        );
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createInspectionList)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenExists_Returns200() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+        inspectionList.setName("test");
+        inspectionList.setStatus(InspectionListStatus.CONCEPT);
+        inspectionList.setItems(List.of());
+        inspectionList.setLabels(List.of());
+
+        when(inspectionListService.update(inspectionList)).thenReturn(Optional.of(inspectionList));
+
+        mockMvc.perform(put(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionList)))
+                .andExpect(status().isOk());
+
+        verify(inspectionListService).update(inspectionList);
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenInvalid_Returns400() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+        inspectionList.setName(null);
+        inspectionList.setStatus(InspectionListStatus.CONCEPT);
+        inspectionList.setItems(List.of());
+        inspectionList.setLabels(List.of());
+
+        mockMvc.perform(put(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionList)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenNotExists_Returns404() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+        inspectionList.setName("test");
+        inspectionList.setStatus(InspectionListStatus.CONCEPT);
+        inspectionList.setItems(List.of());
+        inspectionList.setLabels(List.of());
+
+        when(inspectionListService.update(inspectionList)).thenReturn(Optional.empty());
+
+        mockMvc.perform(put(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionList)))
+                .andExpect(status().isNotFound());
+
+        verify(inspectionListService).update(inspectionList);
+    }
+
+    @Test
+    public void update_WithoutAuthentication_Returns401() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+        inspectionList.setName("test");
+        inspectionList.setStatus(InspectionListStatus.CONCEPT);
+        inspectionList.setItems(List.of());
+        inspectionList.setLabels(List.of());
+
+        mockMvc.perform(put(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inspectionList)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteById_WhenExists_Returns204() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+
+        when(inspectionListService.deleteById(new ObjectId(inspectionList.getId()))).thenReturn(Optional.of(inspectionList));
+
+        mockMvc.perform(delete(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(inspectionListService).deleteById(new ObjectId(inspectionList.getId()));
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteById_WhenNotExists_Returns404() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+
+        when(inspectionListService.deleteById(new ObjectId(inspectionList.getId()))).thenReturn(Optional.empty());
+
+        mockMvc.perform(delete(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(inspectionListService).deleteById(new ObjectId(inspectionList.getId()));
+    }
+
+    @Test
+    public void deleteById_WithoutAuthentication_Returns401() throws Exception {
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(new ObjectId().toHexString());
+
+        mockMvc.perform(delete(domain + "/" + inspectionList.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 }
