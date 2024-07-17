@@ -15,22 +15,22 @@ public class UniqueIdsValidatorTest {
     private UniqueIdsValidator validator;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validator = new UniqueIdsValidator();
     }
 
     @Test
-    void testIsValidWithNullList() {
+    public void testIsValidWithNullList() {
         assertTrue(validator.isValid(null, null));
     }
 
     @Test
-    void testIsValidWithEmptyList() {
+    public void testIsValidWithEmptyList() {
         assertTrue(validator.isValid(Collections.emptyList(), null));
     }
 
     @Test
-    void testIsValidWithUniqueIds() {
+    public void testIsValidWithUniqueIds() {
         List<IdeableObject> items = List.of(
                 new IdeableObject("id1"),
                 new IdeableObject("id2")
@@ -40,7 +40,7 @@ public class UniqueIdsValidatorTest {
     }
 
     @Test
-    void testIsInvalidWithNonUniqueIds() {
+    public void testIsInvalidWithNonUniqueIds() {
         List<IdeableObject> items = List.of(
                 new IdeableObject("id1"),
                 new IdeableObject("id1")
@@ -50,7 +50,7 @@ public class UniqueIdsValidatorTest {
     }
 
     @Test
-    void testIsValidWithNullValue() {
+    public void testIsValidWithNullValue() {
         List<IdeableObject> items = List.of(
                 new IdeableObject(null),
                 new IdeableObject(null)
@@ -60,12 +60,12 @@ public class UniqueIdsValidatorTest {
     }
 
     @Test
-    void testIsValidWithNonIdeableObject() {
+    public void testIsValidWithNonIdeableObject() {
         List<?> items = List.of(new Object());
         assertFalse(validator.isValid(items, null));
     }
 
-    public static class IdeableObject implements Ideable {
+    private static class IdeableObject implements Ideable {
         private String id;
 
         public IdeableObject(String id) {

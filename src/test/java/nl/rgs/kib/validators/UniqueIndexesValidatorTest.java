@@ -11,39 +11,39 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UniqueIndexesValidatorTest {
+public class UniqueIndexesValidatorTest {
 
     private UniqueIndexesValidator validator;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validator = new UniqueIndexesValidator();
     }
 
     @Test
-    void testIsValidWithNullList() {
+    public void testIsValidWithNullList() {
         assertTrue(validator.isValid(null, null));
     }
 
     @Test
-    void testIsValidWithEmptyList() {
+    public void testIsValidWithEmptyList() {
         assertTrue(validator.isValid(Collections.emptyList(), null));
     }
 
     @Test
-    void testIsValidWithUniqueValidIndexes() {
+    public void testIsValidWithUniqueValidIndexes() {
         List<Indexable> items = List.of(new IndexableObject(0), new IndexableObject(1), new IndexableObject(2));
         assertTrue(validator.isValid(items, null));
     }
 
     @Test
-    void testIsInvalidWithNonUniqueIndexes() {
+    public void testIsInvalidWithNonUniqueIndexes() {
         List<Indexable> items = List.of(new IndexableObject(0), new IndexableObject(0));
         assertFalse(validator.isValid(items, null));
     }
 
     @Test
-    void testIsValidWithNullValue() {
+    public void testIsValidWithNullValue() {
         List<Indexable> items = List.of(
                 new IndexableObject(null),
                 new IndexableObject(null)
@@ -53,12 +53,12 @@ class UniqueIndexesValidatorTest {
     }
 
     @Test
-    void testIsValidWithNonIndexableObject() {
+    public void testIsValidWithNonIndexableObject() {
         List<?> items = List.of(new Object());
         assertFalse(validator.isValid(items, null));
     }
 
-    public static class IndexableObject implements Indexable {
+    private static class IndexableObject implements Indexable {
         private Integer index;
 
         public IndexableObject(Integer index) {

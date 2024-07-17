@@ -12,27 +12,27 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UniqueStagesValidatorTest {
+public class UniqueStagesValidatorTest {
 
     private UniqueStagesValidator validator;
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         validator = new UniqueStagesValidator();
     }
 
     @Test
-    void testIsValidWithNullList() {
+    public void testIsValidWithNullList() {
         assertTrue(validator.isValid(null, null));
     }
 
     @Test
-    void testIsValidWithEmptyList() {
+    public void testIsValidWithEmptyList() {
         assertTrue(validator.isValid(Collections.emptyList(), null));
     }
 
     @Test
-    void testIsValidWithUniqueValidStages() {
+    public void testIsValidWithUniqueValidStages() {
         List<StageableObject> stages = List.of(
                 new StageableObject(0),
                 new StageableObject(1),
@@ -42,7 +42,7 @@ class UniqueStagesValidatorTest {
     }
 
     @Test
-    void testIsInvalidWithNonUniqueStages() {
+    public void testIsInvalidWithNonUniqueStages() {
         List<StageableObject> stages = Arrays.asList(
                 new StageableObject(0),
                 new StageableObject(0)
@@ -51,7 +51,7 @@ class UniqueStagesValidatorTest {
     }
 
     @Test
-    void testIsValidWithNullValue() {
+    public void testIsValidWithNullValue() {
         List<StageableObject> items = List.of(
                 new StageableObject(null),
                 new StageableObject(null)
@@ -61,12 +61,12 @@ class UniqueStagesValidatorTest {
     }
 
     @Test
-    void testIsValidWithNonStageableObject() {
+    public void testIsValidWithNonStageableObject() {
         List<?> items = List.of(new Object());
         assertFalse(validator.isValid(items, null));
     }
 
-    public static class StageableObject implements Stageable {
+    private static class StageableObject implements Stageable {
         private Integer stage;
 
         public StageableObject(Integer stage) {
