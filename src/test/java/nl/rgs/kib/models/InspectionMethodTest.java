@@ -67,17 +67,6 @@ public class InspectionMethodTest {
         }
 
         @Test
-        public void testInspectionMethodCalculationMethodNotNullValidator() {
-            InspectionMethod inspectionMethod = new InspectionMethod();
-            inspectionMethod.setId(new ObjectId().toHexString());
-            inspectionMethod.setName("Test");
-            inspectionMethod.setCalculationMethod(null);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
-            inspectionMethod.setStages(new ArrayList<>());
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod calculation method is required.");
-        }
-
-        @Test
         public void testInspectionMethodStagesNotNullValidator() {
             InspectionMethod inspectionMethod = new InspectionMethod();
             inspectionMethod.setId(new ObjectId().toHexString());

@@ -33,7 +33,6 @@ public class InspectionMethod extends BaseObject {
     @Schema(example = "PERCENTAGE")
     private InspectionMethodInput input;
 
-    @NotNull()
     @Schema(example = "NEN2767")
     private InspectionMethodCalculationMethod calculationMethod;
 
