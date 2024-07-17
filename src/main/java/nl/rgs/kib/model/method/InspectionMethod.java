@@ -53,6 +53,6 @@ public class InspectionMethod extends BaseObject {
     }
 
     public void setId(String id) {
-        this.id = new ObjectId(id);
+        this.id = Optional.ofNullable(id).map(ObjectId::new).orElse(null);
     }
 }
