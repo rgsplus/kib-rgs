@@ -102,10 +102,9 @@ public class CreateInspectionMethodTest {
 
         @Nested
         public class CreateInspectionMethodStageValidations {
-            //TODO: Add tests for InspectionMethodStage validations
-
+            
             @Test
-            public void testInspectionMethodStageNotNullValidator() {
+            public void testCreateInspectionMethodStageNotNullValidator() {
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(null);
                 stage.setName("Test");
@@ -121,7 +120,7 @@ public class CreateInspectionMethodTest {
             }
 
             @Test
-            public void testInspectionMethodStageMin1Validator() {
+            public void testCreateInspectionMethodStageMin1Validator() {
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(0);
                 stage.setName("Test");
@@ -137,7 +136,7 @@ public class CreateInspectionMethodTest {
             }
 
             @Test
-            public void testInspectionMethodStageMax10Validator() {
+            public void testCreateInspectionMethodStageMax10Validator() {
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(11);
                 stage.setName("Test");
@@ -153,7 +152,7 @@ public class CreateInspectionMethodTest {
             }
 
             @Test
-            public void testInspectionMethodStageNameNotNullValidator() {
+            public void testCreateInspectionMethodStageNameNotNullValidator() {
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(1);
                 stage.setName(null);
@@ -169,7 +168,7 @@ public class CreateInspectionMethodTest {
             }
 
             @Test
-            public void testInspectionMethodStageNameNotBlankValidator() {
+            public void testCreateInspectionMethodStageNameNotBlankValidator() {
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(1);
                 stage.setName("");
