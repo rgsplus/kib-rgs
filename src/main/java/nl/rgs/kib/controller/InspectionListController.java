@@ -98,7 +98,7 @@ public class InspectionListController {
         return ResponseEntity.status(201).body(inspectionListService.create(createInspectionList));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
