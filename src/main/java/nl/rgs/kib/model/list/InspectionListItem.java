@@ -39,7 +39,7 @@ public class InspectionListItem implements Indexable, Ideable {
     private String group;
 
     @NotNull()
-    @Schema(example = "SERIOUSLY")
+    @Schema(example = "SIGNIFICANT")
     private InspectionListItemCategory category;
 
     @DBRef()
