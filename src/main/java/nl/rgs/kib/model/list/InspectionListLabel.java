@@ -20,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor()
 public class InspectionListLabel implements Indexable, Ideable {
     @NotNull()
-    @Schema(example = "5f622c23aeefb61a54365f33")
+    @Schema(example = "5f622c23a8efb61a54365f33")
     @Field(name = "id")
     private String id;
 
