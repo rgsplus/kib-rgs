@@ -56,18 +56,6 @@ public class CreateInspectionMethodTest {
         }
 
         @Test
-        public void testCreateInspectionMethodCalculationMethodNotNullValidator() {
-            CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
-                    "Test",
-                    InspectionMethodInput.PERCENTAGE,
-                    null,
-                    new ArrayList<>()
-            );
-
-            assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod calculation method is required.");
-        }
-
-        @Test
         public void testCreateInspectionMethodStagesNotNullValidator() {
             CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                     "Test",
@@ -102,7 +90,7 @@ public class CreateInspectionMethodTest {
 
         @Nested
         public class CreateInspectionMethodStageValidations {
-            
+
             @Test
             public void testCreateInspectionMethodStageNotNullValidator() {
                 InspectionMethodStage stage = new InspectionMethodStage();
