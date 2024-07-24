@@ -23,7 +23,7 @@ import java.util.Optional;
 public class InspectionList extends BaseObject {
     @Id()
     @NotNull()
-    @Schema(example = "5f622c23aeefb61a54365f33")
+    @Schema(example = "5f622c23a8efb61a54365f33")
     private ObjectId id;
 
     @NotBlank()

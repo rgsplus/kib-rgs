@@ -31,7 +31,6 @@ public record CreateInspectionMethod(
         @Schema(example = "PERCENTAGE")
         InspectionMethodInput input,
 
-        @NotNull()
         @Schema(example = "NEN2767")
         InspectionMethodCalculationMethod calculationMethod,
 

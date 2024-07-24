@@ -98,7 +98,7 @@ public class InspectionMethodController {
         return ResponseEntity.status(201).body(inspectionMethodService.create(createInspectionMethod));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
