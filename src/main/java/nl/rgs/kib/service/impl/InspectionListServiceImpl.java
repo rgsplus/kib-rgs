@@ -91,7 +91,7 @@ public class InspectionListServiceImpl implements InspectionListService {
     public Optional<InspectionList> copy(ObjectId id) {
         return inspectionListRepository.findById(id).map(inspectionList -> {
             InspectionList copy = new InspectionList();
-            copy.setName(inspectionList.getName() + " - Copy");
+            copy.setName(inspectionList.getName() + " - copy");
             copy.setStatus(inspectionList.getStatus());
             copy.setLabels(inspectionList.getLabels());
 
@@ -136,8 +136,8 @@ public class InspectionListServiceImpl implements InspectionListService {
 
             InspectionListItem copiedItem = new InspectionListItem();
             copiedItem.setId(new ObjectId().toString());
-            copiedItem.setIndex(inspectionList.getItems().size() + 1);
-            copiedItem.setName(item.getName() + " - Copy");
+            copiedItem.setIndex(inspectionList.getItems().size());
+            copiedItem.setName(item.getName() + " - copy");
             copiedItem.setGroup(item.getGroup());
             copiedItem.setCategory(item.getCategory());
             copiedItem.setInspectionMethod(item.getInspectionMethod());
