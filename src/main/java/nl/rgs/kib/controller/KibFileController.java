@@ -3,6 +3,8 @@ package nl.rgs.kib.controller;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.service.KibFileService;
 import org.bson.types.ObjectId;
@@ -48,12 +50,20 @@ public class KibFileController {
                     description = "Created the kib file"
             ),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request"
+            ),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Unauthorized"
             ),
     })
-    public ResponseEntity<KibFile> create(@RequestParam("file") MultipartFile file) throws IOException {
-        return ResponseEntity.status(201).body(kibFileService.create(file));
+    public ResponseEntity<KibFile> create(
+            @RequestParam("file") @NotNull() MultipartFile file,
+            @RequestParam("collection") @NotBlank() String collection,
+            @RequestParam("objectId") @NotBlank() String objectId
+    ) throws IOException {
+        return ResponseEntity.status(201).body(kibFileService.create(file, collection, new ObjectId(objectId)));
     }
 
     @DeleteMapping("/{id}")

@@ -72,6 +72,8 @@ public class KibFileControllerTest {
     @WithMockUser()
     public void create_Returns201_withJPG() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.jpg", "image/jpeg", "some image".getBytes());
+        String collection = "collection";
+        String objectId = new ObjectId().toHexString();
 
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
@@ -79,17 +81,19 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file)).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
 
-        mockMvc.perform(multipart(domain).file(file).with(csrf())).andExpect(status().isCreated());
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file);
+        verify(kibFileService).create(file, collection, new ObjectId(objectId));
     }
 
     @Test
     @WithMockUser()
     public void create_Returns201_withPNG() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.png", "image/png", "some image".getBytes());
+        String collection = "collection";
+        String objectId = new ObjectId().toHexString();
 
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
@@ -97,17 +101,19 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file)).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
 
-        mockMvc.perform(multipart(domain).file(file).with(csrf())).andExpect(status().isCreated());
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file);
+        verify(kibFileService).create(file, collection, new ObjectId(objectId));
     }
 
     @Test
     @WithMockUser()
     public void create_Returns201_withGIF() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.gif", "image/gif", "some image".getBytes());
+        String collection = "collection";
+        String objectId = new ObjectId().toHexString();
 
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
@@ -115,17 +121,19 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file)).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
 
-        mockMvc.perform(multipart(domain).file(file).with(csrf())).andExpect(status().isCreated());
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file);
+        verify(kibFileService).create(file, collection, new ObjectId(objectId));
     }
 
     @Test
     @WithMockUser()
     public void create_Returns201_withExcel() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "some image".getBytes());
+        String collection = "collection";
+        String objectId = new ObjectId().toHexString();
 
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
@@ -133,17 +141,19 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file)).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
 
-        mockMvc.perform(multipart(domain).file(file).with(csrf())).andExpect(status().isCreated());
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file);
+        verify(kibFileService).create(file, collection, new ObjectId(objectId));
     }
 
     @Test
     @WithMockUser()
     public void create_Returns201_withWord() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
+        String collection = "collection";
+        String objectId = new ObjectId().toHexString();
 
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
@@ -151,11 +161,51 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file)).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
 
-        mockMvc.perform(multipart(domain).file(file).with(csrf())).andExpect(status().isCreated());
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file);
+        verify(kibFileService).create(file, collection, new ObjectId(objectId));
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns400_withNullCollection() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
+        String collection = null;
+        String objectId = new ObjectId().toHexString();
+
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns400_withBlankCollection() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
+        String collection = "";
+        String objectId = new ObjectId().toHexString();
+
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns400_withNullObjectId() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
+        String collection = "collection";
+        String objectId = null;
+
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns400_withBlankObjectId() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
+        String collection = "collection";
+        String objectId = "";
+
+        mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isBadRequest());
     }
 
 

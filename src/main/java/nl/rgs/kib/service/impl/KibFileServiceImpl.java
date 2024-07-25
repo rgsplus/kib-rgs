@@ -1,5 +1,6 @@
 package nl.rgs.kib.service.impl;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.service.KibFileService;
@@ -28,8 +29,12 @@ public class KibFileServiceImpl implements KibFileService {
     private GridFsOperations operations;
 
     @Override
-    public KibFile create(MultipartFile file) throws IOException {
-        ObjectId id = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType());
+    public KibFile create(MultipartFile file, String collection, ObjectId objectId) throws IOException {
+        BasicDBObject metadata = new BasicDBObject();
+        metadata.put("collection", collection);
+        metadata.put("objectId", objectId.toHexString());
+        
+        ObjectId id = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
 
         return this.findById(id).orElse(null);
     }

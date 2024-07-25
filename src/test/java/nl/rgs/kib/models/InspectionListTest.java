@@ -795,9 +795,11 @@ public class InspectionListTest {
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(1);
                 stage1.setName("Stage 1");
+                stage1.setImages(List.of());
                 InspectionListItemStage stage2 = new InspectionListItemStage();
                 stage2.setStage(2);
                 stage2.setName("Stage 2");
+                stage2.setImages(List.of());
 
                 InspectionListItem item1 = new InspectionListItem(2, "id1", "Item 1", null, null, null, Arrays.asList(stage2, stage1));
                 InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 2", null, null, null, Arrays.asList(stage1, stage2));
@@ -813,6 +815,8 @@ public class InspectionListTest {
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(1);
                 stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+                
                 InspectionListItem item = new InspectionListItem(1, "id1", "Item 1", null, null, null, List.of(stage1));
                 List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(List.of(item));
 
@@ -825,12 +829,15 @@ public class InspectionListTest {
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(5);
                 stage1.setName("Stage 5");
+                stage1.setImages(List.of());
                 InspectionListItemStage stage2 = new InspectionListItemStage();
                 stage2.setStage(1);
                 stage2.setName("Stage 1");
+                stage2.setImages(List.of());
                 InspectionListItemStage stage3 = new InspectionListItemStage();
                 stage3.setStage(3);
                 stage3.setName("Stage 3");
+                stage3.setImages(List.of());
                 InspectionListItem item1 = new InspectionListItem(5, "id1", "Item 5", null, null, null, List.of(stage1));
                 InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 1", null, null, null, List.of(stage2));
                 InspectionListItem item3 = new InspectionListItem(3, "id3", "Item 3", null, null, null, List.of(stage3));
