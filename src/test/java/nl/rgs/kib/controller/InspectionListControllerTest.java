@@ -283,4 +283,91 @@ public class InspectionListControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    @WithMockUser()
+    public void copy_WhenExists_Returns200() throws Exception {
+        ObjectId id = new ObjectId();
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(id.toHexString());
+        
+        when(inspectionListService.copy(id)).thenReturn(Optional.of(inspectionList));
+
+        mockMvc.perform(post(domain + "/copy/" + id.toHexString())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(inspectionListService).copy(id);
+    }
+
+    @Test
+    @WithMockUser()
+    public void copy_WhenNotExists_Returns404() throws Exception {
+        ObjectId id = new ObjectId();
+
+        when(inspectionListService.copy(id)).thenReturn(Optional.empty());
+
+        mockMvc.perform(post(domain + "/copy/" + id.toHexString())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(inspectionListService).copy(id);
+    }
+
+    @Test
+    public void copy_WithoutAuthentication_Returns401() throws Exception {
+        ObjectId id = new ObjectId();
+
+        mockMvc.perform(post(domain + "/copy/" + id.toHexString())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void copyItem_WhenExists_Returns200() throws Exception {
+        ObjectId id = new ObjectId();
+        String itemId = "itemId";
+        InspectionList inspectionList = new InspectionList();
+        inspectionList.setId(id.toHexString());
+
+        when(inspectionListService.copyItem(id, itemId)).thenReturn(Optional.of(inspectionList));
+
+        mockMvc.perform(put(domain + "/copy/" + id.toHexString() + "/item/" + itemId)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(inspectionListService).copyItem(id, itemId);
+    }
+
+    @Test
+    @WithMockUser()
+    public void copyItem_WhenNotExists_Returns404() throws Exception {
+        ObjectId id = new ObjectId();
+        String itemId = "itemId";
+
+        when(inspectionListService.copyItem(id, itemId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(put(domain + "/copy/" + id.toHexString() + "/item/" + itemId)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(inspectionListService).copyItem(id, itemId);
+    }
+
+    @Test
+    public void copyItem_WithoutAuthentication_Returns401() throws Exception {
+        ObjectId id = new ObjectId();
+        String itemId = "itemId";
+
+        mockMvc.perform(put(domain + "/copy/" + id.toHexString() + "/item/" + itemId)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 }

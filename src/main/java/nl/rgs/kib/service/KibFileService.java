@@ -16,4 +16,6 @@ public interface KibFileService {
     Optional<KibFile> deleteById(ObjectId id);
 
     List<KibFile> deleteByIds(List<ObjectId> ids);
+
+    KibFile copyById(ObjectId id);
 }

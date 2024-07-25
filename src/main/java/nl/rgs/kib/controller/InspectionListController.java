@@ -149,4 +149,52 @@ public class InspectionListController {
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/copy/{id}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Copied the inspection list",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Inspection list not found",
+                    content = @Content()
+            ),
+    })
+    public ResponseEntity<InspectionList> copy(@PathVariable() String id) {
+        return inspectionListService.copy(new ObjectId(id))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/copy/{id}/item/{itemId}")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Copied the inspection list",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = @Content()
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Inspection list item not found",
+                    content = @Content()
+            ),
+    })
+    public ResponseEntity<InspectionList> copyItem(@PathVariable() String id, @PathVariable() String itemId) {
+        return inspectionListService.copyItem(new ObjectId(id), itemId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

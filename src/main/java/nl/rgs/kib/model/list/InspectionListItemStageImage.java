@@ -21,7 +21,7 @@ public class InspectionListItemStageImage {
         return Optional.ofNullable(fileId).map(ObjectId::toHexString).orElse(null);
     }
 
-    public void setObjectId(String id) {
+    public void setFileId(String id) {
         this.fileId = Optional.ofNullable(id).map(ObjectId::new).orElse(null);
     }
 }

@@ -1,6 +1,10 @@
 package nl.rgs.kib.service.impl;
 
+import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.model.list.InspectionList;
+import nl.rgs.kib.model.list.InspectionListItem;
+import nl.rgs.kib.model.list.InspectionListItemStage;
+import nl.rgs.kib.model.list.InspectionListItemStageImage;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
 import nl.rgs.kib.service.InspectionListService;
@@ -11,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class InspectionListServiceImpl implements InspectionListService {
@@ -78,5 +84,85 @@ public class InspectionListServiceImpl implements InspectionListService {
                 }
         );
         return inspectionList;
+    }
+
+    @Override
+    @Transactional
+    public Optional<InspectionList> copy(ObjectId id) {
+        return inspectionListRepository.findById(id).map(inspectionList -> {
+            InspectionList copy = new InspectionList();
+            copy.setName(inspectionList.getName() + " - Copy");
+            copy.setStatus(inspectionList.getStatus());
+            copy.setLabels(inspectionList.getLabels());
+
+            List<InspectionListItem> copiedItems = inspectionList.getItems().stream().map(item -> {
+                InspectionListItem copiedItem = new InspectionListItem();
+                copiedItem.setId(item.getId());
+                copiedItem.setIndex(item.getIndex());
+                copiedItem.setName(item.getName());
+                copiedItem.setGroup(item.getGroup());
+                copiedItem.setCategory(item.getCategory());
+                copiedItem.setInspectionMethod(item.getInspectionMethod());
+                copiedItem.setStages(item.getStages().stream().map(stage -> {
+                    InspectionListItemStage copiedStage = new InspectionListItemStage();
+                    copiedStage.setStage(stage.getStage());
+                    copiedStage.setName(stage.getName());
+                    copiedStage.setMax(stage.getMax());
+                    copiedStage.setImages(stage.getImages().stream().map(image -> {
+                        InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
+                        copiedImage.setMain(image.getMain());
+
+                        KibFile copiedFile = kibFileService.copyById(new ObjectId(image.getFileId()));
+                        copiedImage.setFileId(copiedFile.getId());
+
+                        return copiedImage;
+                    }).collect(Collectors.toList()));
+                    return copiedStage;
+                }).collect(Collectors.toList()));
+                return copiedItem;
+            }).toList();
+
+            copy.setItems(copiedItems);
+
+            return inspectionListRepository.save(copy);
+        });
+    }
+
+    @Override
+    @Transactional
+    public Optional<InspectionList> copyItem(ObjectId id, String itemId) {
+        return inspectionListRepository.findById(id).map(inspectionList -> {
+            InspectionListItem item = inspectionList.getItems().stream().filter(i -> i.getId().equals(itemId)).findFirst().orElseThrow();
+
+            InspectionListItem copiedItem = new InspectionListItem();
+            copiedItem.setId(new ObjectId().toString());
+            copiedItem.setIndex(inspectionList.getItems().size() + 1);
+            copiedItem.setName(item.getName() + " - Copy");
+            copiedItem.setGroup(item.getGroup());
+            copiedItem.setCategory(item.getCategory());
+            copiedItem.setInspectionMethod(item.getInspectionMethod());
+            copiedItem.setStages(item.getStages().stream().map(stage -> {
+                InspectionListItemStage copiedStage = new InspectionListItemStage();
+                copiedStage.setStage(stage.getStage());
+                copiedStage.setName(stage.getName());
+                copiedStage.setMax(stage.getMax());
+                copiedStage.setImages(stage.getImages().stream().map(image -> {
+                    InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
+                    copiedImage.setMain(image.getMain());
+
+                    KibFile copiedFile = kibFileService.copyById(new ObjectId(image.getFileId()));
+                    copiedImage.setFileId(copiedFile.getId());
+
+                    return copiedImage;
+                }).collect(Collectors.toList()));
+                return copiedStage;
+            }).collect(Collectors.toList()));
+
+            List<InspectionListItem> mutableItems = new ArrayList<>(inspectionList.getItems());
+            mutableItems.add(copiedItem);
+            inspectionList.setItems(mutableItems);
+
+            return inspectionListRepository.save(inspectionList);
+        });
     }
 }

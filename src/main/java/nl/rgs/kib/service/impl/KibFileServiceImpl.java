@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class KibFileServiceImpl implements KibFileService {
         BasicDBObject metadata = new BasicDBObject();
         metadata.put("collection", collection);
         metadata.put("objectId", objectId.toHexString());
-        
+
         ObjectId id = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
 
         return this.findById(id).orElse(null);
@@ -81,5 +82,45 @@ public class KibFileServiceImpl implements KibFileService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
+    }
+
+    @Override
+    public KibFile copyById(ObjectId id) {
+        GridFSFile gridFSFile = operations.findOne(new Query(Criteria.where("_id").is(id)));
+
+        if (gridFSFile == null) {
+            throw new RuntimeException("File not found");
+        }
+
+        byte[] data = null;
+
+        try {
+            data = IOUtils.toByteArray(operations.getResource(gridFSFile).getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BasicDBObject metadata = new BasicDBObject();
+        metadata.put("copiedFrom", id.toHexString());
+
+        if (gridFSFile.getMetadata() != null) {
+            metadata.putAll(gridFSFile.getMetadata());
+        }
+
+        String contentType = null;
+
+        if (metadata.containsField("_contentType")) {
+            contentType = metadata.getString("_contentType");
+        }
+
+
+        ObjectId newId = template.store(
+                new ByteArrayInputStream(data),
+                gridFSFile.getFilename(),
+                contentType,
+                metadata
+        );
+
+        return this.findById(newId).orElse(null);
     }
 }

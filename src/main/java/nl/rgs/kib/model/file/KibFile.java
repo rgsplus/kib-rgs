@@ -26,7 +26,7 @@ public class KibFile {
     @NotNull()
     @Schema(description = "File data in bytes")
     private byte[] data;
-
+    
     public String getId() {
         return Optional.ofNullable(id).map(ObjectId::toHexString).orElse(null);
     }

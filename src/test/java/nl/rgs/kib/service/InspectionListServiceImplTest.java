@@ -1,7 +1,7 @@
 package nl.rgs.kib.service;
 
-import nl.rgs.kib.model.list.InspectionList;
-import nl.rgs.kib.model.list.InspectionListStatus;
+import nl.rgs.kib.model.file.KibFile;
+import nl.rgs.kib.model.list.*;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
 import nl.rgs.kib.service.impl.InspectionListServiceImpl;
@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -177,5 +178,194 @@ public class InspectionListServiceImplTest {
 
         assertTrue(result.isEmpty());
         verify(inspectionListRepository).findById(id);
+    }
+
+    @Test
+    public void copy_CopiesInspectionListWithoutImages() {
+        //existing list
+        InspectionList list = new InspectionList();
+        list.setId(new ObjectId().toHexString());
+        list.setName("name");
+        list.setStatus(InspectionListStatus.CONCEPT);
+        list.setLabels(List.of());
+        list.setItems(List.of());
+
+        //expected list
+        InspectionList expected = new InspectionList();
+        expected.setName("name - Copy");
+        expected.setStatus(InspectionListStatus.CONCEPT);
+        expected.setLabels(List.of());
+        expected.setItems(List.of());
+
+        when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
+        when(inspectionListRepository.save(any())).thenReturn(expected);
+
+        Optional<InspectionList> result = inspectionListService.copy(new ObjectId(list.getId()));
+
+        assertTrue(result.isPresent());
+        assertEquals("name - Copy", result.get().getName());
+        assertEquals(InspectionListStatus.CONCEPT, result.get().getStatus());
+        assertEquals(List.of(), result.get().getLabels());
+        assertEquals(List.of(), result.get().getItems());
+
+        verify(inspectionListRepository).findById(new ObjectId(list.getId()));
+        verify(inspectionListRepository).save(result.get());
+    }
+
+    @Test
+    public void copy_CopiesInspectionListWithImages() {
+        //existing list
+        InspectionListItemStageImage image = new InspectionListItemStageImage();
+        image.setMain(true);
+        image.setFileId(new ObjectId().toHexString());
+
+        InspectionListItemStage stage = new InspectionListItemStage();
+        stage.setImages(List.of(image));
+
+        InspectionListItem item = new InspectionListItem();
+        item.setStages(List.of(stage));
+
+        InspectionList list = new InspectionList();
+        list.setId(new ObjectId().toHexString());
+        list.setName("name");
+        list.setStatus(InspectionListStatus.CONCEPT);
+        list.setLabels(List.of());
+        list.setItems(List.of(item));
+
+        //expected list
+        InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
+        copiedImage.setMain(true);
+        copiedImage.setFileId(new ObjectId().toHexString());
+
+        InspectionListItemStage copiedStage = new InspectionListItemStage();
+        copiedStage.setImages(List.of(copiedImage));
+
+        InspectionListItem copiedItem = new InspectionListItem();
+        copiedItem.setStages(List.of(copiedStage));
+
+        InspectionList expected = new InspectionList();
+        expected.setName("name - Copy");
+        expected.setStatus(InspectionListStatus.CONCEPT);
+        expected.setLabels(List.of());
+        expected.setItems(List.of(copiedItem));
+
+        KibFile expectedFile = new KibFile();
+        expectedFile.setId(copiedImage.getFileId());
+
+        when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
+        when(inspectionListRepository.save(any())).thenReturn(expected);
+        when(kibFileService.copyById(new ObjectId(image.getFileId()))).thenReturn(expectedFile);
+
+        Optional<InspectionList> result = inspectionListService.copy(new ObjectId(list.getId()));
+
+        assertTrue(result.isPresent());
+        assertEquals("name - Copy", result.get().getName());
+        assertEquals(InspectionListStatus.CONCEPT, result.get().getStatus());
+        assertEquals(List.of(), result.get().getLabels());
+        assertEquals(1, result.get().getItems().size());
+        assertEquals(1, result.get().getItems().getFirst().getStages().size());
+        assertEquals(1, result.get().getItems().getFirst().getStages().getFirst().getImages().size());
+        assertEquals(expectedFile.getId(), result.get().getItems().getFirst().getStages().getFirst().getImages().getFirst().getFileId());
+
+        verify(inspectionListRepository).findById(new ObjectId(list.getId()));
+        verify(inspectionListRepository).save(result.get());
+        verify(kibFileService).copyById(new ObjectId(image.getFileId()));
+    }
+
+    @Test
+    public void copyItem_CopiesInspectionListItemWithoutImages() {
+        //existing list
+        InspectionListItemStage stage = new InspectionListItemStage();
+        stage.setImages(List.of());
+
+        InspectionListItem item = new InspectionListItem();
+        item.setId(new ObjectId().toHexString());
+        item.setStages(List.of(stage));
+
+        InspectionList list = new InspectionList();
+        list.setId(new ObjectId().toHexString());
+        list.setItems(List.of(item));
+
+        //expected list
+        InspectionListItemStage copiedStage = new InspectionListItemStage();
+        copiedStage.setImages(List.of());
+
+        InspectionListItem copiedItem = new InspectionListItem();
+        copiedItem.setId(new ObjectId().toString());
+        copiedItem.setName(item.getName() + " - Copy");
+        copiedItem.setStages(List.of(copiedStage));
+
+        InspectionList expected = new InspectionList();
+        expected.setId(list.getId());
+        expected.setItems(List.of(item, copiedItem));
+
+        when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
+        when(inspectionListRepository.save(list)).thenReturn(expected);
+
+        Optional<InspectionList> result = inspectionListService.copyItem(new ObjectId(list.getId()), item.getId());
+
+        assertTrue(result.isPresent());
+        assertEquals(2, result.get().getItems().size());
+        assertEquals(copiedItem, result.get().getItems().getLast());
+        assertEquals(copiedStage, result.get().getItems().getLast().getStages().getFirst());
+
+        verify(inspectionListRepository).findById(new ObjectId(list.getId()));
+        verify(inspectionListRepository).save(list);
+    }
+
+    @Test
+    public void copyItem_CopiesInspectionListItemWithImages() {
+        //existing list
+        InspectionListItemStageImage image = new InspectionListItemStageImage();
+        image.setMain(true);
+        image.setFileId(new ObjectId().toHexString());
+
+        InspectionListItemStage stage = new InspectionListItemStage();
+        stage.setImages(List.of(image));
+
+        InspectionListItem item = new InspectionListItem();
+        item.setId(new ObjectId().toHexString());
+        item.setStages(List.of(stage));
+
+        InspectionList list = new InspectionList();
+        list.setId(new ObjectId().toHexString());
+        list.setItems(List.of(item));
+
+        //expected list
+        InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
+        copiedImage.setMain(true);
+        copiedImage.setFileId(new ObjectId().toHexString());
+
+        InspectionListItemStage copiedStage = new InspectionListItemStage();
+        copiedStage.setImages(List.of(copiedImage));
+
+        InspectionListItem copiedItem = new InspectionListItem();
+        copiedItem.setId(new ObjectId().toString());
+        copiedItem.setName(item.getName() + " - Copy");
+        copiedItem.setStages(List.of(copiedStage));
+
+        InspectionList expected = new InspectionList();
+        expected.setId(list.getId());
+        expected.setItems(List.of(item, copiedItem));
+
+        KibFile expectedFile = new KibFile();
+        expectedFile.setId(copiedImage.getFileId());
+
+        when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
+        when(inspectionListRepository.save(list)).thenReturn(expected);
+        when(kibFileService.copyById(new ObjectId(image.getFileId()))).thenReturn(expectedFile);
+
+        Optional<InspectionList> result = inspectionListService.copyItem(new ObjectId(list.getId()), item.getId());
+
+        assertTrue(result.isPresent());
+        assertEquals(2, result.get().getItems().size());
+        assertEquals(copiedItem, result.get().getItems().getLast());
+        assertEquals(copiedStage, result.get().getItems().getLast().getStages().getFirst());
+        assertEquals(copiedImage, result.get().getItems().getLast().getStages().getFirst().getImages().getFirst());
+        assertEquals(expectedFile.getId(), result.get().getItems().getLast().getStages().getFirst().getImages().getFirst().getFileId());
+
+        verify(inspectionListRepository).findById(new ObjectId(list.getId()));
+        verify(inspectionListRepository).save(list);
+        verify(kibFileService).copyById(new ObjectId(image.getFileId()));
     }
 }
