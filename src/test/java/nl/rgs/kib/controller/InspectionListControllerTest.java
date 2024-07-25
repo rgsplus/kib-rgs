@@ -262,25 +262,23 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void deleteById_WhenNotExists_Returns404() throws Exception {
-        InspectionList inspectionList = new InspectionList();
-        inspectionList.setId(new ObjectId().toHexString());
+        ObjectId id = new ObjectId();
 
-        when(inspectionListService.deleteById(new ObjectId(inspectionList.getId()))).thenReturn(Optional.empty());
+        when(inspectionListService.deleteById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete(domain + "/" + inspectionList.getId())
+        mockMvc.perform(delete(domain + "/" + id.toHexString())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(inspectionListService).deleteById(new ObjectId(inspectionList.getId()));
+        verify(inspectionListService).deleteById(id);
     }
 
     @Test
     public void deleteById_WithoutAuthentication_Returns401() throws Exception {
-        InspectionList inspectionList = new InspectionList();
-        inspectionList.setId(new ObjectId().toHexString());
+        ObjectId id = new ObjectId();
 
-        mockMvc.perform(delete(domain + "/" + inspectionList.getId())
+        mockMvc.perform(delete(domain + "/" + id.toHexString())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());

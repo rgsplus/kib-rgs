@@ -136,7 +136,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -153,7 +153,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -170,7 +170,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: index === 0 ? 25 : null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -187,7 +187,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: index === 0 ? 25 : null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -204,7 +204,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: index === 0 ? 25 : index === 1 ? 50 : null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -221,7 +221,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: index === 0 ? 25 : index === 1 ? 50 : null,
-            image: null,
+            images: [],
           })),
         },
       ],
@@ -300,7 +300,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -317,7 +317,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -334,7 +334,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -351,7 +351,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -368,7 +368,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
         {
@@ -385,7 +385,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
             stage: stage.stage,
             naam: stage.name,
             max: null,
-            image: null,
+            images: [],
           })),
         },
       ],

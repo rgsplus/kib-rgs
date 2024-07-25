@@ -326,9 +326,13 @@ public class CreateInspectionListTest {
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(1);
                 stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
                 InspectionListItemStage stage2 = new InspectionListItemStage();
                 stage2.setStage(1);
                 stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, Arrays.asList(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
@@ -348,7 +352,7 @@ public class CreateInspectionListTest {
                     InspectionListItemStage stage = new InspectionListItemStage();
                     stage.setName("Stage 1");
                     stage.setMax(25.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -368,7 +372,7 @@ public class CreateInspectionListTest {
                     stage.setStage(-1);
                     stage.setName("Stage 1");
                     stage.setMax(25.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -388,7 +392,7 @@ public class CreateInspectionListTest {
                     stage.setStage(10);
                     stage.setName("Stage 1");
                     stage.setMax(250.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -407,7 +411,7 @@ public class CreateInspectionListTest {
                     InspectionListItemStage stage = new InspectionListItemStage();
                     stage.setStage(1);
                     stage.setMax(25.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -427,7 +431,7 @@ public class CreateInspectionListTest {
                     stage.setStage(1);
                     stage.setName(" ");
                     stage.setMax(25.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -447,7 +451,7 @@ public class CreateInspectionListTest {
                     stage.setStage(1);
                     stage.setName("Stage 1");
                     stage.setMax(-1.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -467,7 +471,7 @@ public class CreateInspectionListTest {
                     stage.setStage(1);
                     stage.setName("Stage 1");
                     stage.setMax(101.0);
-                    stage.setImage("https://example.com/image.jpg");
+                    stage.setImages(List.of());
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -482,12 +486,12 @@ public class CreateInspectionListTest {
                 }
 
                 @Test
-                public void testCreateInspectionListItemStageImageURLValidator() {
+                public void testCreateInspectionListItemStageImagesNotNullValidator() {
                     InspectionListItemStage stage = new InspectionListItemStage();
                     stage.setStage(1);
                     stage.setName("Stage 1");
                     stage.setMax(25.0);
-                    stage.setImage("example.com/image.jpg");
+                    stage.setImages(null);
 
                     InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
 
@@ -498,7 +502,82 @@ public class CreateInspectionListTest {
                             List.of()
                     );
 
-                    assertEquals(1, validator.validate(inspectionList).size(), "Image should be a valid URL.");
+                    assertEquals(1, validator.validate(inspectionList).size(), "Images should not be null.");
+                }
+
+                @Test
+                public void testCreateInspectionListItemStageImagesMainImageValidator() {
+                    InspectionListItemStage stage = new InspectionListItemStage();
+                    stage.setStage(1);
+                    stage.setName("Stage 1");
+                    stage.setMax(25.0);
+                    stage.setImages(List.of(
+                            new InspectionListItemStageImage(true, new ObjectId()),
+                            new InspectionListItemStageImage(true, new ObjectId())
+                    ));
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+
+                    CreateInspectionList inspectionList = new CreateInspectionList(
+                            "test",
+                            InspectionListStatus.DEFINITIVE,
+                            List.of(item),
+                            List.of()
+                    );
+
+                    assertEquals(1, validator.validate(inspectionList).size(), "Main image should be unique.");
+                }
+
+                @Test
+                public void testCreateInspectionListItemStageImagesUniqueFileIdsValidator() {
+                    ObjectId fileId = new ObjectId();
+                    InspectionListItemStage stage = new InspectionListItemStage();
+                    stage.setStage(1);
+                    stage.setName("Stage 1");
+                    stage.setMax(25.0);
+                    stage.setImages(List.of(
+                            new InspectionListItemStageImage(true, fileId),
+                            new InspectionListItemStageImage(false, fileId)
+                    ));
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+
+                    CreateInspectionList inspectionList = new CreateInspectionList(
+                            "test",
+                            InspectionListStatus.DEFINITIVE,
+                            List.of(item),
+                            List.of()
+                    );
+
+                    assertEquals(1, validator.validate(inspectionList).size(), "File ids should be unique.");
+                }
+
+                @Nested
+                public class CreateInspectionListItemStageImageValidations {
+
+                    @Test
+                    public void testCreateInspectionListItemStageImageFileIdNotNullValidator() {
+                        InspectionListItemStageImage image = new InspectionListItemStageImage();
+                        image.setMain(true);
+                        image.setFileId(null);
+
+                        InspectionListItemStage stage = new InspectionListItemStage();
+                        stage.setStage(1);
+                        stage.setName("Stage 1");
+                        stage.setMax(25.0);
+                        stage.setImages(List.of(image));
+
+                        InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+
+                        CreateInspectionList inspectionList = new CreateInspectionList(
+                                "test",
+                                InspectionListStatus.DEFINITIVE,
+                                List.of(item),
+                                List.of()
+                        );
+
+                        assertEquals(1, validator.validate(inspectionList).size(), "File id should not be null.");
+                    }
                 }
             }
         }

@@ -1,14 +1,19 @@
 package nl.rgs.kib.model.list;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.method.InspectionMethodStage;
-import org.hibernate.validator.constraints.URL;
+import nl.rgs.kib.shared.validators.MainImage;
+import nl.rgs.kib.shared.validators.UniqueFileIds;
+
+import java.util.List;
 
 @Data()
 @EqualsAndHashCode(callSuper = true)
@@ -20,7 +25,9 @@ public class InspectionListItemStage extends InspectionMethodStage {
     @Schema(example = "25", minimum = "0", maximum = "100")
     private Double max;
 
-    @URL()
-    @Schema(example = "https://example.com/image.jpg")
-    private String image;
+    @Valid()
+    @NotNull()
+    @MainImage()
+    @UniqueFileIds()
+    private List<InspectionListItemStageImage> images;
 }

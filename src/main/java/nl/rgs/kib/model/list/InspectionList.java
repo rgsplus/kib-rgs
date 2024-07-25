@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Data()
@@ -46,11 +47,14 @@ public class InspectionList extends BaseObject {
     @UniqueIndexes()
     private List<InspectionListLabel> labels;
 
-    public static List<InspectionListItem> sortItemsAndStages(List<InspectionListItem> items) {
+    public static List<InspectionListItem> sortItemsStagesAndImages(List<InspectionListItem> items) {
         return items.stream()
                 .sorted(Comparator.comparing(InspectionListItem::getIndex))
                 .peek(item -> item.setStages(item.getStages().stream()
                         .sorted(Comparator.comparing(InspectionListItemStage::getStage))
+                        .peek(stage -> stage.setImages(stage.getImages().stream()
+                                .sorted(Comparator.comparing(InspectionListItemStageImage::getMain).reversed())
+                                .toList()))
                         .toList()))
                 .toList();
     }
@@ -61,6 +65,30 @@ public class InspectionList extends BaseObject {
                 .peek(label -> label.setFeatures(label.getFeatures().stream()
                         .sorted(Comparator.comparing(InspectionListLabelFeature::getIndex))
                         .toList()))
+                .toList();
+    }
+
+    public static List<ObjectId> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
+        return existingList.getItems().stream()
+                .flatMap(item -> item.getStages().stream())
+                .flatMap(stage -> stage.getImages().stream())
+                .filter(existingImage -> existingImage.getFileId() != null && updatedList.getItems().stream()
+                        .flatMap(item -> item.getStages().stream())
+                        .flatMap(stage -> stage.getImages().stream())
+                        .noneMatch(image -> image.getFileId().equals(existingImage.getFileId())))
+                .map(InspectionListItemStageImage::getFileId)
+                .filter(Objects::nonNull)
+                .map(ObjectId::new)
+                .toList();
+    }
+
+    public static List<ObjectId> getAllFileIds(InspectionList list) {
+        return list.getItems().stream()
+                .flatMap(item -> item.getStages().stream())
+                .flatMap(stage -> stage.getImages().stream())
+                .map(InspectionListItemStageImage::getFileId)
+                .filter(Objects::nonNull)
+                .map(ObjectId::new)
                 .toList();
     }
 

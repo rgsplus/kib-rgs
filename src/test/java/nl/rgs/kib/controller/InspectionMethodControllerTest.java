@@ -263,25 +263,23 @@ public class InspectionMethodControllerTest {
     @Test
     @WithMockUser()
     public void deleteById_WhenNotExists_Returns404() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
+        ObjectId id = new ObjectId();
 
-        when(inspectionMethodService.deleteById(new ObjectId(inspectionMethod.getId()))).thenReturn(Optional.empty());
+        when(inspectionMethodService.deleteById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(delete(domain + "/" + id.toHexString())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(inspectionMethodService).deleteById(new ObjectId(inspectionMethod.getId()));
+        verify(inspectionMethodService).deleteById(id);
     }
 
     @Test
     public void deleteById_WithoutAuthentication_Returns401() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
+        ObjectId id = new ObjectId();
 
-        mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(delete(domain + "/" + id.toHexString())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());

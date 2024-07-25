@@ -5,6 +5,7 @@ import nl.rgs.kib.model.list.InspectionListStatus;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
 import nl.rgs.kib.service.impl.InspectionListServiceImpl;
+import nl.rgs.kib.service.impl.KibFileServiceImpl;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +30,9 @@ public class InspectionListServiceImplTest {
 
     @InjectMocks
     private InspectionListServiceImpl inspectionListService;
+
+    @Mock
+    private KibFileServiceImpl kibFileService;
 
     @Test
     public void count_ReturnsCount() {
@@ -118,6 +122,7 @@ public class InspectionListServiceImplTest {
         updatedList.setLabels(List.of());
 
         when(inspectionListRepository.findById(new ObjectId(existingList.getId()))).thenReturn(Optional.of(existingList));
+        when(kibFileService.deleteByIds(List.of())).thenReturn(List.of());
         when(inspectionListRepository.save(existingList)).thenReturn(existingList);
 
         Optional<InspectionList> result = inspectionListService.update(updatedList);
@@ -125,6 +130,7 @@ public class InspectionListServiceImplTest {
         assertTrue(result.isPresent());
         assertEquals(existingList, result.get());
         verify(inspectionListRepository).findById(new ObjectId(existingList.getId()));
+        verify(kibFileService).deleteByIds(List.of());
         verify(inspectionListRepository).save(existingList);
     }
 
@@ -149,13 +155,16 @@ public class InspectionListServiceImplTest {
     public void deleteById_DeletesInspectionList() {
         ObjectId id = new ObjectId();
         InspectionList list = new InspectionList();
+        list.setItems(List.of());
         when(inspectionListRepository.findById(id)).thenReturn(Optional.of(list));
+        when(kibFileService.deleteByIds(List.of())).thenReturn(List.of());
 
         Optional<InspectionList> result = inspectionListService.deleteById(id);
 
         assertTrue(result.isPresent());
         assertEquals(list, result.get());
         verify(inspectionListRepository).findById(id);
+        verify(kibFileService).deleteByIds(List.of());
         verify(inspectionListRepository).deleteById(id);
     }
 
