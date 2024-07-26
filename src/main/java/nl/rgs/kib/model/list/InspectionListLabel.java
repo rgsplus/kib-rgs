@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.shared.models.Ideable;
 import nl.rgs.kib.shared.models.Indexable;
-import nl.rgs.kib.shared.validators.UniqueIndexes;
+import nl.rgs.kib.shared.validators.ValidIndexes;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
@@ -38,6 +38,6 @@ public class InspectionListLabel implements Indexable, Ideable {
 
     @Valid()
     @NotNull()
-    @UniqueIndexes()
+    @ValidIndexes()
     private List<InspectionListLabelFeature> features;
 }

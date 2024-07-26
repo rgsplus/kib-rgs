@@ -1,7 +1,7 @@
 package nl.rgs.kib.validators;
 
 import nl.rgs.kib.shared.models.Indexable;
-import nl.rgs.kib.shared.validators.UniqueIndexesValidator;
+import nl.rgs.kib.shared.validators.ValidIndexesValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,13 +11,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UniqueIndexesValidatorTest {
+public class ValidIndexesValidatorTest {
 
-    private UniqueIndexesValidator validator;
+    private ValidIndexesValidator validator;
 
     @BeforeEach
     public void setUp() {
-        validator = new UniqueIndexesValidator();
+        validator = new ValidIndexesValidator();
     }
 
     @Test
@@ -43,13 +43,33 @@ public class UniqueIndexesValidatorTest {
     }
 
     @Test
-    public void testIsValidWithNullValue() {
+    public void testIsInvalidWithNullValue() {
         List<Indexable> items = List.of(
                 new IndexableObject(null),
                 new IndexableObject(null)
         );
 
-        assertTrue(validator.isValid(items, null));
+        assertFalse(validator.isValid(items, null));
+    }
+
+    @Test
+    public void testIsInvalidWithNonSequentialIndexes() {
+        List<Indexable> items = List.of(
+                new IndexableObject(0),
+                new IndexableObject(2)
+        );
+
+        assertFalse(validator.isValid(items, null));
+    }
+
+    @Test
+    public void testIsInvalidWithStartIndexGreaterThanZero() {
+        List<Indexable> items = List.of(
+                new IndexableObject(1),
+                new IndexableObject(2)
+        );
+
+        assertFalse(validator.isValid(items, null));
     }
 
     @Test

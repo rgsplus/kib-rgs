@@ -8,7 +8,7 @@ import nl.rgs.kib.model.list.InspectionListItem;
 import nl.rgs.kib.model.list.InspectionListLabel;
 import nl.rgs.kib.model.list.InspectionListStatus;
 import nl.rgs.kib.shared.validators.UniqueIds;
-import nl.rgs.kib.shared.validators.UniqueIndexes;
+import nl.rgs.kib.shared.validators.ValidIndexes;
 
 import java.util.List;
 
@@ -35,13 +35,13 @@ public record CreateInspectionList(
         @Valid()
         @NotNull()
         @UniqueIds()
-        @UniqueIndexes()
+        @ValidIndexes()
         List<InspectionListItem> items,
 
         @Valid()
         @NotNull()
         @UniqueIds()
-        @UniqueIndexes()
+        @ValidIndexes()
         List<InspectionListLabel> labels
 ) {
 }

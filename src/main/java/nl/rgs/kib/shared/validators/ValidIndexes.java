@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation for validating that the indexes of a list of objects are unique.
+ * Annotation for validating that the indexes of a list of objects are unique, starting from 0 and incrementing by 1.
  * The objects in the list must implement the Indexable interface.
  * <p>
  * Example usage:
@@ -23,19 +23,16 @@ import java.lang.annotation.Target;
  * <p>
  * If the list is empty, the validation will pass.
  * <p>
- * If the list contains objects with null indexes, the validation will pass.
- * <p>
- * If the list contains objects with unique indexes, the validation will pass.
- * <p>
- * If the list contains objects that do not implement the Indexable interface, the validation will fail.
+ * If the list contains objects with null indexes, the validation will fail.
  * <p>
  * If the list contains objects with duplicate indexes, the validation will fail.
+ * <p>
+ * If the list contains objects with indexes that start from 0 and increment by 1, the validation will pass.
  */
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueIndexesValidator.class)
-public @interface UniqueIndexes {
-    String message() default "Indexes must be unique";
+@Constraint(validatedBy = ValidIndexesValidator.class)
+public @interface ValidIndexes {
 
     Class<?>[] groups() default {};
 

@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class UniqueIndexesValidator implements ConstraintValidator<UniqueIndexes, List<?>> {
+public class ValidIndexesValidator implements ConstraintValidator<ValidIndexes, List<?>> {
     @Override
     public boolean isValid(List<?> items, ConstraintValidatorContext context) {
         if (items == null) {
@@ -23,10 +23,16 @@ public class UniqueIndexesValidator implements ConstraintValidator<UniqueIndexes
             }
 
             if (indexableItem.getIndex() == null) {
-                continue;
+                return false;
             }
 
             if (!uniqueIndexes.add(indexableItem.getIndex())) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < uniqueIndexes.size(); i++) {
+            if (!uniqueIndexes.contains(i)) {
                 return false;
             }
         }
