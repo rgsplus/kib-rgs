@@ -1,7 +1,8 @@
 package nl.rgs.kib.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,20 +24,26 @@ public class KibFileController {
     private KibFileService kibFileService;
 
     @GetMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Found the kib file"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Kib file not found"
-            ),
-    })
+    @Operation(
+            summary = "Find a kib file by id",
+            description = "Find a kib file by id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the kib file"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Kib file not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<KibFile> findById(@PathVariable() String id) throws IOException {
         return kibFileService.findById(new ObjectId(id))
                 .map(ResponseEntity::ok)
@@ -44,20 +51,26 @@ public class KibFileController {
     }
 
     @PostMapping()
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Created the kib file"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"
-            ),
-    })
+    @Operation(
+            summary = "Create a kib file",
+            description = "Create a kib file",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Created the kib file"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad request",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<KibFile> create(
             @RequestParam("file") @NotNull() MultipartFile file,
             @RequestParam("collection") @NotBlank() String collection,
@@ -67,20 +80,27 @@ public class KibFileController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Deleted the kib file"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Kib file not found"
-            ),
-    })
+    @Operation(
+            summary = "Delete a kib file by id",
+            description = "Delete a kib file by id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Deleted the kib file",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Kib file not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
         return kibFileService.deleteById(new ObjectId(id))
                 .map(kibFile -> ResponseEntity.noContent().<Void>build())

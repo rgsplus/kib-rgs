@@ -1,8 +1,8 @@
 package nl.rgs.kib.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import nl.rgs.kib.model.list.InspectionList;
@@ -23,54 +23,66 @@ public class InspectionListController {
     private InspectionListService inspectionListService;
 
     @GetMapping("/count")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Found the count of inspection list"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Count the inspection lists",
+            description = "Count the inspection lists",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the count of inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<Long> count() {
         return ResponseEntity.ok(inspectionListService.count());
     }
 
     @GetMapping()
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Found all inspection list"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Find all inspection lists",
+            description = "Find all inspection lists",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found all inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<List<InspectionList>> findAll() {
         return ResponseEntity.ok(inspectionListService.findAll());
     }
 
     @GetMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Found the inspection list"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Inspection list not found",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Find an inspection list by id",
+            description = "Find an inspection list by id",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found the inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Inspection list not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
         return inspectionListService.findById(new ObjectId(id))
                 .map(ResponseEntity::ok)
@@ -78,48 +90,56 @@ public class InspectionListController {
     }
 
     @PostMapping()
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "201",
-                    description = "Created the inspection list"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid input",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Create an inspection list",
+            description = "Create an inspection list",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Created the inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid input",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<InspectionList> create(@Valid() @RequestBody() CreateInspectionList createInspectionList) {
         return ResponseEntity.status(201).body(inspectionListService.create(createInspectionList));
     }
 
     @PutMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Updated"
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Invalid input",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Inspection list not found",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Update an inspection list",
+            description = "Update an inspection list",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Updated"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid input",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Inspection list not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<InspectionList> update(@Valid() @RequestBody() InspectionList inspectionList) {
         return inspectionListService.update(inspectionList)
                 .map(ResponseEntity::ok)
@@ -127,23 +147,27 @@ public class InspectionListController {
     }
 
     @DeleteMapping("/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "Deleted",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Inspection list not found",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Delete an inspection list",
+            description = "Delete an inspection list",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Deleted",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Inspection list not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
         return inspectionListService.deleteById(new ObjectId(id))
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
@@ -151,23 +175,26 @@ public class InspectionListController {
     }
 
     @PostMapping("/copy/{id}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "Copied the inspection list",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Inspection list not found",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Copy an inspection list",
+            description = "Copy an existing inspection list. A new inspection list will be created with the same items",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Copied the inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Inspection list not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<InspectionList> copy(@PathVariable() String id) {
         return inspectionListService.copy(new ObjectId(id))
                 .map(ResponseEntity::ok)
@@ -175,23 +202,26 @@ public class InspectionListController {
     }
 
     @PutMapping("/copy/{id}/item/{itemId}")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "Copied the inspection list",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized",
-                    content = @Content()
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Inspection list item not found",
-                    content = @Content()
-            ),
-    })
+    @Operation(
+            summary = "Copy an inspection list item",
+            description = "Copy an inspection list item of an existing inspection list. The copied item will be added to the existing inspection list.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "Copied the inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Inspection list item not found",
+                            content = @Content()
+                    ),
+            }
+    )
     public ResponseEntity<InspectionList> copyItem(@PathVariable() String id, @PathVariable() String itemId) {
         return inspectionListService.copyItem(new ObjectId(id), itemId)
                 .map(ResponseEntity::ok)
