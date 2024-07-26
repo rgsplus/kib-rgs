@@ -86,8 +86,18 @@ public class CreateInspectionListTest {
 
         @Test
         public void testCreateInspectionListItemsUniqueIdsValidator() {
-            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of());
-            InspectionListItem item2 = new InspectionListItem(2, "id1", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of());
+            InspectionListItemStage stage1 = new InspectionListItemStage();
+            stage1.setStage(1);
+            stage1.setName("Stage 1");
+            stage1.setImages(List.of());
+
+            InspectionListItemStage stage2 = new InspectionListItemStage();
+            stage2.setStage(2);
+            stage2.setName("Stage 2");
+            stage2.setImages(List.of());
+
+            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+            InspectionListItem item2 = new InspectionListItem(2, "id1", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
@@ -101,8 +111,18 @@ public class CreateInspectionListTest {
 
         @Test
         public void testCreateInspectionListItemsUniqueIndexesValidator() {
-            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of());
-            InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of());
+            InspectionListItemStage stage1 = new InspectionListItemStage();
+            stage1.setStage(1);
+            stage1.setName("Stage 1");
+            stage1.setImages(List.of());
+
+            InspectionListItemStage stage2 = new InspectionListItemStage();
+            stage2.setStage(2);
+            stage2.setName("Stage 2");
+            stage2.setImages(List.of());
+
+            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+            InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
@@ -160,13 +180,23 @@ public class CreateInspectionListTest {
         public class CreateInspectionListItemValidations {
             @Test
             public void testCreateInspectionListItemIndexNotNullValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setId("id");
                 item.setName("test");
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
                 item.setInspectionMethod(inspectionMethod);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -180,6 +210,16 @@ public class CreateInspectionListTest {
 
             @Test
             public void testCreateInspectionListItemIndexMinValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(-1);
                 item.setId("id");
@@ -187,7 +227,7 @@ public class CreateInspectionListTest {
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
                 item.setInspectionMethod(inspectionMethod);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -201,13 +241,23 @@ public class CreateInspectionListTest {
 
             @Test
             public void testCreateInspectionListItemIdNotNullValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(1);
                 item.setName("test");
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
                 item.setInspectionMethod(inspectionMethod);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -221,13 +271,23 @@ public class CreateInspectionListTest {
 
             @Test
             public void testCreateInspectionListItemNameNotNullValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(1);
                 item.setId("id");
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
                 item.setInspectionMethod(inspectionMethod);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -241,6 +301,16 @@ public class CreateInspectionListTest {
 
             @Test
             public void testCreateInspectionListItemNameNotBlankValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(1);
                 item.setId("id");
@@ -248,7 +318,7 @@ public class CreateInspectionListTest {
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
                 item.setInspectionMethod(inspectionMethod);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -262,13 +332,23 @@ public class CreateInspectionListTest {
 
             @Test
             public void testCreateInspectionListItemCategoryNotNullValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(1);
                 item.setId("id");
                 item.setName("test");
                 item.setGroup("group");
                 item.setInspectionMethod(inspectionMethod);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -282,13 +362,23 @@ public class CreateInspectionListTest {
 
             @Test
             public void testCreateInspectionListItemInspectionMethodNotNullValidator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(2);
+                stage2.setName("Stage 2");
+                stage2.setImages(List.of());
+
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(1);
                 item.setId("id");
                 item.setName("test");
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
-                item.setStages(List.of());
+                item.setStages(List.of(stage1, stage2));
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -345,16 +435,40 @@ public class CreateInspectionListTest {
                 assertEquals(1, validator.validate(inspectionList).size(), "Stages should have unique stages.");
             }
 
+            @Test
+            public void testCreateInspectionListItemStagesMinLength2Validator() {
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of());
+
+                InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1));
+
+                CreateInspectionList inspectionList = new CreateInspectionList(
+                        "test",
+                        InspectionListStatus.DEFINITIVE,
+                        List.of(item),
+                        List.of()
+                );
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Stages should have at least 2 stages.");
+            }
+
             @Nested
             public class CreateInspectionListItemStageValidations {
                 @Test
                 public void testCreateInspectionListItemStageStageNotNullValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setName("Stage 1");
-                    stage.setMax(25.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setName("Stage 1");
+                    stage1.setMax(25.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -368,13 +482,18 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageStageMin1Validator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(-1);
-                    stage.setName("Stage 1");
-                    stage.setMax(25.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(-1);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(25.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -388,13 +507,18 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageStageMax100Validator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(10);
-                    stage.setName("Stage 1");
-                    stage.setMax(250.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(10);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(250.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -408,12 +532,17 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageNameNotNullValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setMax(25.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setMax(25.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -427,13 +556,18 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageNameNotBlankValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setName(" ");
-                    stage.setMax(25.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setName(" ");
+                    stage1.setMax(25.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -447,13 +581,18 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageMaxMinValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setName("Stage 1");
-                    stage.setMax(-1.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(-1.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -467,13 +606,18 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageMaxMaxValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setName("Stage 1");
-                    stage.setMax(101.0);
-                    stage.setImages(List.of());
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(101.0);
+                    stage1.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -487,13 +631,18 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageImagesNotNullValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setName("Stage 1");
-                    stage.setMax(25.0);
-                    stage.setImages(null);
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(25.0);
+                    stage1.setImages(null);
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -507,16 +656,21 @@ public class CreateInspectionListTest {
 
                 @Test
                 public void testCreateInspectionListItemStageImagesMainImageValidator() {
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setName("Stage 1");
-                    stage.setMax(25.0);
-                    stage.setImages(List.of(
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(25.0);
+                    stage1.setImages(List.of(
                             new InspectionListItemStageImage(true, new ObjectId()),
                             new InspectionListItemStageImage(true, new ObjectId())
                     ));
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -531,16 +685,21 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageImagesUniqueFileIdsValidator() {
                     ObjectId fileId = new ObjectId();
-                    InspectionListItemStage stage = new InspectionListItemStage();
-                    stage.setStage(1);
-                    stage.setName("Stage 1");
-                    stage.setMax(25.0);
-                    stage.setImages(List.of(
+                    InspectionListItemStage stage1 = new InspectionListItemStage();
+                    stage1.setStage(1);
+                    stage1.setName("Stage 1");
+                    stage1.setMax(25.0);
+                    stage1.setImages(List.of(
                             new InspectionListItemStageImage(true, fileId),
                             new InspectionListItemStageImage(false, fileId)
                     ));
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                    InspectionListItemStage stage2 = new InspectionListItemStage();
+                    stage2.setStage(2);
+                    stage2.setName("Stage 2");
+                    stage2.setImages(List.of());
+
+                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -561,13 +720,18 @@ public class CreateInspectionListTest {
                         image.setMain(true);
                         image.setFileId(null);
 
-                        InspectionListItemStage stage = new InspectionListItemStage();
-                        stage.setStage(1);
-                        stage.setName("Stage 1");
-                        stage.setMax(25.0);
-                        stage.setImages(List.of(image));
+                        InspectionListItemStage stage1 = new InspectionListItemStage();
+                        stage1.setStage(1);
+                        stage1.setName("Stage 1");
+                        stage1.setMax(25.0);
+                        stage1.setImages(List.of(image));
 
-                        InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage));
+                        InspectionListItemStage stage2 = new InspectionListItemStage();
+                        stage2.setStage(2);
+                        stage2.setName("Stage 2");
+                        stage2.setImages(List.of());
+
+                        InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                         CreateInspectionList inspectionList = new CreateInspectionList(
                                 "test",

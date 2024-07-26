@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,7 @@ public class InspectionListItem implements Indexable, Ideable {
     private InspectionMethod inspectionMethod;
 
     @Valid()
+    @Size(min = 2, max = 10)
     @NotNull()
     @UniqueStages()
     private List<InspectionListItemStage> stages;
