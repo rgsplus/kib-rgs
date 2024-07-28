@@ -13,11 +13,11 @@ import java.lang.annotation.Target;
  * <p>
  * Example usage:
  * <pre>
- * {@code @UniqueIndexes
+ * {@code @ValidIndexes
  * private List<IndexableObject> someObjects;}
  * </pre>
  * <p>
- * The UniqueIndexesValidator will check if the indexes of the SomeObject objects in the list are unique.
+ * The ValidIndexesValidator will check if the indexes of the SomeObject objects in the list are unique.
  * <p>
  * If the list is null, the validation will pass.
  * <p>
@@ -33,6 +33,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidIndexesValidator.class)
 public @interface ValidIndexes {
+    String message() default "Indexes must be unique, starting from 0 and incrementing by 1";
 
     Class<?>[] groups() default {};
 

@@ -37,7 +37,7 @@ public class ValidIndexesValidatorTest {
     }
 
     @Test
-    public void testIsInvalidWithNonUniqueIndexes() {
+    public void testIsInvalidWithNonValidIndexes() {
         List<Indexable> items = List.of(new IndexableObject(0), new IndexableObject(0));
         assertFalse(validator.isValid(items, null));
     }

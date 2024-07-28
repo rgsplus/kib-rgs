@@ -12,19 +12,25 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class InspectionListServiceImplTest {
+
+    @Mock
+    private MessageSource messageSource;
 
     @Mock
     private InspectionListRepository inspectionListRepository;
@@ -157,6 +163,7 @@ public class InspectionListServiceImplTest {
         ObjectId id = new ObjectId();
         InspectionList list = new InspectionList();
         list.setItems(List.of());
+
         when(inspectionListRepository.findById(id)).thenReturn(Optional.of(list));
         when(kibFileService.deleteByIds(List.of())).thenReturn(List.of());
 
@@ -192,24 +199,30 @@ public class InspectionListServiceImplTest {
 
         //expected list
         InspectionList expected = new InspectionList();
-        expected.setName("name - Copy");
+        expected.setName("name - copy");
         expected.setStatus(InspectionListStatus.CONCEPT);
         expected.setLabels(List.of());
         expected.setItems(List.of());
 
         when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
         when(inspectionListRepository.save(any())).thenReturn(expected);
+        when(messageSource.getMessage(eq("copy.suffix"), any(), any(Locale.class)))
+                .thenReturn("copy");
+        when(messageSource.getMessage(eq("copy.separator"), any(), any(Locale.class)))
+                .thenReturn("-");
 
         Optional<InspectionList> result = inspectionListService.copy(new ObjectId(list.getId()));
 
         assertTrue(result.isPresent());
-        assertEquals("name - Copy", result.get().getName());
+        assertEquals("name - copy", result.get().getName());
         assertEquals(InspectionListStatus.CONCEPT, result.get().getStatus());
         assertEquals(List.of(), result.get().getLabels());
         assertEquals(List.of(), result.get().getItems());
 
         verify(inspectionListRepository).findById(new ObjectId(list.getId()));
         verify(inspectionListRepository).save(result.get());
+        verify(messageSource).getMessage(eq("copy.suffix"), any(), any(Locale.class));
+        verify(messageSource).getMessage(eq("copy.separator"), any(), any(Locale.class));
     }
 
     @Test
@@ -244,7 +257,7 @@ public class InspectionListServiceImplTest {
         copiedItem.setStages(List.of(copiedStage));
 
         InspectionList expected = new InspectionList();
-        expected.setName("name - Copy");
+        expected.setName("name - copy");
         expected.setStatus(InspectionListStatus.CONCEPT);
         expected.setLabels(List.of());
         expected.setItems(List.of(copiedItem));
@@ -255,11 +268,15 @@ public class InspectionListServiceImplTest {
         when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
         when(inspectionListRepository.save(any())).thenReturn(expected);
         when(kibFileService.copyById(new ObjectId(image.getFileId()))).thenReturn(expectedFile);
+        when(messageSource.getMessage(eq("copy.suffix"), any(), any(Locale.class)))
+                .thenReturn("copy");
+        when(messageSource.getMessage(eq("copy.separator"), any(), any(Locale.class)))
+                .thenReturn("-");
 
         Optional<InspectionList> result = inspectionListService.copy(new ObjectId(list.getId()));
 
         assertTrue(result.isPresent());
-        assertEquals("name - Copy", result.get().getName());
+        assertEquals("name - copy", result.get().getName());
         assertEquals(InspectionListStatus.CONCEPT, result.get().getStatus());
         assertEquals(List.of(), result.get().getLabels());
         assertEquals(1, result.get().getItems().size());
@@ -270,6 +287,8 @@ public class InspectionListServiceImplTest {
         verify(inspectionListRepository).findById(new ObjectId(list.getId()));
         verify(inspectionListRepository).save(result.get());
         verify(kibFileService).copyById(new ObjectId(image.getFileId()));
+        verify(messageSource).getMessage(eq("copy.suffix"), any(), any(Locale.class));
+        verify(messageSource).getMessage(eq("copy.separator"), any(), any(Locale.class));
     }
 
     @Test
@@ -279,6 +298,7 @@ public class InspectionListServiceImplTest {
         stage.setImages(List.of());
 
         InspectionListItem item = new InspectionListItem();
+        item.setName("name");
         item.setId(new ObjectId().toHexString());
         item.setStages(List.of(stage));
 
@@ -292,7 +312,7 @@ public class InspectionListServiceImplTest {
 
         InspectionListItem copiedItem = new InspectionListItem();
         copiedItem.setId(new ObjectId().toString());
-        copiedItem.setName(item.getName() + " - Copy");
+        copiedItem.setName("name - copy");
         copiedItem.setStages(List.of(copiedStage));
 
         InspectionList expected = new InspectionList();
@@ -301,6 +321,10 @@ public class InspectionListServiceImplTest {
 
         when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
         when(inspectionListRepository.save(list)).thenReturn(expected);
+        when(messageSource.getMessage(eq("copy.suffix"), any(), any(Locale.class)))
+                .thenReturn("copy");
+        when(messageSource.getMessage(eq("copy.separator"), any(), any(Locale.class)))
+                .thenReturn("-");
 
         Optional<InspectionList> result = inspectionListService.copyItem(new ObjectId(list.getId()), item.getId());
 
@@ -311,6 +335,8 @@ public class InspectionListServiceImplTest {
 
         verify(inspectionListRepository).findById(new ObjectId(list.getId()));
         verify(inspectionListRepository).save(list);
+        verify(messageSource).getMessage(eq("copy.suffix"), any(), any(Locale.class));
+        verify(messageSource).getMessage(eq("copy.separator"), any(), any(Locale.class));
     }
 
     @Test

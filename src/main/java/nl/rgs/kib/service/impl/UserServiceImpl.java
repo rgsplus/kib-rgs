@@ -1,5 +1,6 @@
 package nl.rgs.kib.service.impl;
 
+import jakarta.ws.rs.core.Response;
 import nl.rgs.kib.model.user.User;
 import nl.rgs.kib.model.user.dto.CreateUser;
 import nl.rgs.kib.service.UserService;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Optional;
 

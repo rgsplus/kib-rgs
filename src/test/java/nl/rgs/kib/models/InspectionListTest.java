@@ -102,8 +102,8 @@ public class InspectionListTest {
             stage2.setName("Stage 2");
             stage2.setImages(List.of());
 
-            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
-            InspectionListItem item2 = new InspectionListItem(2, "id1", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+            InspectionListItem item1 = new InspectionListItem(0, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+            InspectionListItem item2 = new InspectionListItem(1, "id1", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
             InspectionList inspectionList = new InspectionList();
             inspectionList.setId(new ObjectId().toHexString());
@@ -116,7 +116,7 @@ public class InspectionListTest {
         }
 
         @Test
-        public void testInspectionListItemsUniqueIndexesValidator() {
+        public void testInspectionListItemsValidIndexesValidator() {
             InspectionListItemStage stage1 = new InspectionListItemStage();
             stage1.setStage(1);
             stage1.setName("Stage 1");
@@ -127,8 +127,8 @@ public class InspectionListTest {
             stage2.setName("Stage 2");
             stage2.setImages(List.of());
 
-            InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
-            InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+            InspectionListItem item1 = new InspectionListItem(0, "id1", "Item 1", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+            InspectionListItem item2 = new InspectionListItem(0, "id2", "Item 2", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
             InspectionList inspectionList = new InspectionList();
             inspectionList.setId(new ObjectId().toHexString());
@@ -153,8 +153,8 @@ public class InspectionListTest {
 
         @Test
         public void testInspectionListLabelsUniqueIdsValidator() {
-            InspectionListLabel label1 = new InspectionListLabel("id1", 1, "Label 1", null, List.of());
-            InspectionListLabel label2 = new InspectionListLabel("id1", 2, "Label 2", null, List.of());
+            InspectionListLabel label1 = new InspectionListLabel("id1", 0, "Label 1", null, List.of());
+            InspectionListLabel label2 = new InspectionListLabel("id1", 1, "Label 2", null, List.of());
             InspectionList inspectionList = new InspectionList();
             inspectionList.setId(new ObjectId().toHexString());
             inspectionList.setName("test");
@@ -165,7 +165,7 @@ public class InspectionListTest {
         }
 
         @Test
-        public void testInspectionListLabelsUniqueIndexesValidator() {
+        public void testInspectionListLabelsValidIndexesValidator() {
             InspectionListLabel label1 = new InspectionListLabel("id1", 1, "Label 1", null, List.of());
             InspectionListLabel label2 = new InspectionListLabel("id2", 1, "Label 2", null, List.of());
             InspectionList inspectionList = new InspectionList();
@@ -207,7 +207,7 @@ public class InspectionListTest {
                 inspectionList.setLabels(List.of());
                 inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                assertEquals(1, validator.validate(inspectionList).size(), "Index should not be null.");
+                assertEquals(2, validator.validate(inspectionList).size(), "Index should not be null.");
             }
 
             @Test
@@ -238,7 +238,7 @@ public class InspectionListTest {
                 inspectionList.setLabels(List.of());
                 inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                assertEquals(1, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
+                assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
             }
 
             @Test
@@ -254,7 +254,7 @@ public class InspectionListTest {
                 stage2.setImages(List.of());
 
                 InspectionListItem item = new InspectionListItem();
-                item.setIndex(1);
+                item.setIndex(0);
                 item.setName("test");
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
@@ -284,7 +284,7 @@ public class InspectionListTest {
                 stage2.setImages(List.of());
 
                 InspectionListItem item = new InspectionListItem();
-                item.setIndex(1);
+                item.setIndex(0);
                 item.setId("id");
                 item.setGroup("group");
                 item.setCategory(InspectionListItemCategory.SIGNIFICANT);
@@ -314,7 +314,7 @@ public class InspectionListTest {
                 stage2.setImages(List.of());
 
                 InspectionListItem item = new InspectionListItem();
-                item.setIndex(1);
+                item.setIndex(0);
                 item.setId("id");
                 item.setName(" ");
                 item.setGroup("group");
@@ -345,7 +345,7 @@ public class InspectionListTest {
                 stage2.setImages(List.of());
 
                 InspectionListItem item = new InspectionListItem();
-                item.setIndex(1);
+                item.setIndex(0);
                 item.setId("id");
                 item.setName("test");
                 item.setGroup("group");
@@ -375,7 +375,7 @@ public class InspectionListTest {
                 stage2.setImages(List.of());
 
                 InspectionListItem item = new InspectionListItem();
-                item.setIndex(1);
+                item.setIndex(0);
                 item.setId("id");
                 item.setName("test");
                 item.setGroup("group");
@@ -395,7 +395,7 @@ public class InspectionListTest {
             @Test
             public void testInspectionListItemStagesNotNullValidator() {
                 InspectionListItem item = new InspectionListItem();
-                item.setIndex(1);
+                item.setIndex(0);
                 item.setId("id");
                 item.setName("test");
                 item.setGroup("group");
@@ -423,7 +423,7 @@ public class InspectionListTest {
                 stage2.setStage(1);
                 stage2.setName("Stage 2");
                 stage2.setImages(List.of());
-                InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, Arrays.asList(stage1, stage2));
+                InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, Arrays.asList(stage1, stage2));
 
                 InspectionList inspectionList = new InspectionList();
                 inspectionList.setId(new ObjectId().toHexString());
@@ -442,7 +442,7 @@ public class InspectionListTest {
                 stage1.setName("Stage 1");
                 stage1.setImages(List.of());
 
-                InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1));
+                InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1));
 
                 InspectionList inspectionList = new InspectionList();
                 inspectionList.setId(new ObjectId().toHexString());
@@ -469,7 +469,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -494,7 +494,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -519,7 +519,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -528,7 +528,7 @@ public class InspectionListTest {
                     inspectionList.setLabels(List.of());
                     inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                    assertEquals(1, validator.validate(inspectionList).size(), "Stage should be less than or equal to 9.");
+                    assertEquals(1, validator.validate(inspectionList).size(), "Stage should be less than or equal to 10.");
                 }
 
                 @Test
@@ -543,7 +543,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -568,7 +568,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -593,7 +593,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -618,7 +618,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -643,7 +643,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -671,7 +671,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -700,7 +700,7 @@ public class InspectionListTest {
                     stage2.setName("Stage 2");
                     stage2.setImages(List.of());
 
-                    InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                    InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -732,7 +732,7 @@ public class InspectionListTest {
                         stage2.setName("Stage 2");
                         stage2.setImages(List.of());
 
-                        InspectionListItem item = new InspectionListItem(1, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
+                        InspectionListItem item = new InspectionListItem(0, "id", "Item", null, InspectionListItemCategory.SIGNIFICANT, inspectionMethod, List.of(stage1, stage2));
 
                         InspectionList inspectionList = new InspectionList();
                         inspectionList.setId(new ObjectId().toHexString());
@@ -752,7 +752,7 @@ public class InspectionListTest {
                 @Test
                 public void testInspectionListLabelIdNotNullValidator() {
                     InspectionListLabel label = new InspectionListLabel();
-                    label.setIndex(1);
+                    label.setIndex(0);
                     label.setName("test");
                     label.setGroup("group");
                     label.setFeatures(List.of());
@@ -782,7 +782,7 @@ public class InspectionListTest {
                     inspectionList.setLabels(List.of(label));
                     inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                    assertEquals(1, validator.validate(inspectionList).size(), "Index should not be null.");
+                    assertEquals(2, validator.validate(inspectionList).size(), "Index should not be null.");
                 }
 
                 @Test
@@ -801,14 +801,14 @@ public class InspectionListTest {
                     inspectionList.setLabels(List.of(label));
                     inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                    assertEquals(1, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
+                    assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
                 }
 
                 @Test
                 public void testInspectionListLabelNameNotNullValidator() {
                     InspectionListLabel label = new InspectionListLabel();
                     label.setId("id");
-                    label.setIndex(1);
+                    label.setIndex(0);
                     label.setGroup("group");
                     label.setFeatures(List.of());
 
@@ -826,7 +826,7 @@ public class InspectionListTest {
                 public void testInspectionListLabelNameNotBlankValidator() {
                     InspectionListLabel label = new InspectionListLabel();
                     label.setId("id");
-                    label.setIndex(1);
+                    label.setIndex(0);
                     label.setName(" ");
                     label.setGroup("group");
                     label.setFeatures(List.of());
@@ -845,7 +845,7 @@ public class InspectionListTest {
                 public void testInspectionListLabelFeaturesNotNullValidator() {
                     InspectionListLabel label = new InspectionListLabel();
                     label.setId("id");
-                    label.setIndex(1);
+                    label.setIndex(0);
                     label.setName("test");
                     label.setGroup("group");
 
@@ -860,10 +860,10 @@ public class InspectionListTest {
                 }
 
                 @Test
-                public void testInspectionListLabelFeaturesUniqueIndexesValidator() {
-                    InspectionListLabelFeature feature1 = new InspectionListLabelFeature(1, "Feature 1");
-                    InspectionListLabelFeature feature2 = new InspectionListLabelFeature(1, "Feature 2");
-                    InspectionListLabel label = new InspectionListLabel("id", 1, "Label", null, List.of(feature1, feature2));
+                public void testInspectionListLabelFeaturesValidIndexesValidator() {
+                    InspectionListLabelFeature feature1 = new InspectionListLabelFeature(0, "Feature 1");
+                    InspectionListLabelFeature feature2 = new InspectionListLabelFeature(0, "Feature 2");
+                    InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature1, feature2));
 
                     InspectionList inspectionList = new InspectionList();
                     inspectionList.setId(new ObjectId().toHexString());
@@ -883,7 +883,7 @@ public class InspectionListTest {
                         InspectionListLabelFeature feature = new InspectionListLabelFeature();
                         feature.setName("test");
 
-                        InspectionListLabel label = new InspectionListLabel("id", 1, "Label", null, List.of(feature));
+                        InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
 
                         InspectionList inspectionList = new InspectionList();
                         inspectionList.setId(new ObjectId().toHexString());
@@ -892,7 +892,7 @@ public class InspectionListTest {
                         inspectionList.setLabels(List.of(label));
                         inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                        assertEquals(1, validator.validate(inspectionList).size(), "Index should not be null.");
+                        assertEquals(2, validator.validate(inspectionList).size(), "Index should not be null.");
                     }
 
                     @Test
@@ -901,7 +901,7 @@ public class InspectionListTest {
                         feature.setIndex(-1);
                         feature.setName("test");
 
-                        InspectionListLabel label = new InspectionListLabel("id", 1, "Label", null, List.of(feature));
+                        InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
 
                         InspectionList inspectionList = new InspectionList();
                         inspectionList.setId(new ObjectId().toHexString());
@@ -910,15 +910,15 @@ public class InspectionListTest {
                         inspectionList.setLabels(List.of(label));
                         inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
-                        assertEquals(1, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
+                        assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
                     }
 
                     @Test
                     public void testInspectionListLabelFeatureNameNotNullValidator() {
                         InspectionListLabelFeature feature = new InspectionListLabelFeature();
-                        feature.setIndex(1);
+                        feature.setIndex(0);
 
-                        InspectionListLabel label = new InspectionListLabel("id", 1, "Label", null, List.of(feature));
+                        InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
 
                         InspectionList inspectionList = new InspectionList();
                         inspectionList.setId(new ObjectId().toHexString());
@@ -933,10 +933,10 @@ public class InspectionListTest {
                     @Test
                     public void testInspectionListLabelFeatureNameNotBlankValidator() {
                         InspectionListLabelFeature feature = new InspectionListLabelFeature();
-                        feature.setIndex(1);
+                        feature.setIndex(0);
                         feature.setName(" ");
 
-                        InspectionListLabel label = new InspectionListLabel("id", 1, "Label", null, List.of(feature));
+                        InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
 
                         InspectionList inspectionList = new InspectionList();
                         inspectionList.setId(new ObjectId().toHexString());
@@ -969,8 +969,8 @@ public class InspectionListTest {
                 stage2.setName("Stage 2");
                 stage2.setImages(List.of());
 
-                InspectionListItem item1 = new InspectionListItem(2, "id1", "Item 1", null, null, null, Arrays.asList(stage2, stage1));
-                InspectionListItem item2 = new InspectionListItem(1, "id2", "Item 2", null, null, null, Arrays.asList(stage1, stage2));
+                InspectionListItem item1 = new InspectionListItem(1, "id1", "Item 1", null, null, null, Arrays.asList(stage2, stage1));
+                InspectionListItem item2 = new InspectionListItem(0, "id2", "Item 2", null, null, null, Arrays.asList(stage1, stage2));
                 List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(Arrays.asList(item1, item2));
 
                 assertEquals("id2", sortedItems.get(0).getId(), "First item should be 'Item 2'.");
@@ -985,7 +985,7 @@ public class InspectionListTest {
                 stage1.setName("Stage 1");
                 stage1.setImages(List.of());
 
-                InspectionListItem item = new InspectionListItem(1, "id1", "Item 1", null, null, null, List.of(stage1));
+                InspectionListItem item = new InspectionListItem(0, "id1", "Item 1", null, null, null, List.of(stage1));
                 List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(List.of(item));
 
                 assertEquals(1, sortedItems.size(), "Sorted list should contain one element.");
