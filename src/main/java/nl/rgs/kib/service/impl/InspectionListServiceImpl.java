@@ -12,11 +12,14 @@ import nl.rgs.kib.service.KibFileService;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,9 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Autowired
     private InspectionListRepository inspectionListRepository;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Override
     public Long count() {
@@ -91,7 +97,12 @@ public class InspectionListServiceImpl implements InspectionListService {
     public Optional<InspectionList> copy(ObjectId id) {
         return inspectionListRepository.findById(id).map(inspectionList -> {
             InspectionList copy = new InspectionList();
-            copy.setName(inspectionList.getName() + " - copy");
+
+            Locale locale = LocaleContextHolder.getLocale();
+            String copySuffix = messageSource.getMessage("copy.suffix", null, locale);
+            String separator = messageSource.getMessage("copy.separator", null, locale);
+            copy.setName(inspectionList.getName() + " " + separator + " " + copySuffix);
+            
             copy.setStatus(inspectionList.getStatus());
             copy.setLabels(inspectionList.getLabels());
 
@@ -137,7 +148,12 @@ public class InspectionListServiceImpl implements InspectionListService {
             InspectionListItem copiedItem = new InspectionListItem();
             copiedItem.setId(new ObjectId().toString());
             copiedItem.setIndex(inspectionList.getItems().size());
-            copiedItem.setName(item.getName() + " - copy");
+
+            Locale locale = LocaleContextHolder.getLocale();
+            String copySuffix = messageSource.getMessage("copy.suffix", null, locale);
+            String separator = messageSource.getMessage("copy.separator", null, locale);
+            copiedItem.setName(item.getName() + " " + separator + " " + copySuffix);
+
             copiedItem.setGroup(item.getGroup());
             copiedItem.setCategory(item.getCategory());
             copiedItem.setInspectionMethod(item.getInspectionMethod());
