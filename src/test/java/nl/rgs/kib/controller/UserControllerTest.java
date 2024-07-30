@@ -1,8 +1,282 @@
 package nl.rgs.kib.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import nl.rgs.kib.model.user.User;
+import nl.rgs.kib.model.user.dto.CreateUser;
+import nl.rgs.kib.service.UserService;
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
-    //TODO: Implement tests
+
+    private final static String domain = "/user";
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @MockBean
+    private UserService userService;
+
+    @Test
+    @WithMockUser()
+    public void findAll_Returns200() throws Exception {
+        mockMvc.perform(get(domain)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(userService).findAll();
+    }
+
+    @Test
+    public void findAll_WithoutAuthentication_Returns401() throws Exception {
+        mockMvc.perform(get(domain)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void findById_WhenExists_Returns200() throws Exception {
+        String id = new ObjectId().toHexString();
+        User user = new User();
+        user.setId(id);
+
+        when(userService.findById(id)).thenReturn(Optional.of(user));
+
+        mockMvc.perform(get(domain + "/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(userService).findById(id);
+    }
+
+    @Test
+    @WithMockUser()
+    public void findById_WhenNotExists_Returns404() throws Exception {
+        String id = new ObjectId().toHexString();
+        when(userService.findById(id)).thenReturn(Optional.empty());
+
+        mockMvc.perform(get(domain + "/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(userService).findById(id);
+    }
+
+    @Test
+    public void findById_WithoutAuthentication_Returns401() throws Exception {
+        String id = new ObjectId().toHexString();
+        mockMvc.perform(get(domain + "/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_Returns201() throws Exception {
+        CreateUser createUser = new CreateUser(
+                "username",
+                "firstName",
+                "lastName",
+                "email",
+                new HashMap<>(),
+                new ArrayList<>(),
+                new HashMap<>()
+        );
+
+        User user = new User();
+        user.setId(new ObjectId().toHexString());
+        user.setUsername(createUser.username());
+        user.setFirstName(createUser.firstName());
+        user.setLastName(createUser.lastName());
+        user.setEmail(createUser.email());
+        user.setAttributes(createUser.attributes());
+        user.setClientRoles(createUser.clientRoles());
+        user.setRealmRoles(createUser.realmRoles());
+
+        when(userService.create(createUser)).thenReturn(user);
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createUser)))
+                .andExpect(status().isCreated());
+
+        verify(userService).create(createUser);
+    }
+
+    @Test
+    @WithMockUser()
+    public void create_WhenInvalid_Returns400() throws Exception {
+        CreateUser createUser = new CreateUser(
+                null,
+                "firstName",
+                "lastName",
+                "email",
+                new HashMap<>(),
+                new ArrayList<>(),
+                new HashMap<>()
+        );
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createUser)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void create_WithoutAuthentication_Returns401() throws Exception {
+        CreateUser createUser = new CreateUser(
+                "username",
+                "firstName",
+                "lastName",
+                "email",
+                new HashMap<>(),
+                new ArrayList<>(),
+                new HashMap<>()
+        );
+
+        mockMvc.perform(post(domain)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(createUser)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenExists_Returns200() throws Exception {
+        User user = new User();
+        user.setId(new ObjectId().toHexString());
+        user.setEmail("email");
+        user.setLastName("lastname");
+        user.setUsername("username updated");
+        user.setFirstName("username");
+
+        when(userService.update(user)).thenReturn(Optional.of(user));
+
+        mockMvc.perform(put(domain + "/" + user.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isOk());
+
+        verify(userService).update(user);
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenInvalid_Returns400() throws Exception {
+        User user = new User();
+        user.setId(new ObjectId().toHexString());
+        user.setEmail(null);
+        user.setLastName("lastname");
+        user.setUsername("username updated");
+        user.setFirstName("username");
+
+        mockMvc.perform(put(domain + "/" + user.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void update_WhenNotExists_Returns404() throws Exception {
+        User user = new User();
+        user.setId(new ObjectId().toHexString());
+        user.setEmail("email");
+        user.setLastName("lastname");
+        user.setUsername("username updated");
+        user.setFirstName("username");
+
+        when(userService.update(user)).thenReturn(Optional.empty());
+
+        mockMvc.perform(put(domain + "/" + user.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isNotFound());
+
+        verify(userService).update(user);
+    }
+
+    @Test
+    public void update_WithoutAuthentication_Returns401() throws Exception {
+        User user = new User();
+        user.setId(new ObjectId().toHexString());
+        user.setEmail("email");
+        user.setLastName("lastname");
+        user.setUsername("username updated");
+        user.setFirstName("username");
+
+        mockMvc.perform(put(domain + "/" + user.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(user)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteById_WhenExists_Returns204() throws Exception {
+        User user = new User();
+        user.setId(new ObjectId().toHexString());
+
+        when(userService.deleteById(user.getId())).thenReturn(Optional.of(user));
+
+        mockMvc.perform(delete(domain + "/" + user.getId())
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        verify(userService).deleteById(user.getId());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteById_WhenNotExists_Returns404() throws Exception {
+        String id = new ObjectId().toHexString();
+
+        when(userService.deleteById(id)).thenReturn(Optional.empty());
+
+        mockMvc.perform(delete(domain + "/" + id)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
+        verify(userService).deleteById(id);
+    }
+
+    @Test
+    public void deleteById_WithoutAuthentication_Returns401() throws Exception {
+        String id = new ObjectId().toHexString();
+
+        mockMvc.perform(delete(domain + "/" + id)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 }
