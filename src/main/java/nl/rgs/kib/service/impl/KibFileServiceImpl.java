@@ -1,6 +1,7 @@
 package nl.rgs.kib.service.impl;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.client.gridfs.GridFSFindIterable;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.service.KibFileService;
@@ -11,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@EnableScheduling
 public class KibFileServiceImpl implements KibFileService {
 
     @Autowired
@@ -122,5 +125,9 @@ public class KibFileServiceImpl implements KibFileService {
         );
 
         return this.findById(newId).orElse(null);
+    }
+
+    public GridFSFindIterable findAll() {
+        return operations.find(new Query());
     }
 }

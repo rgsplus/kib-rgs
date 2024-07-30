@@ -134,7 +134,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[0].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),
@@ -151,7 +151,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[0].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),
@@ -168,7 +168,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: index === 0 ? 25 : null,
             images: [],
           })),
@@ -185,7 +185,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name stage.name,
             max: index === 0 ? 25 : null,
             images: [],
           })),
@@ -202,7 +202,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: index === 0 ? 25 : index === 1 ? 50 : null,
             images: [],
           })),
@@ -219,7 +219,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[2].stages.map((stage, index) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: index === 0 ? 25 : index === 1 ? 50 : null,
             images: [],
           })),
@@ -315,7 +315,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[0].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),
@@ -332,7 +332,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[1].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),
@@ -349,7 +349,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[1].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),
@@ -366,7 +366,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[2].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),
@@ -383,7 +383,7 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           ),
           stages: inspectionMethodsResult[2].stages.map((stage) => ({
             stage: stage.stage,
-            naam: stage.name,
+            name: stage.name,
             max: null,
             images: [],
           })),

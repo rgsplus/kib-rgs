@@ -1,5 +1,7 @@
 package nl.rgs.kib.service.impl;
 
+import com.mongodb.client.gridfs.GridFSFindIterable;
+import com.mongodb.client.gridfs.model.GridFSFile;
 import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.InspectionListItem;
@@ -14,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class InspectionListServiceImpl implements InspectionListService {
@@ -175,5 +179,43 @@ public class InspectionListServiceImpl implements InspectionListService {
 
             return inspectionListRepository.save(inspectionList);
         });
+    }
+
+    @Scheduled(cron = "${app.inspection-list-service.delete-orphan-documents.cron}")
+    private void deleteOrphanDocuments() {
+        GridFSFindIterable files = this.kibFileService.findAll();
+        for (GridFSFile file : files) {
+            if (isOrphanDocument(file)) {
+                this.kibFileService.deleteById(file.getObjectId());
+            }
+        }
+    }
+
+    private boolean isOrphanDocument(GridFSFile file) {
+        if (file.getMetadata() == null ||
+                !file.getMetadata().containsKey("collection") ||
+                !file.getMetadata().containsKey("objectId")) {
+            return true;
+        }
+
+        String fileId = file.getObjectId().toHexString();
+        String collection = String.valueOf(file.getMetadata().get("collection"));
+        ObjectId objectId = new ObjectId(String.valueOf(file.getMetadata().get("objectId")));
+
+        if (collection.equals("inspection-list")) {
+            Optional<InspectionList> inspectionListOptional = this.findById(objectId);
+
+            if (inspectionListOptional.isEmpty()) {
+                return true;
+            }
+
+            Stream<InspectionListItemStageImage> stageImages = inspectionListOptional.get().getItems().stream()
+                    .flatMap(item -> item.getStages().stream())
+                    .flatMap(stage -> stage.getImages().stream());
+
+            return stageImages.noneMatch(stageImage -> stageImage.getFileId().equals(fileId));
+        } else {
+            return true;
+        }
     }
 }

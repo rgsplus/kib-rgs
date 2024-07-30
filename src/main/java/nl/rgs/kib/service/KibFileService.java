@@ -1,5 +1,6 @@
 package nl.rgs.kib.service;
 
+import com.mongodb.client.gridfs.GridFSFindIterable;
 import nl.rgs.kib.model.file.KibFile;
 import org.bson.types.ObjectId;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,4 +19,6 @@ public interface KibFileService {
     List<KibFile> deleteByIds(List<ObjectId> ids);
 
     KibFile copyById(ObjectId id);
+
+    GridFSFindIterable findAll();
 }
