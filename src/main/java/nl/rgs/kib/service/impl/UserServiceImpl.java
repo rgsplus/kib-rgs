@@ -65,18 +65,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public User create(CreateUser createUser) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
-
-        UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setUsername(createUser.username());
-        userRepresentation.setFirstName(createUser.firstName());
-        userRepresentation.setLastName(createUser.lastName());
-        userRepresentation.setEmail(createUser.email());
-        userRepresentation.setAttributes(createUser.attributes());
-        userRepresentation.setRealmRoles(createUser.realmRoles());
-        userRepresentation.setClientRoles(createUser.clientRoles());
-        userRepresentation.setEnabled(true);
-
-        Response response = usersResource.create(userRepresentation);
+        Response response = usersResource.create(User.getUserRepresentation(createUser));
 
         if (response.getStatus() != 201) {
             throw new RuntimeException("Failed to create user");

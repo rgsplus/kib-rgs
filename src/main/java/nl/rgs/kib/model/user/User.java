@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.rgs.kib.model.user.dto.CreateUser;
 import org.keycloak.json.StringListMapDeserializer;
 import org.keycloak.representations.idm.UserRepresentation;
 
@@ -51,5 +52,19 @@ public class User {
         this.attributes = userRepresentation.getAttributes();
         this.realmRoles = userRepresentation.getRealmRoles();
         this.clientRoles = userRepresentation.getClientRoles();
+    }
+
+    public static UserRepresentation getUserRepresentation(CreateUser createUser) {
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setUsername(createUser.username());
+        userRepresentation.setFirstName(createUser.firstName());
+        userRepresentation.setLastName(createUser.lastName());
+        userRepresentation.setEmail(createUser.email());
+        userRepresentation.setAttributes(createUser.attributes());
+        userRepresentation.setRealmRoles(createUser.realmRoles());
+        userRepresentation.setClientRoles(createUser.clientRoles());
+        userRepresentation.setEnabled(true);
+
+        return userRepresentation;
     }
 }
