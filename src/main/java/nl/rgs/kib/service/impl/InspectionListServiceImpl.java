@@ -36,11 +36,6 @@ public class InspectionListServiceImpl implements InspectionListService {
     private MessageSource messageSource;
 
     @Override
-    public Long count() {
-        return inspectionListRepository.count();
-    }
-
-    @Override
     public List<InspectionList> findAll() {
         return inspectionListRepository.findAll();
     }
@@ -102,7 +97,7 @@ public class InspectionListServiceImpl implements InspectionListService {
             String copySuffix = messageSource.getMessage("copy.suffix", null, locale);
             String separator = messageSource.getMessage("copy.separator", null, locale);
             copy.setName(inspectionList.getName() + " " + separator + " " + copySuffix);
-            
+
             copy.setStatus(inspectionList.getStatus());
             copy.setLabels(inspectionList.getLabels());
 

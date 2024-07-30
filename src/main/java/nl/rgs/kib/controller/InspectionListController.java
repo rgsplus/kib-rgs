@@ -22,26 +22,6 @@ public class InspectionListController {
     @Autowired
     private InspectionListService inspectionListService;
 
-    @GetMapping("/count")
-    @Operation(
-            summary = "Count the inspection lists",
-            description = "Count the inspection lists",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Found the count of inspection list"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content()
-                    ),
-            }
-    )
-    public ResponseEntity<Long> count() {
-        return ResponseEntity.ok(inspectionListService.count());
-    }
-
     @GetMapping()
     @Operation(
             summary = "Find all inspection lists",

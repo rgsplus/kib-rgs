@@ -40,23 +40,6 @@ public class InspectionMethodControllerTest {
 
     @Test
     @WithMockUser()
-    public void count_Returns200() throws Exception {
-        mockMvc.perform(get(domain + "/count")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(inspectionMethodService).count();
-    }
-
-    @Test
-    public void count_WithoutAuthentication_Returns401() throws Exception {
-        mockMvc.perform(get(domain + "/count")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    @WithMockUser()
     public void findAll_Returns200() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))

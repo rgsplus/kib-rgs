@@ -42,17 +42,6 @@ public class InspectionListServiceImplTest {
     private KibFileServiceImpl kibFileService;
 
     @Test
-    public void count_ReturnsCount() {
-        long expected = 5;
-        when(inspectionListRepository.count()).thenReturn(expected);
-
-        long result = inspectionListService.count();
-
-        assertEquals(expected, result);
-        verify(inspectionListRepository).count();
-    }
-
-    @Test
     public void findAll_ReturnsAllInspectionLists() {
         InspectionList list1 = new InspectionList();
         InspectionList list2 = new InspectionList();

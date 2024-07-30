@@ -19,11 +19,6 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     private InspectionMethodRepository inspectionMethodRepository;
 
     @Override
-    public Long count() {
-        return inspectionMethodRepository.count();
-    }
-
-    @Override
     public List<InspectionMethod> findAll() {
         return inspectionMethodRepository.findAll();
     }
@@ -51,7 +46,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
             existingMethod.setInput(inspectionMethod.getInput());
             existingMethod.setCalculationMethod(inspectionMethod.getCalculationMethod());
             existingMethod.setStages(InspectionMethod.sortStages(inspectionMethod.getStages()));
-            
+
             return inspectionMethodRepository.save(existingMethod);
         });
     }

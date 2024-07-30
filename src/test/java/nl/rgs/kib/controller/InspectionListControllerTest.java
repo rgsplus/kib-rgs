@@ -39,23 +39,6 @@ public class InspectionListControllerTest {
 
     @Test
     @WithMockUser()
-    public void count_Returns200() throws Exception {
-        mockMvc.perform(get(domain + "/count")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(inspectionListService).count();
-    }
-
-    @Test
-    public void count_WithoutAuthentication_Returns401() throws Exception {
-        mockMvc.perform(get(domain + "/count")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    @WithMockUser()
     public void findAll_Returns200() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -290,7 +273,7 @@ public class InspectionListControllerTest {
         ObjectId id = new ObjectId();
         InspectionList inspectionList = new InspectionList();
         inspectionList.setId(id.toHexString());
-        
+
         when(inspectionListService.copy(id)).thenReturn(Optional.of(inspectionList));
 
         mockMvc.perform(post(domain + "/copy/" + id.toHexString())

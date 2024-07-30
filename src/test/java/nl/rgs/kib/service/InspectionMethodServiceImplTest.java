@@ -32,17 +32,6 @@ public class InspectionMethodServiceImplTest {
     private InspectionMethodServiceImpl inspectionMethodService;
 
     @Test
-    public void count_ReturnsCount() {
-        long expected = 5;
-        when(inspectionMethodRepository.count()).thenReturn(expected);
-
-        long result = inspectionMethodService.count();
-
-        assertEquals(expected, result);
-        verify(inspectionMethodRepository).count();
-    }
-
-    @Test
     public void findAll_ReturnsAllInspectionMethods() {
         InspectionMethod method1 = new InspectionMethod();
         InspectionMethod method2 = new InspectionMethod();
