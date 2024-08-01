@@ -152,4 +152,44 @@ public class UserController {
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("email-exists/{email}")
+    @Operation(
+            summary = "Email exists",
+            description = "Get if an email is already used by an user",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Get if an email is already used by an user"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
+    public ResponseEntity<Boolean> emailExists(@PathVariable() String email) {
+        return ResponseEntity.ok(userService.emailExists(email));
+    }
+
+    @GetMapping("username-exists/{username}")
+    @Operation(
+            summary = "Username exists",
+            description = "Get if an username is already used by an user",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Get if an username is already used by an user"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
+    public ResponseEntity<Boolean> usernameExists(@PathVariable() String username) {
+        return ResponseEntity.ok(userService.usernameExists(username));
+    }
 }

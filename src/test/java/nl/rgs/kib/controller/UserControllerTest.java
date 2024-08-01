@@ -279,4 +279,54 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    @WithMockUser()
+    public void emailExist_Returns200() throws Exception {
+        String email = "example@email.com";
+
+        when(userService.emailExists(email)).thenReturn(true);
+
+        mockMvc.perform(get(domain + "/email-exists/" + email)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(userService).emailExists(email);
+    }
+
+    @Test
+    public void emailExist_Returns401() throws Exception {
+        String email = "example@email.com";
+
+        mockMvc.perform(get(domain + "/email-exists/" + email)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser()
+    public void usernameExist_Returns200() throws Exception {
+        String username = "john.doe";
+
+        when(userService.usernameExists(username)).thenReturn(true);
+
+        mockMvc.perform(get(domain + "/username-exists/" + username)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(userService).usernameExists(username);
+    }
+
+    @Test
+    public void usernameExist_Returns401() throws Exception {
+        String username = "john.doe";
+
+        mockMvc.perform(get(domain + "/username-exists/" + username)
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
 }

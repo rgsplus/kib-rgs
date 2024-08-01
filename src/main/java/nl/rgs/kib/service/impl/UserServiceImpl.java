@@ -103,4 +103,20 @@ public class UserServiceImpl implements UserService, InitializingBean {
         usersResource.delete(id);
         return Optional.ofNullable(userRepresentation).map(User::new);
     }
+
+    @Override
+    public Boolean emailExists(String email) {
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = realmResource.users();
+        List<UserRepresentation> usersRepresentation = usersResource.searchByEmail(email, true);
+        return !usersRepresentation.isEmpty();
+    }
+
+    @Override
+    public Boolean usernameExists(String username) {
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = realmResource.users();
+        List<UserRepresentation> usersRepresentation = usersResource.searchByUsername(username, true);
+        return !usersRepresentation.isEmpty();
+    }
 }

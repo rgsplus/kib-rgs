@@ -16,4 +16,8 @@ public interface UserService {
     Optional<User> update(User user);
 
     Optional<User> deleteById(String id);
+
+    Boolean emailExists(String email);
+
+    Boolean usernameExists(String username);
 }
