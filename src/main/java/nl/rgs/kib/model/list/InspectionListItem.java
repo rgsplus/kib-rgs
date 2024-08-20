@@ -22,26 +22,40 @@ import java.util.List;
 @NoArgsConstructor()
 @AllArgsConstructor()
 public class InspectionListItem implements Indexable, Ideable {
+
+    @NotNull()
+    @Schema(example = "93c897cc-1ff0-4a38-8d89-cfe91fa3c66b")
+    @Field(name = "id")
+    private String id;
+
     @NotNull()
     @Min(0)
     @Schema(example = "1", minimum = "0")
     private Integer index;
 
-    @NotNull()
-    @Schema(example = "5f622c23a8efb61a54365f33")
-    @Field(name = "id")
-    private String id;
-
-    @NotBlank()
-    @Schema(example = "Roof")
-    private String name;
-
-    @Schema(example = "Wooden")
+    @Schema(example = "Fundering")
     private String group;
 
-    @NotNull()
-    @Schema(example = "SIGNIFICANT")
-    private InspectionListItemCategory category;
+    @Schema(example = "Veiligheid")
+    private String theme;
+
+    @Schema(example = "Constructief")
+    private String field;
+
+    @NotBlank()
+    @Schema(example = "Constructieve staat fundering en gevelmetselwerk")
+    private String name;
+
+    @Schema(example = "10B")
+    private String standardNo;
+
+    @Schema(example = "Visuele beoordeling fundering door gevel en vloeren")
+    private String measuringMethod;
+
+//
+//    @NotNull()
+//    @Schema(example = "SIGNIFICANT")
+//    private InspectionListItemCategory category;
 
     @DBRef()
     @NotNull()

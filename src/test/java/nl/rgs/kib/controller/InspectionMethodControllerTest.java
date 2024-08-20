@@ -96,7 +96,7 @@ public class InspectionMethodControllerTest {
     public void create_Returns201() throws Exception {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 "test",
-                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodInput.STAGE,
                 InspectionMethodCalculationMethod.NEN2767,
                 List.of()
         );
@@ -124,7 +124,7 @@ public class InspectionMethodControllerTest {
     public void create_WhenInvalid_Returns400() throws Exception {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 null,
-                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodInput.STAGE,
                 InspectionMethodCalculationMethod.NEN2767,
                 List.of()
         );
@@ -140,7 +140,7 @@ public class InspectionMethodControllerTest {
     public void create_WithoutAuthentication_Returns401() throws Exception {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 "test",
-                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodInput.STAGE,
                 InspectionMethodCalculationMethod.NEN2767,
                 List.of()
         );
@@ -158,7 +158,7 @@ public class InspectionMethodControllerTest {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
         inspectionMethod.setName("test");
-        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setInput(InspectionMethodInput.STAGE);
         inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         inspectionMethod.setStages(List.of());
 
@@ -179,7 +179,7 @@ public class InspectionMethodControllerTest {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
         inspectionMethod.setName(null);
-        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setInput(InspectionMethodInput.STAGE);
         inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         inspectionMethod.setStages(List.of());
 
@@ -196,7 +196,7 @@ public class InspectionMethodControllerTest {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
         inspectionMethod.setName("test");
-        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setInput(InspectionMethodInput.STAGE);
         inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         inspectionMethod.setStages(List.of());
 
@@ -216,7 +216,7 @@ public class InspectionMethodControllerTest {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
         inspectionMethod.setName("test");
-        inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        inspectionMethod.setInput(InspectionMethodInput.STAGE);
         inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         inspectionMethod.setStages(List.of());
 

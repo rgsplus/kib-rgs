@@ -22,6 +22,7 @@ import java.util.Optional;
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_list")
 public class InspectionList extends BaseObject {
+
     @Id()
     @NotNull()
     @Schema(example = "5f622c23a8efb61a54365f33")

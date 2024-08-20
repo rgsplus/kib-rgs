@@ -28,7 +28,7 @@ public class InspectionMethodTest {
             InspectionMethod inspectionMethod = new InspectionMethod();
             inspectionMethod.setName("Test");
             inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+            inspectionMethod.setInput(InspectionMethodInput.STAGE);
             inspectionMethod.setStages(new ArrayList<>());
             assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod ID is required.");
         }
@@ -39,7 +39,7 @@ public class InspectionMethodTest {
             inspectionMethod.setId(new ObjectId().toHexString());
             inspectionMethod.setName(null);
             inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+            inspectionMethod.setInput(InspectionMethodInput.STAGE);
             inspectionMethod.setStages(new ArrayList<>());
             assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod name is required.");
         }
@@ -50,7 +50,7 @@ public class InspectionMethodTest {
             inspectionMethod.setId(new ObjectId().toHexString());
             inspectionMethod.setName("");
             inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+            inspectionMethod.setInput(InspectionMethodInput.STAGE);
             inspectionMethod.setStages(new ArrayList<>());
             assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod name is required.");
         }
@@ -72,7 +72,7 @@ public class InspectionMethodTest {
             inspectionMethod.setId(new ObjectId().toHexString());
             inspectionMethod.setName("Test");
             inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+            inspectionMethod.setInput(InspectionMethodInput.STAGE);
             inspectionMethod.setStages(null);
             assertEquals(1, validator.validate(inspectionMethod).size(), "InspectionMethod stages are required.");
         }
@@ -83,7 +83,7 @@ public class InspectionMethodTest {
             inspectionMethod.setId(new ObjectId().toHexString());
             inspectionMethod.setName("Test");
             inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-            inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+            inspectionMethod.setInput(InspectionMethodInput.STAGE);
             InspectionMethodStage stage1 = new InspectionMethodStage();
             stage1.setStage(1);
             stage1.setName("Test 1");
@@ -106,7 +106,7 @@ public class InspectionMethodTest {
                 inspectionMethod.setId(new ObjectId().toHexString());
                 inspectionMethod.setName("Test");
                 inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                inspectionMethod.setInput(InspectionMethodInput.STAGE);
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(null);
                 stage.setName("Test");
@@ -120,7 +120,7 @@ public class InspectionMethodTest {
                 inspectionMethod.setId(new ObjectId().toHexString());
                 inspectionMethod.setName("Test");
                 inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                inspectionMethod.setInput(InspectionMethodInput.STAGE);
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(0);
                 stage.setName("Test");
@@ -140,7 +140,7 @@ public class InspectionMethodTest {
                 inspectionMethod.setId(new ObjectId().toHexString());
                 inspectionMethod.setName("Test");
                 inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                inspectionMethod.setInput(InspectionMethodInput.STAGE);
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(11);
                 stage.setName("Test");
@@ -160,7 +160,7 @@ public class InspectionMethodTest {
                 inspectionMethod.setId(new ObjectId().toHexString());
                 inspectionMethod.setName("Test");
                 inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                inspectionMethod.setInput(InspectionMethodInput.STAGE);
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(1);
                 stage.setName(null);
@@ -174,7 +174,7 @@ public class InspectionMethodTest {
                 inspectionMethod.setId(new ObjectId().toHexString());
                 inspectionMethod.setName("Test");
                 inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-                inspectionMethod.setInput(InspectionMethodInput.PERCENTAGE);
+                inspectionMethod.setInput(InspectionMethodInput.STAGE);
                 InspectionMethodStage stage = new InspectionMethodStage();
                 stage.setStage(1);
                 stage.setName("");

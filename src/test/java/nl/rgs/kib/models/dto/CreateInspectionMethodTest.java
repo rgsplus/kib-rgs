@@ -24,7 +24,7 @@ public class CreateInspectionMethodTest {
         public void testCreateInspectionMethodNameNotNullValidator() {
             CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                     null,
-                    InspectionMethodInput.PERCENTAGE,
+                    InspectionMethodInput.STAGE,
                     InspectionMethodCalculationMethod.NEN2767,
                     new ArrayList<>()
             );
@@ -35,7 +35,7 @@ public class CreateInspectionMethodTest {
         public void testCreateInspectionMethodNameNotBlankValidator() {
             CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                     "",
-                    InspectionMethodInput.PERCENTAGE,
+                    InspectionMethodInput.STAGE,
                     InspectionMethodCalculationMethod.NEN2767,
                     new ArrayList<>()
             );
@@ -59,7 +59,7 @@ public class CreateInspectionMethodTest {
         public void testCreateInspectionMethodStagesNotNullValidator() {
             CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                     "Test",
-                    InspectionMethodInput.PERCENTAGE,
+                    InspectionMethodInput.STAGE,
                     InspectionMethodCalculationMethod.NEN2767,
                     null
             );
@@ -80,7 +80,7 @@ public class CreateInspectionMethodTest {
 
             CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                     "Test",
-                    InspectionMethodInput.PERCENTAGE,
+                    InspectionMethodInput.STAGE,
                     InspectionMethodCalculationMethod.NEN2767,
                     List.of(stage1, stage2)
             );
@@ -99,7 +99,7 @@ public class CreateInspectionMethodTest {
 
                 CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                         "Test",
-                        InspectionMethodInput.PERCENTAGE,
+                        InspectionMethodInput.STAGE,
                         InspectionMethodCalculationMethod.NEN2767,
                         List.of(stage)
                 );
@@ -115,7 +115,7 @@ public class CreateInspectionMethodTest {
 
                 CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                         "Test",
-                        InspectionMethodInput.PERCENTAGE,
+                        InspectionMethodInput.STAGE,
                         InspectionMethodCalculationMethod.NEN2767,
                         List.of(stage)
                 );
@@ -131,7 +131,7 @@ public class CreateInspectionMethodTest {
 
                 CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                         "Test",
-                        InspectionMethodInput.PERCENTAGE,
+                        InspectionMethodInput.STAGE,
                         InspectionMethodCalculationMethod.NEN2767,
                         List.of(stage)
                 );
@@ -147,7 +147,7 @@ public class CreateInspectionMethodTest {
 
                 CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                         "Test",
-                        InspectionMethodInput.PERCENTAGE,
+                        InspectionMethodInput.STAGE,
                         InspectionMethodCalculationMethod.NEN2767,
                         List.of(stage)
                 );
@@ -163,7 +163,7 @@ public class CreateInspectionMethodTest {
 
                 CreateInspectionMethod inspectionMethod = new CreateInspectionMethod(
                         "Test",
-                        InspectionMethodInput.PERCENTAGE,
+                        InspectionMethodInput.STAGE,
                         InspectionMethodCalculationMethod.NEN2767,
                         List.of(stage)
                 );

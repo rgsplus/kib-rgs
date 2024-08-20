@@ -1,7 +1,7 @@
 package nl.rgs.kib.model.method;
 
 public enum InspectionMethodInput {
-    NUMBER,
+//    NUMBER,
     STAGE,
-    PERCENTAGE,
+//    PERCENTAGE,
 }

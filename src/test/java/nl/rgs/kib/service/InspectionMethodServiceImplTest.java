@@ -72,7 +72,7 @@ public class InspectionMethodServiceImplTest {
     public void create_CreatesInspectionMethod() {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 "name",
-                InspectionMethodInput.PERCENTAGE,
+                InspectionMethodInput.STAGE,
                 InspectionMethodCalculationMethod.NEN2767,
                 List.of()
         );
@@ -96,14 +96,14 @@ public class InspectionMethodServiceImplTest {
         InspectionMethod existingMethod = new InspectionMethod();
         existingMethod.setId(new ObjectId().toHexString());
         existingMethod.setName("existingName");
-        existingMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        existingMethod.setInput(InspectionMethodInput.STAGE);
         existingMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         existingMethod.setStages(List.of());
 
         InspectionMethod updatedMethod = new InspectionMethod();
         updatedMethod.setId(existingMethod.getId());
         updatedMethod.setName("updatedName");
-        updatedMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        updatedMethod.setInput(InspectionMethodInput.STAGE);
         updatedMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         updatedMethod.setStages(List.of());
 
@@ -123,7 +123,7 @@ public class InspectionMethodServiceImplTest {
         InspectionMethod updatedMethod = new InspectionMethod();
         updatedMethod.setId(new ObjectId().toHexString());
         updatedMethod.setName("updatedName");
-        updatedMethod.setInput(InspectionMethodInput.PERCENTAGE);
+        updatedMethod.setInput(InspectionMethodInput.STAGE);
         updatedMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         updatedMethod.setStages(List.of());
 

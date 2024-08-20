@@ -111,7 +111,10 @@ public class InspectionListServiceImpl implements InspectionListService {
                 copiedItem.setIndex(item.getIndex());
                 copiedItem.setName(item.getName());
                 copiedItem.setGroup(item.getGroup());
-                copiedItem.setCategory(item.getCategory());
+                copiedItem.setTheme(item.getTheme());
+                copiedItem.setField(item.getField());
+                copiedItem.setStandardNo(item.getStandardNo());
+                copiedItem.setMeasuringMethod(item.getMeasuringMethod());
                 copiedItem.setInspectionMethod(item.getInspectionMethod());
                 copiedItem.setStages(item.getStages().stream().map(stage -> {
                     InspectionListItemStage copiedStage = new InspectionListItemStage();
@@ -154,7 +157,10 @@ public class InspectionListServiceImpl implements InspectionListService {
             copiedItem.setName(item.getName() + " " + separator + " " + copySuffix);
 
             copiedItem.setGroup(item.getGroup());
-            copiedItem.setCategory(item.getCategory());
+            copiedItem.setTheme(item.getTheme());
+            copiedItem.setField(item.getField());
+            copiedItem.setStandardNo(item.getStandardNo());
+            copiedItem.setMeasuringMethod(item.getMeasuringMethod());
             copiedItem.setInspectionMethod(item.getInspectionMethod());
             copiedItem.setStages(item.getStages().stream().map(stage -> {
                 InspectionListItemStage copiedStage = new InspectionListItemStage();
