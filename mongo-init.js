@@ -127,7 +127,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Roof",
           group: "Wooden",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[0]._id
@@ -144,7 +143,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Facade",
           group: "Wooden",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[0]._id
@@ -161,7 +159,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Roof",
           group: "Concrete",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[1]._id
@@ -178,14 +175,13 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Facade",
           group: "Concrete",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[1]._id
           ),
           stages: inspectionMethodsResult[1].stages.map((stage, index) => ({
             stage: stage.stage,
-            name stage.name,
+            name: stage.name,
             max: index === 0 ? 25 : null,
             images: [],
           })),
@@ -195,7 +191,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Roof",
           group: "Steel",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[2]._id
@@ -212,7 +207,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Facade",
           group: "Steel",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[2]._id
@@ -291,7 +285,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Roof",
           group: "Wooden",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[0]._id
@@ -308,7 +301,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Facade",
           group: "Wooden",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[0]._id
@@ -325,7 +317,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Roof",
           group: "Concrete",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[1]._id
@@ -342,7 +333,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Facade",
           group: "Concrete",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[1]._id
@@ -359,7 +349,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Roof",
           group: "Steel",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[2]._id
@@ -376,7 +365,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           id: generateUuid(),
           name: "Facade",
           group: "Steel",
-          category: "SIGNIFICANT",
           inspectionMethod: new DBRef(
             "inspection_method",
             inspectionMethodsResult[2]._id
