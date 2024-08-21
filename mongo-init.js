@@ -37,7 +37,7 @@ const createInspectionMethods = async (db) => {
     },
     {
       name: "URL2005",
-      input: "PERCENTAGE",
+      input: "STAGE",
       calculationMethod: null,
       stages: [
         {
@@ -62,7 +62,7 @@ const createInspectionMethods = async (db) => {
     },
     {
       name: "CRI Method",
-      input: "PERCENTAGE",
+      input: "STAGE",
       calculationMethod: null,
       stages: [
         {

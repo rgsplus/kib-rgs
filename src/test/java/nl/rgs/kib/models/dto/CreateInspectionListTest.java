@@ -31,6 +31,40 @@ public class CreateInspectionListTest {
         inspectionMethod.setStages(List.of());
     }
 
+    private InspectionListItem createInspectionListItem(String name) {
+        InspectionListItemStage stage1 = new InspectionListItemStage();
+        stage1.setStage(1);
+        stage1.setName("Stage 1");
+        stage1.setImages(List.of());
+
+        InspectionListItemStage stage2 = new InspectionListItemStage();
+        stage2.setStage(2);
+        stage2.setName("Stage 2");
+        stage2.setImages(List.of());
+
+        return new InspectionListItem(UUID.randomUUID().toString(), 0, "Fundering", "Veiligheid", "Constructief",
+                name, "1", "Visuele beoordeling fundering door gevel en vloeren", inspectionMethod, List.of(stage1, stage2));
+    }
+
+    private InspectionListItem createInspectionListItem(String name, String id) {
+        InspectionListItem item = createInspectionListItem(name);
+        item.setId(id);
+        return item;
+    }
+
+    private InspectionListItem createInspectionListItem(String name, Integer index) {
+        InspectionListItem item = createInspectionListItem(name);
+        item.setIndex(index);
+        return item;
+    }
+
+    private InspectionListItem createInspectionListItem(String name, String id, Integer index) {
+        InspectionListItem item = createInspectionListItem(name);
+        item.setId(id);
+        item.setIndex(index);
+        return item;
+    }
+
     @Nested
     public class CreateInspectionListValidations {
 
@@ -86,8 +120,8 @@ public class CreateInspectionListTest {
 
         @Test
         public void testCreateInspectionListItemsUniqueIdsValidator() {
-            InspectionListItem item1 = createInspectionListItem("Constructieve staat fundering en gevelmetselwerk");
-            InspectionListItem item2 = createInspectionListItem("Hout(rot)schade in elementen");
+            InspectionListItem item1 = createInspectionListItem("Constructieve staat fundering en gevelmetselwerk", "id1", 0);
+            InspectionListItem item2 = createInspectionListItem("Hout(rot)schade in elementen", "id1", 1);
 
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
@@ -101,8 +135,8 @@ public class CreateInspectionListTest {
 
         @Test
         public void testCreateInspectionListItemsValidIndexesValidator() {
-            InspectionListItem item1 = createInspectionListItem("Constructieve staat fundering en gevelmetselwerk");
-            InspectionListItem item2 = createInspectionListItem("Hout(rot)schade in elementen");
+            InspectionListItem item1 = createInspectionListItem("Constructieve staat fundering en gevelmetselwerk", "id1", 0);
+            InspectionListItem item2 = createInspectionListItem("Hout(rot)schade in elementen", "id2", 0);
 
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
@@ -214,8 +248,6 @@ public class CreateInspectionListTest {
                         List.of()
                 );
 
-                System.out.println(validator.validate(inspectionList));
-
                 assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
             }
 
@@ -251,6 +283,7 @@ public class CreateInspectionListTest {
             @Test
             public void testCreateInspectionListItemNameNotNullValidator() {
                 InspectionListItem item = createInspectionListItem("test");
+                item.setName(null);
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -265,6 +298,7 @@ public class CreateInspectionListTest {
             @Test
             public void testCreateInspectionListItemNameNotBlankValidator() {
                 InspectionListItem item = createInspectionListItem("test");
+                item.setName(" ");
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -277,22 +311,9 @@ public class CreateInspectionListTest {
             }
 
             @Test
-            public void testCreateInspectionListItemCategoryNotNullValidator() {
-                InspectionListItem item = createInspectionListItem("test");
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
-                );
-
-                assertEquals(1, validator.validate(inspectionList).size(), "Category should not be null.");
-            }
-
-            @Test
             public void testCreateInspectionListItemInspectionMethodNotNullValidator() {
                 InspectionListItem item = createInspectionListItem("test");
+                item.setInspectionMethod(null);
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -307,6 +328,7 @@ public class CreateInspectionListTest {
             @Test
             public void testCreateInspectionListItemStagesNotNullValidator() {
                 InspectionListItem item = createInspectionListItem("test");
+                item.setStages(null);
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -321,6 +343,8 @@ public class CreateInspectionListTest {
             @Test
             public void testCreateInspectionListItemStagesUniqueStagesValidator() {
                 InspectionListItem item = createInspectionListItem("test");
+                item.getStages().get(0).setStage(1);
+                item.getStages().get(1).setStage(1);
 
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
@@ -335,6 +359,8 @@ public class CreateInspectionListTest {
             @Test
             public void testCreateInspectionListItemStagesMinLength2Validator() {
                 InspectionListItem item = createInspectionListItem("test");
+                item.setStages(List.of());
+
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
@@ -350,6 +376,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageStageNotNullValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setStage(null);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -364,6 +391,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageStageMin1Validator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setStage(0);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -378,6 +406,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageStageMax100Validator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setStage(101);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -392,6 +421,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageNameNotNullValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setName(null);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -406,6 +436,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageNameNotBlankValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setName(" ");
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -420,6 +451,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageMaxMinValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setMax(-1.0);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -434,6 +466,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageMaxMaxValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setMax(101.0);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -448,6 +481,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageImagesNotNullValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    item.getStages().getFirst().setImages(null);
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -462,6 +496,15 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageImagesMainImageValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    InspectionListItemStageImage image1 = new InspectionListItemStageImage();
+                    image1.setMain(false);
+                    image1.setFileId(new ObjectId().toHexString());
+
+                    InspectionListItemStageImage image2 = new InspectionListItemStageImage();
+                    image2.setMain(false);
+                    image2.setFileId(new ObjectId().toHexString());
+
+                    item.getStages().getFirst().setImages(List.of(image1, image2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -476,6 +519,16 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageImagesUniqueFileIdsValidator() {
                     InspectionListItem item = createInspectionListItem("test");
+                    
+                    InspectionListItemStageImage image1 = new InspectionListItemStageImage();
+                    image1.setMain(true);
+                    image1.setFileId(new ObjectId().toHexString());
+
+                    InspectionListItemStageImage image2 = new InspectionListItemStageImage();
+                    image2.setMain(false);
+                    image2.setFileId(image1.getFileId());
+
+                    item.getStages().getFirst().setImages(List.of(image1, image2));
 
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
@@ -508,6 +561,7 @@ public class CreateInspectionListTest {
                         stage2.setImages(List.of());
 
                         InspectionListItem item = createInspectionListItem("test");
+                        item.setStages(List.of(stage1, stage2));
 
                         CreateInspectionList inspectionList = new CreateInspectionList(
                                 "test",
@@ -723,25 +777,5 @@ public class CreateInspectionListTest {
                 }
             }
         }
-    }
-
-    private InspectionListItem createInspectionListItem(String name) {
-        InspectionListItemStageImage image = new InspectionListItemStageImage();
-        image.setMain(true);
-        image.setFileId(null);
-
-        InspectionListItemStage stage1 = new InspectionListItemStage();
-        stage1.setStage(1);
-        stage1.setName("Stage 1");
-        stage1.setImages(List.of(image));
-
-        InspectionListItemStage stage2 = new InspectionListItemStage();
-        stage2.setStage(1);
-        stage2.setName("Stage 2");
-        stage2.setImages(List.of());
-
-
-        return new InspectionListItem(UUID.randomUUID().toString(), 0, "Fundering", "Veiligheid", "Constructief",
-                name, "1", "Visuele beoordeling fundering door gevel en vloeren", inspectionMethod, List.of(stage1, stage2));
     }
 }

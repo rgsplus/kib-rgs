@@ -28,7 +28,7 @@ public record CreateInspectionMethod(
         String name,
 
         @NotNull()
-        @Schema(example = "PERCENTAGE")
+        @Schema(example = "STAGE")
         InspectionMethodInput input,
 
         @Schema(example = "NEN2767")
