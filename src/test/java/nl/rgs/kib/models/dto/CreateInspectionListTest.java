@@ -130,9 +130,6 @@ public class CreateInspectionListTest {
                     List.of()
             );
 
-            System.out.println(validator.validate(inspectionList));
-
-
             assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique ids.");
         }
 
@@ -250,8 +247,6 @@ public class CreateInspectionListTest {
                         List.of(item),
                         List.of()
                 );
-
-                System.out.println(validator.validate(inspectionList));
 
                 assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
             }

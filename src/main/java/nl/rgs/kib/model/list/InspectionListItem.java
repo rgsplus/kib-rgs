@@ -52,7 +52,6 @@ public class InspectionListItem implements Indexable, Ideable {
     @Schema(example = "Visuele beoordeling fundering door gevel en vloeren")
     private String measuringMethod;
 
-//
 //    @NotNull()
 //    @Schema(example = "SIGNIFICANT")
 //    private InspectionListItemCategory category;
