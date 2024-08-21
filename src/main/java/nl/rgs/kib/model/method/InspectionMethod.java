@@ -31,7 +31,7 @@ public class InspectionMethod extends BaseObject {
     private String name;
 
     @NotNull()
-    @Schema(example = "PERCENTAGE")
+    @Schema(example = "STAGE")
     private InspectionMethodInput input;
 
     @Schema(example = "NEN2767")
