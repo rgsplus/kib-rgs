@@ -1,286 +1,329 @@
 {
-  "info": {
-    "_postman_id": "521b646b-4201-493a-acd6-9d6184766994",
-    "name": "KIB-RGS",
-    "description": "API REST for a simple registration system of `InspectionMethods` and `InspectionLists.`\n\n<img src=\"https://rgsplus.com/wp-content/uploads/2021/10/logo-RGS-300x113-1.png\">",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "3146170"
-  },
-  "item": [
-    {
-      "name": "InspectionMethod",
-      "item": [
-        {
-          "name": "Count",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-method/count",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-method", "count"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "FindAll",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-method",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-method"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "FindById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-method/{id}",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-method", "{id}"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\":\"QuickScan\",\r\n    \"input\":\"STAGE\",\r\n    \"calculationMethod\":\"NEN2767\",\r\n    \"stages\":[\r\n        {\r\n            \"stage\":1,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":2,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":3,\r\n            \"name\":\"stage 3\"\r\n        }\r\n    ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base-url}}/inspection-method",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-method"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Update",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"QuickScan edited!! aaaa\",\r\n    \"input\":\"STAGE\",\r\n    \"calculationMethod\":\"NEN2767\",\r\n    \"stages\":[\r\n        {\r\n            \"stage\":1,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":2,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":3,\r\n            \"name\":\"stage 3\"\r\n        }\r\n    ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base-url}}/inspection-method/{id}",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-method", "{id}"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteById",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-method/{id}",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-method", "{id}"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "InspectionList",
-      "item": [
-        {
-          "name": "Count",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-list/count",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-list", "count"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "FindAll",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-list",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-list"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "FindById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-list/{id}",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-list", "{id}"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":1,\r\n            \"id\":\"6s851d25d020f410221712b3\",\r\n            \"name\":\"Roof\",\r\n            \"group\":\"Wooden\",\r\n            \"category\":\"SIGNIFICANT\",\r\n            \"inspectionMethod\":{\r\n                \"id\":\"{id}\"\r\n            },\r\n            \"stages\":[\r\n                {\r\n                    \"stage\":1,\r\n                    \"name\":\"stage 0\",\r\n                    \"max\":null,\r\n                    \"images\":[]\r\n                },\r\n                {\r\n                    \"stage\":2,\r\n                    \"name\":\"stage 1\", \r\n                    \"max\":null,\r\n                    \"images\":[]\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"labels\":[]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base-url}}/inspection-list",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-list"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Update",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":0,\r\n            \"id\":\"6s851d25d020f410221712b3\",\r\n            \"name\":\"Roof\",\r\n            \"group\":\"Wooden\",\r\n            \"category\":\"SIGNIFICANT\",\r\n            \"inspectionMethod\":{\r\n                \"id\":\"{id}\"\r\n            },\r\n            \"stages\":[]\r\n        },\r\n        {\r\n            \"index\":1,\r\n            \"id\":\"6s851d25d020f410221712b3\",\r\n            \"name\":\"Roof\",\r\n            \"group\":\"Wooden\",\r\n            \"category\":\"SIGNIFICANT\",\r\n            \"inspectionMethod\":{\r\n                \"id\":\"{id}\"\r\n            },\r\n            \"stages\":[\r\n                {\r\n                    \"stage\":1,\r\n                    \"name\":\"stage 0\",\r\n                    \"max\":null,\r\n                    \"images\":[]\r\n                },\r\n                {\r\n                    \"stage\":2,\r\n                    \"name\":\"stage 1\", \r\n                    \"max\":null,\r\n                    \"images\":[]\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"labels\":[\r\n        {\r\n            \"id\":\"5f622c23aeefb61a54365f33\",\r\n            \"name\":\"label 1\",\r\n            \"index\": 0,\r\n            \"group\":null,\r\n            \"features\":[]\r\n        },\r\n        {\r\n            \"id\":\"5f622c23aeefb61a54365f31\",\r\n            \"name\":\"label 2\",\r\n            \"index\": 1,\r\n            \"group\":null,\r\n            \"features\":[]\r\n        }\r\n    ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{base-url}}/inspection-list/{id}",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-list", "{id}"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteById",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/inspection-list/{id}",
-              "host": ["{{base-url}}"],
-              "path": ["inspection-list", "{id}"]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "File",
-      "item": [
-        {
-          "name": "Create",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "file",
-                  "type": "file",
-                  "src": []
-                }
-              ]
-            },
-            "url": {
-              "raw": "{{base-url}}/file",
-              "host": ["{{base-url}}"],
-              "path": ["file"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "FindById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{base-url}}/file/findById/66a0bfbb8851fe19917ee992",
-              "host": ["{{base-url}}"],
-              "path": ["file", "findById", "66a0bfbb8851fe19917ee992"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteById",
-          "request": {
-            "method": "GET",
-            "header": []
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "base-url",
-      "value": "http://localhost:8081"
-    }
-  ]
+	"info": {
+		"_postman_id": "521b646b-4201-493a-acd6-9d6184766994",
+		"name": "KIB-RGS",
+		"description": "API REST for a simple registration system of `InspectionMethods` and `InspectionLists.`\n\n<img src=\"https://rgsplus.com/wp-content/uploads/2021/10/logo-RGS-300x113-1.png\">",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3146170"
+	},
+	"item": [
+		{
+			"name": "InspectionMethod",
+			"item": [
+				{
+					"name": "FindAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/inspection-method",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-method"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/inspection-method/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-method",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"QuickScan\",\r\n    \"input\":\"PERCENTAGE\",\r\n    \"calculationMethod\":\"NEN2767\",\r\n    \"stages\":[\r\n        {\r\n            \"stage\":1,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":2,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":3,\r\n            \"name\":\"stage 3\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/inspection-method",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-method"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"QuickScan edited!! aaaa\",\r\n    \"input\":\"PERCENTAGE\",\r\n    \"calculationMethod\":\"NEN2767\",\r\n    \"stages\":[\r\n        {\r\n            \"stage\":1,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":2,\r\n            \"name\":\"stage 1\"\r\n        },\r\n        {\r\n            \"stage\":3,\r\n            \"name\":\"stage 3\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/inspection-method/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-method",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/inspection-method/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-method",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "InspectionList",
+			"item": [
+				{
+					"name": "FindAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/inspection-list",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/inspection-list/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-list",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"RGS+ NEN_2767\",\r\n    \"status\": \"DEFINITIVE\",\r\n    \"items\": [\r\n        {\r\n            \"index\": 0,\r\n            \"id\": \"6s851d25d020f410221712b3\",\r\n            \"name\": \"Roof\",\r\n            \"group\": \"Wooden\",\r\n            \"theme\": null,\r\n            \"field\": null,\r\n            \"standardNo\": null,\r\n            \"measuringMethod\": null,\r\n            \"inspectionMethod\": {\r\n                \"id\": \"{id}\"\r\n            },\r\n            \"stages\": [\r\n                {\r\n                    \"stage\": 1,\r\n                    \"name\": \"stage 0\",\r\n                    \"max\": null,\r\n                    \"images\": []\r\n                },\r\n                {\r\n                    \"stage\": 2,\r\n                    \"name\": \"stage 1\",\r\n                    \"max\": null,\r\n                    \"images\": []\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"labels\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/inspection-list",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"{id}\",\r\n    \"name\":\"RGS+ NEN_2767\",\r\n    \"status\":\"DEFINITIVE\",\r\n    \"items\":[\r\n        {\r\n            \"index\":0,\r\n            \"id\":\"6s851d25d020f410221712b3\",\r\n            \"name\":\"Roof\",\r\n            \"group\":\"Wooden\",\r\n            \"theme\": null,\r\n            \"field\": null,\r\n            \"standardNo\": null,\r\n            \"measuringMethod\": null,\r\n            \"inspectionMethod\":{\r\n                \"id\":\"{id}\"\r\n            },\r\n            \"stages\":[]\r\n        },\r\n        {\r\n            \"index\":1,\r\n            \"id\":\"6s851d25d020f410221712b3\",\r\n            \"name\":\"Roof\",\r\n            \"group\":\"Wooden\",\r\n            \"theme\": null,\r\n            \"field\": null,\r\n            \"standardNo\": null,\r\n            \"measuringMethod\": null,\r\n            \"inspectionMethod\":{\r\n                \"id\":\"{id}\"\r\n            },\r\n            \"stages\":[\r\n                {\r\n                    \"stage\":1,\r\n                    \"name\":\"stage 0\",\r\n                    \"max\":null,\r\n                    \"images\":[]\r\n                },\r\n                {\r\n                    \"stage\":2,\r\n                    \"name\":\"stage 1\", \r\n                    \"max\":null,\r\n                    \"images\":[]\r\n                }\r\n            ]\r\n        }\r\n    ],\r\n    \"labels\":[\r\n        {\r\n            \"id\":\"5f622c23aeefb61a54365f33\",\r\n            \"name\":\"label 1\",\r\n            \"index\": 0,\r\n            \"group\":null,\r\n            \"features\":[]\r\n        },\r\n        {\r\n            \"id\":\"5f622c23aeefb61a54365f31\",\r\n            \"name\":\"label 2\",\r\n            \"index\": 1,\r\n            \"group\":null,\r\n            \"features\":[]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base-url}}/inspection-list/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-list",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/inspection-list/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"inspection-list",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "File",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base-url}}/file",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"file"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FindById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/file/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"file",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base-url}}/file/{id}",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"file",
+								"{id}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base-url",
+			"value": "http://localhost:8081"
+		}
+	]
 }
