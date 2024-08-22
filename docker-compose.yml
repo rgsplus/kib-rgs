@@ -10,3 +10,13 @@ services:
       MONGO_INITDB_DATABASE: kib-rgs
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: java-app
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
