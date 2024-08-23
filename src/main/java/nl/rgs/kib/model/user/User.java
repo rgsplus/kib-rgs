@@ -1,16 +1,16 @@
 package nl.rgs.kib.model.user;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.user.dto.CreateUser;
-import org.keycloak.json.StringListMapDeserializer;
+import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;
-import java.util.Map;
 
 @Data()
 @NoArgsConstructor()
@@ -35,23 +35,19 @@ public class User {
     @Schema(example = "john.doe@gmail.com")
     private String email;
 
-    @JsonDeserialize(using = StringListMapDeserializer.class)
-    @Schema(example = "{\"locale\": [\"en\"]}")
-    private Map<String, List<String>> attributes;
+    @NotNull()
+    @Schema(example = "USER")
+    private UserRole role;
 
-    private List<String> realmRoles;
-
-    private Map<String, List<String>> clientRoles;
-
-    public User(UserRepresentation userRepresentation) {
+    public User(UserRepresentation userRepresentation, UsersResource usersResource) {
         this.id = userRepresentation.getId();
         this.username = userRepresentation.getUsername();
         this.firstName = userRepresentation.getFirstName();
         this.lastName = userRepresentation.getLastName();
         this.email = userRepresentation.getEmail();
-        this.attributes = userRepresentation.getAttributes();
-        this.realmRoles = userRepresentation.getRealmRoles();
-        this.clientRoles = userRepresentation.getClientRoles();
+
+        List<RoleRepresentation> roles = usersResource.get(this.id).roles().realmLevel().listAll();
+        this.role = roles.stream().anyMatch(role -> role.getName().equals("kib_admin")) ? UserRole.ADMIN : UserRole.USER;
     }
 
     public static UserRepresentation getUserRepresentation(CreateUser createUser) {
@@ -60,9 +56,6 @@ public class User {
         userRepresentation.setFirstName(createUser.firstName());
         userRepresentation.setLastName(createUser.lastName());
         userRepresentation.setEmail(createUser.email());
-        userRepresentation.setAttributes(createUser.attributes());
-        userRepresentation.setRealmRoles(createUser.realmRoles());
-        userRepresentation.setClientRoles(createUser.clientRoles());
         userRepresentation.setEnabled(true);
 
         return userRepresentation;
