@@ -1,5 +1,6 @@
 package nl.rgs.kib.model.list;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -54,6 +55,7 @@ public class InspectionListItem implements Indexable, Ideable {
 
     @DBRef()
     @NotNull()
+    @JsonIgnoreProperties({"metadata"})
     private InspectionMethod inspectionMethod;
 
     @Valid()
