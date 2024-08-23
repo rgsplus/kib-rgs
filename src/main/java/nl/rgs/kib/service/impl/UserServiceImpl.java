@@ -10,12 +10,12 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
-import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,24 +50,15 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public List<User> findAll() {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
-        List<UserRepresentation> userRepresentations = usersResource.list(0, 10000)
-                .stream()
-                .filter(userRepresentation ->
-                        {
-                            List<RoleRepresentation> roleRepresentation = usersResource.get(userRepresentation.getId()).roles().realmLevel().listAll();
 
-                            if (roleRepresentation == null || roleRepresentation.isEmpty()) {
-                                return false;
-                            }
+        List<UserRepresentation> usersOfKibAdminRole = realmResource.roles().get("kib_admin").getUserMembers(0, 1000);
+        List<UserRepresentation> usersOfKibUserRole = realmResource.roles().get("kib_user").getUserMembers(0, 1000);
 
-                            List<String> allowedRoles = List.of("kib_admin", "kib_user");
-                            List<String> roles = roleRepresentation.stream().map(RoleRepresentation::getName).toList();
+        List<UserRepresentation> users = new ArrayList<>();
+        users.addAll(usersOfKibAdminRole);
+        users.addAll(usersOfKibUserRole);
 
-                            return roles.stream().anyMatch(allowedRoles::contains);
-                        }
-                )
-                .toList();
-        return userRepresentations.stream().map(u -> new User(u, usersResource)).toList();
+        return users.stream().map(u -> new User(u, usersResource)).toList();
     }
 
     @Override
