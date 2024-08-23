@@ -40,7 +40,7 @@ public class InspectionMethod extends BaseObject {
     @Valid()
     @NotNull()
     @UniqueStages()
-    private List<InspectionMethodStage> stages;
+    private List<InspectionMethodStage> stages = List.of();
 
     public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {
         return stages.stream()

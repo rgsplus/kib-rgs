@@ -60,5 +60,5 @@ public class InspectionListItem implements Indexable, Ideable {
     @Size(min = 2, max = 10)
     @NotNull()
     @UniqueStages()
-    private List<InspectionListItemStage> stages;
+    private List<InspectionListItemStage> stages = List.of();
 }

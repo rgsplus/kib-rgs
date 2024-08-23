@@ -40,7 +40,7 @@ public class InspectionList extends BaseObject {
     @NotNull()
     @UniqueIds()
     @ValidIndexes()
-    private List<InspectionListItem> items;
+    private List<InspectionListItem> items = List.of();
 
     public static List<InspectionListItem> sortItemsStagesAndImages(List<InspectionListItem> items) {
         return items.stream()
