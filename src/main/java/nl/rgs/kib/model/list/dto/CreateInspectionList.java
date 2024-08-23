@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.list.InspectionListItem;
-import nl.rgs.kib.model.list.InspectionListLabel;
 import nl.rgs.kib.model.list.InspectionListStatus;
 import nl.rgs.kib.shared.validators.UniqueIds;
 import nl.rgs.kib.shared.validators.ValidIndexes;
@@ -21,7 +20,6 @@ import java.util.List;
  * @param name
  * @param status
  * @param items
- * @param labels
  */
 public record CreateInspectionList(
         @NotBlank()
@@ -36,12 +34,6 @@ public record CreateInspectionList(
         @NotNull()
         @UniqueIds()
         @ValidIndexes()
-        List<InspectionListItem> items,
-
-        @Valid()
-        @NotNull()
-        @UniqueIds()
-        @ValidIndexes()
-        List<InspectionListLabel> labels
+        List<InspectionListItem> items
 ) {
 }

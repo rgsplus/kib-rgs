@@ -54,7 +54,6 @@ public class InspectionListServiceImpl implements InspectionListService {
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
         inspectionList.setItems(InspectionList.sortItemsStagesAndImages(createInspectionList.items()));
-        inspectionList.setLabels(InspectionList.sortLabelsAndFeatures(createInspectionList.labels()));
 
         return inspectionListRepository.save(inspectionList);
     }
@@ -69,7 +68,6 @@ public class InspectionListServiceImpl implements InspectionListService {
             existingList.setName(inspectionList.getName());
             existingList.setStatus(inspectionList.getStatus());
             existingList.setItems(InspectionList.sortItemsStagesAndImages(inspectionList.getItems()));
-            existingList.setLabels(InspectionList.sortLabelsAndFeatures(inspectionList.getLabels()));
 
             return inspectionListRepository.save(existingList);
         });
@@ -102,7 +100,6 @@ public class InspectionListServiceImpl implements InspectionListService {
             copy.setName(inspectionList.getName() + " " + separator + " " + copySuffix);
 
             copy.setStatus(inspectionList.getStatus());
-            copy.setLabels(inspectionList.getLabels());
 
             List<InspectionListItem> copiedItems = inspectionList.getItems().stream().map(item -> {
                 InspectionListItem copiedItem = new InspectionListItem();
@@ -186,7 +183,7 @@ public class InspectionListServiceImpl implements InspectionListService {
         });
     }
 
-//    @Scheduled(cron = "${app.inspection-list-service.delete-orphan-documents.cron}")
+    //    @Scheduled(cron = "${app.inspection-list-service.delete-orphan-documents.cron}")
     private void deleteOrphanDocuments() {
         GridFSFindIterable files = this.kibFileService.findAll();
         for (GridFSFile file : files) {

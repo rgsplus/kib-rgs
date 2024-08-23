@@ -3,6 +3,7 @@ package nl.rgs.kib.models;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import nl.rgs.kib.model.user.User;
+import nl.rgs.kib.model.user.UserRole;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ public class UserTest {
             user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Id should not be null.");
         }
@@ -35,6 +37,7 @@ public class UserTest {
             user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Id should not be blank.");
         }
@@ -47,6 +50,7 @@ public class UserTest {
             user.setUsername(null);
             user.setFirstName("John");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Username should not be null.");
         }
@@ -59,6 +63,7 @@ public class UserTest {
             user.setUsername("");
             user.setFirstName("John");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Username should not be blank.");
         }
@@ -71,6 +76,7 @@ public class UserTest {
             user.setUsername("john.doe");
             user.setFirstName(null);
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be null.");
         }
@@ -83,6 +89,7 @@ public class UserTest {
             user.setUsername("john.doe");
             user.setFirstName("");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be blank.");
         }
@@ -95,6 +102,7 @@ public class UserTest {
             user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Email should not be null.");
         }
@@ -107,6 +115,7 @@ public class UserTest {
             user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
+            user.setRole(UserRole.USER);
 
             assertEquals(1, validator.validate(user).size(), "Email should not be blank.");
         }

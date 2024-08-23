@@ -42,12 +42,6 @@ public class InspectionList extends BaseObject {
     @ValidIndexes()
     private List<InspectionListItem> items;
 
-    @Valid()
-    @NotNull()
-    @UniqueIds()
-    @ValidIndexes()
-    private List<InspectionListLabel> labels;
-
     public static List<InspectionListItem> sortItemsStagesAndImages(List<InspectionListItem> items) {
         return items.stream()
                 .sorted(Comparator.comparing(InspectionListItem::getIndex))
@@ -56,15 +50,6 @@ public class InspectionList extends BaseObject {
                         .peek(stage -> stage.setImages(stage.getImages().stream()
                                 .sorted(Comparator.comparing(InspectionListItemStageImage::getMain).reversed())
                                 .toList()))
-                        .toList()))
-                .toList();
-    }
-
-    public static List<InspectionListLabel> sortLabelsAndFeatures(List<InspectionListLabel> labels) {
-        return labels.stream()
-                .sorted(Comparator.comparing(InspectionListLabel::getIndex))
-                .peek(label -> label.setFeatures(label.getFeatures().stream()
-                        .sorted(Comparator.comparing(InspectionListLabelFeature::getIndex))
                         .toList()))
                 .toList();
     }

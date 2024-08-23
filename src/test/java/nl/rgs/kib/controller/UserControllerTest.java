@@ -2,6 +2,7 @@ package nl.rgs.kib.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.rgs.kib.model.user.User;
+import nl.rgs.kib.model.user.UserRole;
 import nl.rgs.kib.model.user.dto.CreateUser;
 import nl.rgs.kib.service.UserService;
 import org.bson.types.ObjectId;
@@ -13,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -99,10 +98,9 @@ public class UserControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                new HashMap<>(),
-                new ArrayList<>(),
-                new HashMap<>()
+                UserRole.USER
         );
+
 
         User user = new User();
         user.setId(new ObjectId().toHexString());
@@ -110,9 +108,7 @@ public class UserControllerTest {
         user.setFirstName(createUser.firstName());
         user.setLastName(createUser.lastName());
         user.setEmail(createUser.email());
-        user.setAttributes(createUser.attributes());
-        user.setClientRoles(createUser.clientRoles());
-        user.setRealmRoles(createUser.realmRoles());
+        user.setRole(createUser.role());
 
         when(userService.create(createUser)).thenReturn(user);
 
@@ -133,9 +129,7 @@ public class UserControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                new HashMap<>(),
-                new ArrayList<>(),
-                new HashMap<>()
+                UserRole.USER
         );
 
         mockMvc.perform(post(domain)
@@ -152,9 +146,7 @@ public class UserControllerTest {
                 "firstName",
                 "lastName",
                 "email",
-                new HashMap<>(),
-                new ArrayList<>(),
-                new HashMap<>()
+                UserRole.USER
         );
 
         mockMvc.perform(post(domain)
@@ -173,6 +165,7 @@ public class UserControllerTest {
         user.setLastName("lastname");
         user.setUsername("username updated");
         user.setFirstName("username");
+        user.setRole(UserRole.USER);
 
         when(userService.update(user)).thenReturn(Optional.of(user));
 
@@ -211,6 +204,7 @@ public class UserControllerTest {
         user.setLastName("lastname");
         user.setUsername("username updated");
         user.setFirstName("username");
+        user.setRole(UserRole.USER);
 
         when(userService.update(user)).thenReturn(Optional.empty());
 

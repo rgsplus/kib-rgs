@@ -219,56 +219,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           })),
         },
       ],
-      labels: [
-        {
-          id: generateUuid(),
-          index: 0,
-          name: "Construction year",
-          group: "General",
-          features: [
-            {
-              index: 0,
-              name: "1990",
-            },
-            {
-              index: 1,
-              name: "2000",
-            },
-            {
-              index: 2,
-              name: "2010",
-            },
-            {
-              index: 3,
-              name: "2020",
-            },
-          ],
-        },
-        {
-          id: generateUuid(),
-          index: 1,
-          name: "Construction material",
-          group: "General",
-          features: [
-            {
-              index: 0,
-              name: "Brick",
-            },
-            {
-              index: 1,
-              name: "Concrete",
-            },
-            {
-              index: 2,
-              name: "Steel",
-            },
-            {
-              index: 3,
-              name: "Wood",
-            },
-          ],
-        },
-      ],
       _metadata: {
         created: new Date(),
         createdBy: null,
@@ -377,7 +327,6 @@ const createInspectionList = async (db, inspectionMethodsResult) => {
           })),
         },
       ],
-      labels: [],
       _metadata: {
         created: new Date(),
         createdBy: null,

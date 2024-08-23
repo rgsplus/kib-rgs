@@ -83,7 +83,6 @@ public class InspectionListServiceImplTest {
         CreateInspectionList createInspectionList = new CreateInspectionList(
                 "name",
                 InspectionListStatus.CONCEPT,
-                List.of(),
                 List.of()
         );
 
@@ -91,7 +90,6 @@ public class InspectionListServiceImplTest {
         expected.setName(createInspectionList.name());
         expected.setStatus(createInspectionList.status());
         expected.setItems(createInspectionList.items());
-        expected.setLabels(createInspectionList.labels());
 
         when(inspectionListRepository.save(expected)).thenReturn(expected);
 
@@ -108,14 +106,12 @@ public class InspectionListServiceImplTest {
         existingList.setName("existingName");
         existingList.setStatus(InspectionListStatus.CONCEPT);
         existingList.setItems(List.of());
-        existingList.setLabels(List.of());
 
         InspectionList updatedList = new InspectionList();
         updatedList.setId(existingList.getId());
         updatedList.setName("updatedName");
         updatedList.setStatus(InspectionListStatus.CONCEPT);
         updatedList.setItems(List.of());
-        updatedList.setLabels(List.of());
 
         when(inspectionListRepository.findById(new ObjectId(existingList.getId()))).thenReturn(Optional.of(existingList));
         when(kibFileService.deleteByIds(List.of())).thenReturn(List.of());
@@ -137,7 +133,6 @@ public class InspectionListServiceImplTest {
         updatedList.setName("updatedName");
         updatedList.setStatus(InspectionListStatus.CONCEPT);
         updatedList.setItems(List.of());
-        updatedList.setLabels(List.of());
 
         when(inspectionListRepository.findById(new ObjectId(updatedList.getId()))).thenReturn(Optional.empty());
 
@@ -183,14 +178,12 @@ public class InspectionListServiceImplTest {
         list.setId(new ObjectId().toHexString());
         list.setName("name");
         list.setStatus(InspectionListStatus.CONCEPT);
-        list.setLabels(List.of());
         list.setItems(List.of());
 
         //expected list
         InspectionList expected = new InspectionList();
         expected.setName("name - copy");
         expected.setStatus(InspectionListStatus.CONCEPT);
-        expected.setLabels(List.of());
         expected.setItems(List.of());
 
         when(inspectionListRepository.findById(new ObjectId(list.getId()))).thenReturn(Optional.of(list));
@@ -205,7 +198,6 @@ public class InspectionListServiceImplTest {
         assertTrue(result.isPresent());
         assertEquals("name - copy", result.get().getName());
         assertEquals(InspectionListStatus.CONCEPT, result.get().getStatus());
-        assertEquals(List.of(), result.get().getLabels());
         assertEquals(List.of(), result.get().getItems());
 
         verify(inspectionListRepository).findById(new ObjectId(list.getId()));
@@ -231,7 +223,6 @@ public class InspectionListServiceImplTest {
         list.setId(new ObjectId().toHexString());
         list.setName("name");
         list.setStatus(InspectionListStatus.CONCEPT);
-        list.setLabels(List.of());
         list.setItems(List.of(item));
 
         //expected list
@@ -248,7 +239,6 @@ public class InspectionListServiceImplTest {
         InspectionList expected = new InspectionList();
         expected.setName("name - copy");
         expected.setStatus(InspectionListStatus.CONCEPT);
-        expected.setLabels(List.of());
         expected.setItems(List.of(copiedItem));
 
         KibFile expectedFile = new KibFile();
@@ -267,7 +257,6 @@ public class InspectionListServiceImplTest {
         assertTrue(result.isPresent());
         assertEquals("name - copy", result.get().getName());
         assertEquals(InspectionListStatus.CONCEPT, result.get().getStatus());
-        assertEquals(List.of(), result.get().getLabels());
         assertEquals(1, result.get().getItems().size());
         assertEquals(1, result.get().getItems().getFirst().getStages().size());
         assertEquals(1, result.get().getItems().getFirst().getStages().getFirst().getImages().size());

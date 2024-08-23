@@ -2,12 +2,10 @@ package nl.rgs.kib.models.dto;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import nl.rgs.kib.model.user.UserRole;
 import nl.rgs.kib.model.user.dto.CreateUser;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,9 +22,7 @@ public class CreateUserTest {
                     "John",
                     "Doe",
                     "john.doe@gmail.com",
-                    new HashMap<>(),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    UserRole.USER
             );
 
             assertEquals(1, validator.validate(user).size(), "Username should not be null.");
@@ -39,9 +35,7 @@ public class CreateUserTest {
                     "John",
                     "Doe",
                     "john.doe@gmail.com",
-                    new HashMap<>(),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    UserRole.USER
             );
 
             assertEquals(1, validator.validate(user).size(), "Username should not be blank.");
@@ -54,9 +48,7 @@ public class CreateUserTest {
                     null,
                     "Doe",
                     "john.doe@gmail.com",
-                    new HashMap<>(),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    UserRole.USER
             );
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be null.");
@@ -69,9 +61,7 @@ public class CreateUserTest {
                     "",
                     "Doe",
                     "john.doe@gmail.com",
-                    new HashMap<>(),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    UserRole.USER
             );
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be blank.");
@@ -84,9 +74,7 @@ public class CreateUserTest {
                     "John",
                     "Doe",
                     null,
-                    new HashMap<>(),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    UserRole.USER
             );
 
             assertEquals(1, validator.validate(user).size(), "Email should not be null.");
@@ -99,9 +87,7 @@ public class CreateUserTest {
                     "John",
                     "Doe",
                     "",
-                    new HashMap<>(),
-                    new ArrayList<>(),
-                    new HashMap<>()
+                    UserRole.USER
             );
 
             assertEquals(1, validator.validate(user).size(), "Email should not be blank.");

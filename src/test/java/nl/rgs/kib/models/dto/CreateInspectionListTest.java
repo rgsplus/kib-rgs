@@ -2,7 +2,10 @@ package nl.rgs.kib.models.dto;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import nl.rgs.kib.model.list.*;
+import nl.rgs.kib.model.list.InspectionListItem;
+import nl.rgs.kib.model.list.InspectionListItemStage;
+import nl.rgs.kib.model.list.InspectionListItemStageImage;
+import nl.rgs.kib.model.list.InspectionListStatus;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
@@ -75,7 +78,6 @@ public class CreateInspectionListTest {
             CreateInspectionList inspectionList = new CreateInspectionList(
                     null,
                     InspectionListStatus.DEFINITIVE,
-                    List.of(),
                     List.of()
             );
 
@@ -87,7 +89,6 @@ public class CreateInspectionListTest {
             CreateInspectionList inspectionList = new CreateInspectionList(
                     " ",
                     InspectionListStatus.DEFINITIVE,
-                    List.of(),
                     List.of()
             );
 
@@ -99,7 +100,6 @@ public class CreateInspectionListTest {
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
                     null,
-                    List.of(),
                     List.of()
             );
 
@@ -111,8 +111,7 @@ public class CreateInspectionListTest {
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
                     InspectionListStatus.DEFINITIVE,
-                    null,
-                    List.of()
+                    null
             );
 
             assertEquals(1, validator.validate(inspectionList).size(), "Items should not be null.");
@@ -126,8 +125,7 @@ public class CreateInspectionListTest {
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
                     InspectionListStatus.DEFINITIVE,
-                    List.of(item1, item2),
-                    List.of()
+                    List.of(item1, item2)
             );
 
             assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique ids.");
@@ -141,53 +139,10 @@ public class CreateInspectionListTest {
             CreateInspectionList inspectionList = new CreateInspectionList(
                     "test",
                     InspectionListStatus.DEFINITIVE,
-                    List.of(item1, item2),
-                    List.of()
+                    List.of(item1, item2)
             );
 
             assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique indexes.");
-        }
-
-        @Test
-        public void testCreateInspectionListLabelsNotNullValidator() {
-            CreateInspectionList inspectionList = new CreateInspectionList(
-                    "test",
-                    InspectionListStatus.DEFINITIVE,
-                    List.of(),
-                    null
-            );
-
-            assertEquals(1, validator.validate(inspectionList).size(), "Labels should not be null.");
-        }
-
-        @Test
-        public void testCreateInspectionListLabelsUniqueIdsValidator() {
-            InspectionListLabel label1 = new InspectionListLabel("id1", 0, "Label 1", null, List.of());
-            InspectionListLabel label2 = new InspectionListLabel("id1", 1, "Label 2", null, List.of());
-
-            CreateInspectionList inspectionList = new CreateInspectionList(
-                    "test",
-                    InspectionListStatus.DEFINITIVE,
-                    List.of(),
-                    List.of(label1, label2)
-            );
-
-            assertEquals(1, validator.validate(inspectionList).size(), "Labels should have unique ids.");
-        }
-
-        @Test
-        public void testCreateInspectionListLabelsValidIndexesValidator() {
-            InspectionListLabel label1 = new InspectionListLabel("id1", 1, "Label 1", null, List.of());
-            InspectionListLabel label2 = new InspectionListLabel("id2", 1, "Label 2", null, List.of());
-
-            CreateInspectionList inspectionList = new CreateInspectionList(
-                    "test",
-                    InspectionListStatus.DEFINITIVE,
-                    List.of(),
-                    List.of(label1, label2)
-            );
-
-            assertEquals(1, validator.validate(inspectionList).size(), "Labels should have unique indexes.");
         }
 
         @Nested
@@ -214,8 +169,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(2, validator.validate(inspectionList).size(), "Index should not be null.");
@@ -244,8 +198,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
@@ -273,8 +226,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Id should not be null.");
@@ -288,8 +240,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
@@ -303,8 +254,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
@@ -318,8 +268,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Inspection method should not be null.");
@@ -333,8 +282,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Stages should not be null.");
@@ -349,8 +297,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Stages should have unique stages.");
@@ -364,8 +311,7 @@ public class CreateInspectionListTest {
                 CreateInspectionList inspectionList = new CreateInspectionList(
                         "test",
                         InspectionListStatus.DEFINITIVE,
-                        List.of(item),
-                        List.of()
+                        List.of(item)
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Stages should have at least 2 stages.");
@@ -381,8 +327,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Stage should not be null.");
@@ -396,8 +341,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Stage should be greater than or equal to 0.");
@@ -411,8 +355,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Stage should be less than or equal to 9.");
@@ -426,8 +369,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
@@ -441,8 +383,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
@@ -456,8 +397,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Max should be greater than or equal to 0.");
@@ -471,8 +411,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Max should be less than or equal to 100.");
@@ -486,8 +425,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Images should not be null.");
@@ -509,8 +447,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "Main image should be unique.");
@@ -519,7 +456,7 @@ public class CreateInspectionListTest {
                 @Test
                 public void testCreateInspectionListItemStageImagesUniqueFileIdsValidator() {
                     InspectionListItem item = createInspectionListItem("test");
-                    
+
                     InspectionListItemStageImage image1 = new InspectionListItemStageImage();
                     image1.setMain(true);
                     image1.setFileId(new ObjectId().toHexString());
@@ -533,8 +470,7 @@ public class CreateInspectionListTest {
                     CreateInspectionList inspectionList = new CreateInspectionList(
                             "test",
                             InspectionListStatus.DEFINITIVE,
-                            List.of(item),
-                            List.of()
+                            List.of(item)
                     );
 
                     assertEquals(1, validator.validate(inspectionList).size(), "File ids should be unique.");
@@ -566,214 +502,11 @@ public class CreateInspectionListTest {
                         CreateInspectionList inspectionList = new CreateInspectionList(
                                 "test",
                                 InspectionListStatus.DEFINITIVE,
-                                List.of(item),
-                                List.of()
+                                List.of(item)
                         );
 
                         assertEquals(1, validator.validate(inspectionList).size(), "File id should not be null.");
                     }
-                }
-            }
-        }
-
-        @Nested
-        public class CreateInspectionListLabelValidations {
-            @Test
-            public void testCreateInspectionListLabelIdNotNullValidator() {
-                InspectionListLabel label = new InspectionListLabel();
-                label.setIndex(0);
-                label.setName("test");
-                label.setGroup("group");
-                label.setFeatures(List.of());
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(1, validator.validate(inspectionList).size(), "Id should not be null.");
-            }
-
-            @Test
-            public void testCreateInspectionListLabelIndexNotNullValidator() {
-                InspectionListLabel label = new InspectionListLabel();
-                label.setId("id");
-                label.setName("test");
-                label.setGroup("group");
-                label.setFeatures(List.of());
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(2, validator.validate(inspectionList).size(), "Index should not be null.");
-            }
-
-            @Test
-            public void testCreateInspectionListLabelIndexMinValidator() {
-                InspectionListLabel label = new InspectionListLabel();
-                label.setId("id");
-                label.setIndex(-1);
-                label.setName("test");
-                label.setGroup("group");
-                label.setFeatures(List.of());
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
-            }
-
-            @Test
-            public void testCreateInspectionListLabelNameNotNullValidator() {
-                InspectionListLabel label = new InspectionListLabel();
-                label.setId("id");
-                label.setIndex(0);
-                label.setGroup("group");
-                label.setFeatures(List.of());
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
-            }
-
-            @Test
-            public void testCreateInspectionListLabelNameNotBlankValidator() {
-                InspectionListLabel label = new InspectionListLabel();
-                label.setId("id");
-                label.setIndex(0);
-                label.setName(" ");
-                label.setGroup("group");
-                label.setFeatures(List.of());
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
-            }
-
-            @Test
-            public void testCreateInspectionListLabelFeaturesNotNullValidator() {
-                InspectionListLabel label = new InspectionListLabel();
-                label.setId("id");
-                label.setIndex(0);
-                label.setName("test");
-                label.setGroup("group");
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(1, validator.validate(inspectionList).size(), "Features should not be null.");
-            }
-
-            @Test
-            public void testCreateInspectionListLabelFeaturesValidIndexesValidator() {
-                InspectionListLabelFeature feature1 = new InspectionListLabelFeature(1, "Feature 1");
-                InspectionListLabelFeature feature2 = new InspectionListLabelFeature(1, "Feature 2");
-                InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature1, feature2));
-
-                CreateInspectionList inspectionList = new CreateInspectionList(
-                        "test",
-                        InspectionListStatus.DEFINITIVE,
-                        List.of(),
-                        List.of(label)
-                );
-
-                assertEquals(1, validator.validate(inspectionList).size(), "Features should have unique indexes.");
-            }
-
-            @Nested
-            public class CreateInspectionListLabelFeatureValidations {
-                @Test
-                public void testCreateInspectionListLabelFeatureIndexNotNullValidator() {
-                    InspectionListLabelFeature feature = new InspectionListLabelFeature();
-                    feature.setName("test");
-
-                    InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
-
-                    CreateInspectionList inspectionList = new CreateInspectionList(
-                            "test",
-                            InspectionListStatus.DEFINITIVE,
-                            List.of(),
-                            List.of(label)
-                    );
-
-                    assertEquals(2, validator.validate(inspectionList).size(), "Index should not be null.");
-                }
-
-                @Test
-                public void testCreateInspectionListLabelFeatureIndexMinValidator() {
-                    InspectionListLabelFeature feature = new InspectionListLabelFeature();
-                    feature.setIndex(-1);
-                    feature.setName("test");
-
-                    InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
-
-                    CreateInspectionList inspectionList = new CreateInspectionList(
-                            "test",
-                            InspectionListStatus.DEFINITIVE,
-                            List.of(),
-                            List.of(label)
-                    );
-
-                    assertEquals(2, validator.validate(inspectionList).size(), "Index should be greater than or equal to 0.");
-                }
-
-                @Test
-                public void testCreateInspectionListLabelFeatureNameNotNullValidator() {
-                    InspectionListLabelFeature feature = new InspectionListLabelFeature();
-                    feature.setIndex(0);
-
-                    InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
-
-                    CreateInspectionList inspectionList = new CreateInspectionList(
-                            "test",
-                            InspectionListStatus.DEFINITIVE,
-                            List.of(),
-                            List.of(label)
-                    );
-
-                    assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
-                }
-
-                @Test
-                public void testCreateInspectionListLabelFeatureNameNotBlankValidator() {
-                    InspectionListLabelFeature feature = new InspectionListLabelFeature();
-                    feature.setIndex(0);
-                    feature.setName(" ");
-
-                    InspectionListLabel label = new InspectionListLabel("id", 0, "Label", null, List.of(feature));
-
-                    CreateInspectionList inspectionList = new CreateInspectionList(
-                            "test",
-                            InspectionListStatus.DEFINITIVE,
-                            List.of(),
-                            List.of(label)
-                    );
-
-                    assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
                 }
             }
         }

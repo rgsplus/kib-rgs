@@ -96,7 +96,6 @@ public class InspectionListControllerTest {
         CreateInspectionList createInspectionList = new CreateInspectionList(
                 "test",
                 InspectionListStatus.CONCEPT,
-                List.of(),
                 List.of()
         );
 
@@ -105,7 +104,6 @@ public class InspectionListControllerTest {
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
         inspectionList.setItems(createInspectionList.items());
-        inspectionList.setLabels(createInspectionList.labels());
 
         when(inspectionListService.create(createInspectionList)).thenReturn(inspectionList);
 
@@ -124,7 +122,6 @@ public class InspectionListControllerTest {
         CreateInspectionList createInspectionList = new CreateInspectionList(
                 null,
                 InspectionListStatus.CONCEPT,
-                List.of(),
                 List.of()
         );
 
@@ -140,7 +137,6 @@ public class InspectionListControllerTest {
         CreateInspectionList createInspectionList = new CreateInspectionList(
                 "test",
                 InspectionListStatus.CONCEPT,
-                List.of(),
                 List.of()
         );
 
@@ -159,7 +155,6 @@ public class InspectionListControllerTest {
         inspectionList.setName("test");
         inspectionList.setStatus(InspectionListStatus.CONCEPT);
         inspectionList.setItems(List.of());
-        inspectionList.setLabels(List.of());
 
         when(inspectionListService.update(inspectionList)).thenReturn(Optional.of(inspectionList));
 
@@ -180,7 +175,6 @@ public class InspectionListControllerTest {
         inspectionList.setName(null);
         inspectionList.setStatus(InspectionListStatus.CONCEPT);
         inspectionList.setItems(List.of());
-        inspectionList.setLabels(List.of());
 
         mockMvc.perform(put(domain + "/" + inspectionList.getId())
                         .with(csrf())
@@ -197,7 +191,6 @@ public class InspectionListControllerTest {
         inspectionList.setName("test");
         inspectionList.setStatus(InspectionListStatus.CONCEPT);
         inspectionList.setItems(List.of());
-        inspectionList.setLabels(List.of());
 
         when(inspectionListService.update(inspectionList)).thenReturn(Optional.empty());
 
@@ -217,7 +210,6 @@ public class InspectionListControllerTest {
         inspectionList.setName("test");
         inspectionList.setStatus(InspectionListStatus.CONCEPT);
         inspectionList.setItems(List.of());
-        inspectionList.setLabels(List.of());
 
         mockMvc.perform(put(domain + "/" + inspectionList.getId())
                         .with(csrf())
