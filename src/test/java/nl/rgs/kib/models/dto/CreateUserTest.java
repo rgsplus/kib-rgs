@@ -21,7 +21,7 @@ public class CreateUserTest {
                     null,
                     "Doe",
                     "john.doe@gmail.com",
-                    UserRole.USER
+                    UserRole.USER, false
             );
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be null.");
@@ -33,7 +33,7 @@ public class CreateUserTest {
                     "",
                     "Doe",
                     "john.doe@gmail.com",
-                    UserRole.USER
+                    UserRole.USER, false
             );
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be blank.");
@@ -45,7 +45,7 @@ public class CreateUserTest {
                     "John",
                     "Doe",
                     null,
-                    UserRole.USER
+                    UserRole.USER, false
             );
 
             assertEquals(1, validator.validate(user).size(), "Email should not be null.");
@@ -57,7 +57,8 @@ public class CreateUserTest {
                     "John",
                     "Doe",
                     "",
-                    UserRole.USER
+                    UserRole.USER,
+                    false
             );
 
             assertEquals(1, validator.validate(user).size(), "Email should not be blank.");

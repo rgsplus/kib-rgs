@@ -24,6 +24,7 @@ public class UserTest {
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
+            user.setTwoFactorAuthentication(false);
 
             assertEquals(1, validator.validate(user).size(), "Id should not be null.");
         }
@@ -36,6 +37,7 @@ public class UserTest {
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
+            user.setTwoFactorAuthentication(false);
 
             assertEquals(1, validator.validate(user).size(), "Id should not be blank.");
         }
@@ -48,6 +50,7 @@ public class UserTest {
             user.setFirstName(null);
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
+            user.setTwoFactorAuthentication(false);
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be null.");
         }
@@ -60,6 +63,7 @@ public class UserTest {
             user.setFirstName("");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
+            user.setTwoFactorAuthentication(false);
 
             assertEquals(1, validator.validate(user).size(), "Firstname should not be blank.");
         }
@@ -72,6 +76,7 @@ public class UserTest {
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
+            user.setTwoFactorAuthentication(false);
 
             assertEquals(1, validator.validate(user).size(), "Email should not be null.");
         }
@@ -84,6 +89,7 @@ public class UserTest {
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
+            user.setTwoFactorAuthentication(false);
 
             assertEquals(1, validator.validate(user).size(), "Email should not be blank.");
         }

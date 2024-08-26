@@ -80,8 +80,16 @@ keycloak.realm=REQUIRED *
 keycloak.client-id=REQUIRED *
 keycloak.client-secret=REQUIRED *
 keycloak.kib-client-id=REQUIRED *
+# Mail
+spring.mail.host=REQUIRED *
+spring.mail.port=REQUIRED *
+spring.mail.properties.mail.smtp.auth=REQUIRED *
+spring.mail.properties.mail.smtp.starttls.enable=REQUIRED *
+spring.mail.username=REQUIRED *
+spring.mail.password=REQUIRED *
 # App
 app.inspection-list-service.delete-orphan-documents.cron=REQUIRED *
+app.url=REQUIRED *
 ```
 
 ### Running MongoDB with Docker <a name="running-mongodb-with-docker"></a>
