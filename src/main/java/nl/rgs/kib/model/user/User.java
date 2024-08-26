@@ -35,11 +35,16 @@ public class User {
     @Schema(example = "USER")
     private UserRole role;
 
+    @NotNull()
+    @Schema(example = "true")
+    private Boolean twoFactorAuthentication;
+
     public User(UserRepresentation userRepresentation, UsersResource usersResource) {
         this.id = userRepresentation.getId();
         this.firstName = userRepresentation.getFirstName();
         this.lastName = userRepresentation.getLastName();
         this.email = userRepresentation.getEmail();
+        this.twoFactorAuthentication = userRepresentation.isTotp() || userRepresentation.getRequiredActions().contains("CONFIGURE_TOTP");
 
         List<RoleRepresentation> roles = usersResource.get(this.id).roles().realmLevel().listAll();
         this.role = roles.stream().anyMatch(role -> role.getName().equals("kib_admin")) ? UserRole.ADMIN : UserRole.USER;

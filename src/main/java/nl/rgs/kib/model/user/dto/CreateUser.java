@@ -17,6 +17,7 @@ import nl.rgs.kib.model.user.UserRole;
  * @param lastName
  * @param email
  * @param role
+ * @param twoFactorAuthentication
  */
 public record CreateUser(
         @NotBlank()
@@ -32,6 +33,10 @@ public record CreateUser(
 
         @NotNull()
         @Schema(example = "USER")
-        UserRole role
+        UserRole role,
+
+        @NotNull()
+        @Schema(example = "true")
+        Boolean twoFactorAuthentication
 ) {
 }

@@ -9,7 +9,9 @@ import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.InitializingBean;
@@ -76,8 +78,19 @@ public class UserServiceImpl implements UserService, InitializingBean {
         }
 
         String userId = CreatedResponseUtil.getCreatedId(response);
-
+        UserResource userResource = usersResource.get(userId);
         UserRepresentation userRepresentation = usersResource.get(userId).toRepresentation();
+
+        List<String> requiredActions = userRepresentation.getRequiredActions() != null ? userRepresentation.getRequiredActions() : new ArrayList<>();
+
+        if (createUser.twoFactorAuthentication()) {
+            requiredActions.add("CONFIGURE_TOTP");
+        } else {
+            Optional<CredentialRepresentation> credentialRepresentation =
+                    userResource.credentials().stream().filter(cred -> cred.getType().equals("otp")).findFirst();
+
+            credentialRepresentation.ifPresent(representation -> userResource.removeCredential(representation.getId()));
+        }
 
         RoleRepresentation kibCoreRole = realmResource.roles().get("kib_core").toRepresentation();
         RoleRepresentation roleRepresentation = switch (createUser.role()) {
@@ -85,7 +98,9 @@ public class UserServiceImpl implements UserService, InitializingBean {
             case USER -> realmResource.roles().get("kib_user").toRepresentation();
         };
 
-        usersResource.get(userId).roles().realmLevel().add(List.of(kibCoreRole, roleRepresentation));
+        userResource.roles().realmLevel().add(List.of(kibCoreRole, roleRepresentation));
+
+        usersResource.get(userId).update(userRepresentation);
 
         return new User(userRepresentation, usersResource);
     }
@@ -95,11 +110,24 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
 
+        UserResource userResource = usersResource.get(user.getId());
         UserRepresentation userRepresentation = usersResource.get(user.getId()).toRepresentation();
         userRepresentation.setFirstName(user.getFirstName());
         userRepresentation.setLastName(user.getLastName());
         userRepresentation.setEmail(user.getEmail());
-        usersResource.get(user.getId()).update(userRepresentation);
+
+        List<String> requiredActions = userRepresentation.getRequiredActions() != null ? userRepresentation.getRequiredActions() : new ArrayList<>();
+
+        if (user.getTwoFactorAuthentication()) {
+            requiredActions.add("CONFIGURE_TOTP");
+        } else {
+            requiredActions.remove("CONFIGURE_TOTP");
+
+            Optional<CredentialRepresentation> credentialRepresentation =
+                    userResource.credentials().stream().filter(cred -> cred.getType().equals("otp")).findFirst();
+
+            credentialRepresentation.ifPresent(representation -> userResource.removeCredential(representation.getId()));
+        }
 
         List<RoleRepresentation> kibRoles = new ArrayList<>();
         kibRoles.add(realmResource.roles().get("kib_admin").toRepresentation());
@@ -108,8 +136,10 @@ public class UserServiceImpl implements UserService, InitializingBean {
             case ADMIN -> realmResource.roles().get("kib_admin").toRepresentation();
             case USER -> realmResource.roles().get("kib_user").toRepresentation();
         };
-        usersResource.get(user.getId()).roles().realmLevel().remove(kibRoles);
-        usersResource.get(user.getId()).roles().realmLevel().add(List.of(roleRepresentation));
+        userResource.roles().realmLevel().remove(kibRoles);
+        userResource.roles().realmLevel().add(List.of(roleRepresentation));
+
+        usersResource.get(user.getId()).update(userRepresentation);
 
         return Optional.of(userRepresentation).map(u -> new User(u, usersResource));
     }
