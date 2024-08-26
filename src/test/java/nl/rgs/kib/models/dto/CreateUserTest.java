@@ -16,35 +16,8 @@ public class CreateUserTest {
         private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
         @Test
-        public void testUserUsernameNotNullValidator() {
-            CreateUser user = new CreateUser(
-                    null,
-                    "John",
-                    "Doe",
-                    "john.doe@gmail.com",
-                    UserRole.USER
-            );
-
-            assertEquals(1, validator.validate(user).size(), "Username should not be null.");
-        }
-
-        @Test
-        public void testUserUsernameNotBlankValidator() {
-            CreateUser user = new CreateUser(
-                    "",
-                    "John",
-                    "Doe",
-                    "john.doe@gmail.com",
-                    UserRole.USER
-            );
-
-            assertEquals(1, validator.validate(user).size(), "Username should not be blank.");
-        }
-
-        @Test
         public void testUserFirstNameNotNullValidator() {
             CreateUser user = new CreateUser(
-                    "john.doe",
                     null,
                     "Doe",
                     "john.doe@gmail.com",
@@ -57,7 +30,6 @@ public class CreateUserTest {
         @Test
         public void testUserFirstNameNotBlankValidator() {
             CreateUser user = new CreateUser(
-                    "john.doe",
                     "",
                     "Doe",
                     "john.doe@gmail.com",
@@ -70,7 +42,6 @@ public class CreateUserTest {
         @Test
         public void testUserEmailNotNullValidator() {
             CreateUser user = new CreateUser(
-                    "john.doe",
                     "John",
                     "Doe",
                     null,
@@ -83,7 +54,6 @@ public class CreateUserTest {
         @Test
         public void testUserEmailNotBlankValidator() {
             CreateUser user = new CreateUser(
-                    "john.doe",
                     "John",
                     "Doe",
                     "",

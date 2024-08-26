@@ -21,10 +21,6 @@ public class User {
     private String id;
 
     @NotBlank()
-    @Schema(example = "john.doe")
-    private String username;
-
-    @NotBlank()
     @Schema(example = "John")
     private String firstName;
 
@@ -41,7 +37,6 @@ public class User {
 
     public User(UserRepresentation userRepresentation, UsersResource usersResource) {
         this.id = userRepresentation.getId();
-        this.username = userRepresentation.getUsername();
         this.firstName = userRepresentation.getFirstName();
         this.lastName = userRepresentation.getLastName();
         this.email = userRepresentation.getEmail();
@@ -52,7 +47,6 @@ public class User {
 
     public static UserRepresentation getUserRepresentation(CreateUser createUser) {
         UserRepresentation userRepresentation = new UserRepresentation();
-        userRepresentation.setUsername(createUser.username());
         userRepresentation.setFirstName(createUser.firstName());
         userRepresentation.setLastName(createUser.lastName());
         userRepresentation.setEmail(createUser.email());

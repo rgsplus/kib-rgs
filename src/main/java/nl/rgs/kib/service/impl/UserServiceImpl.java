@@ -10,6 +10,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,12 +52,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
 
-        List<UserRepresentation> usersOfKibAdminRole = realmResource.roles().get("kib_admin").getUserMembers(0, 1000);
-        List<UserRepresentation> usersOfKibUserRole = realmResource.roles().get("kib_user").getUserMembers(0, 1000);
-
-        List<UserRepresentation> users = new ArrayList<>();
-        users.addAll(usersOfKibAdminRole);
-        users.addAll(usersOfKibUserRole);
+        List<UserRepresentation> users = realmResource.roles().get("kib_core").getUserMembers(0, 1000);
 
         return users.stream().map(u -> new User(u, usersResource)).toList();
     }
@@ -81,7 +77,17 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         String userId = CreatedResponseUtil.getCreatedId(response);
 
-        return new User(usersResource.get(userId).toRepresentation(), usersResource);
+        UserRepresentation userRepresentation = usersResource.get(userId).toRepresentation();
+
+        RoleRepresentation kibCoreRole = realmResource.roles().get("kib_core").toRepresentation();
+        RoleRepresentation roleRepresentation = switch (createUser.role()) {
+            case ADMIN -> realmResource.roles().get("kib_admin").toRepresentation();
+            case USER -> realmResource.roles().get("kib_user").toRepresentation();
+        };
+
+        usersResource.get(userId).roles().realmLevel().add(List.of(kibCoreRole, roleRepresentation));
+
+        return new User(userRepresentation, usersResource);
     }
 
     @Override
@@ -90,12 +96,20 @@ public class UserServiceImpl implements UserService, InitializingBean {
         UsersResource usersResource = realmResource.users();
 
         UserRepresentation userRepresentation = usersResource.get(user.getId()).toRepresentation();
-        userRepresentation.setUsername(user.getUsername());
         userRepresentation.setFirstName(user.getFirstName());
         userRepresentation.setLastName(user.getLastName());
         userRepresentation.setEmail(user.getEmail());
-
         usersResource.get(user.getId()).update(userRepresentation);
+
+        List<RoleRepresentation> kibRoles = new ArrayList<>();
+        kibRoles.add(realmResource.roles().get("kib_admin").toRepresentation());
+        kibRoles.add(realmResource.roles().get("kib_user").toRepresentation());
+        RoleRepresentation roleRepresentation = switch (user.getRole()) {
+            case ADMIN -> realmResource.roles().get("kib_admin").toRepresentation();
+            case USER -> realmResource.roles().get("kib_user").toRepresentation();
+        };
+        usersResource.get(user.getId()).roles().realmLevel().remove(kibRoles);
+        usersResource.get(user.getId()).roles().realmLevel().add(List.of(roleRepresentation));
 
         return Optional.of(userRepresentation).map(u -> new User(u, usersResource));
     }
@@ -105,8 +119,9 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
         UserRepresentation userRepresentation = usersResource.get(id).toRepresentation();
+        Optional<User> user = Optional.ofNullable(userRepresentation).map(u -> new User(u, usersResource));
         usersResource.delete(id);
-        return Optional.ofNullable(userRepresentation).map(u -> new User(u, usersResource));
+        return user;
     }
 
     @Override
@@ -123,5 +138,15 @@ public class UserServiceImpl implements UserService, InitializingBean {
         UsersResource usersResource = realmResource.users();
         List<UserRepresentation> usersRepresentation = usersResource.searchByUsername(username, true);
         return !usersRepresentation.isEmpty();
+    }
+
+    @Override
+    public Long adminUsersCount() {
+        RealmResource realmResource = keycloak.realm(realm);
+
+        List<UserRepresentation> adminUsers = realmResource.roles().get("kib_admin").getUserMembers(0, 1000);
+        List<UserRepresentation> coreUsers = realmResource.roles().get("kib_core").getUserMembers(0, 1000);
+
+        return adminUsers.stream().filter(adminUser -> coreUsers.stream().anyMatch(coreUser -> coreUser.getId().equals(adminUser.getId()))).count();
     }
 }

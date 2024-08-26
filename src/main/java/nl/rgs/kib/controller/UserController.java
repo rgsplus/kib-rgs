@@ -192,4 +192,24 @@ public class UserController {
     public ResponseEntity<Boolean> usernameExists(@PathVariable() String username) {
         return ResponseEntity.ok(userService.usernameExists(username));
     }
+
+    @GetMapping("admin-users-count")
+    @Operation(
+            summary = "Admin users count",
+            description = "Get the count of admin users",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Get the count of admin users"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
+    public ResponseEntity<Long> adminUsersCount() {
+        return ResponseEntity.ok(userService.adminUsersCount());
+    }
 }

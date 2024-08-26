@@ -21,7 +21,6 @@ public class UserTest {
             User user = new User();
             user.setId(null);
             user.setEmail("john.doe@gmail.com");
-            user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
@@ -34,7 +33,6 @@ public class UserTest {
             User user = new User();
             user.setId("");
             user.setEmail("john.doe@gmail.com");
-            user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
@@ -43,37 +41,10 @@ public class UserTest {
         }
 
         @Test
-        public void testUserUsernameNotNullValidator() {
-            User user = new User();
-            user.setId(new ObjectId().toHexString());
-            user.setEmail("john.doe@gmail.com");
-            user.setUsername(null);
-            user.setFirstName("John");
-            user.setLastName("Doe");
-            user.setRole(UserRole.USER);
-
-            assertEquals(1, validator.validate(user).size(), "Username should not be null.");
-        }
-
-        @Test
-        public void testUserUsernameNotBlankValidator() {
-            User user = new User();
-            user.setId(new ObjectId().toHexString());
-            user.setEmail("john.doe@gmail.com");
-            user.setUsername("");
-            user.setFirstName("John");
-            user.setLastName("Doe");
-            user.setRole(UserRole.USER);
-
-            assertEquals(1, validator.validate(user).size(), "Username should not be blank.");
-        }
-
-        @Test
         public void testUserFirstNameNotNullValidator() {
             User user = new User();
             user.setId(new ObjectId().toHexString());
             user.setEmail("john.doe@gmail.com");
-            user.setUsername("john.doe");
             user.setFirstName(null);
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
@@ -86,7 +57,6 @@ public class UserTest {
             User user = new User();
             user.setId(new ObjectId().toHexString());
             user.setEmail("john.doe@gmail.com");
-            user.setUsername("john.doe");
             user.setFirstName("");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
@@ -99,7 +69,6 @@ public class UserTest {
             User user = new User();
             user.setId(new ObjectId().toHexString());
             user.setEmail(null);
-            user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);
@@ -112,7 +81,6 @@ public class UserTest {
             User user = new User();
             user.setId(new ObjectId().toHexString());
             user.setEmail("");
-            user.setUsername("john.doe");
             user.setFirstName("John");
             user.setLastName("Doe");
             user.setRole(UserRole.USER);

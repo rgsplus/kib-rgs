@@ -10,21 +10,15 @@ import nl.rgs.kib.model.user.UserRole;
 /**
  * CreateUser
  * <p>
- * DTO for creating an User
+ * DTO for creating a User
  * <p>
  *
- * @param username
  * @param firstName
  * @param lastName
  * @param email
  * @param role
  */
 public record CreateUser(
-
-        @NotBlank()
-        @Schema(example = "john.doe")
-        String username,
-
         @NotBlank()
         @Schema(example = "John")
         String firstName,

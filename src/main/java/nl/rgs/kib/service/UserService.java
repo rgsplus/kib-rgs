@@ -20,4 +20,6 @@ public interface UserService {
     Boolean emailExists(String email);
 
     Boolean usernameExists(String username);
+
+    Long adminUsersCount();
 }

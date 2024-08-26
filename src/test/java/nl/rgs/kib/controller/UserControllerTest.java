@@ -94,7 +94,6 @@ public class UserControllerTest {
     @WithMockUser()
     public void create_Returns201() throws Exception {
         CreateUser createUser = new CreateUser(
-                "username",
                 "firstName",
                 "lastName",
                 "email",
@@ -104,7 +103,6 @@ public class UserControllerTest {
 
         User user = new User();
         user.setId(new ObjectId().toHexString());
-        user.setUsername(createUser.username());
         user.setFirstName(createUser.firstName());
         user.setLastName(createUser.lastName());
         user.setEmail(createUser.email());
@@ -125,10 +123,9 @@ public class UserControllerTest {
     @WithMockUser()
     public void create_WhenInvalid_Returns400() throws Exception {
         CreateUser createUser = new CreateUser(
-                null,
                 "firstName",
                 "lastName",
-                "email",
+                null,
                 UserRole.USER
         );
 
@@ -142,7 +139,6 @@ public class UserControllerTest {
     @Test
     public void create_WithoutAuthentication_Returns401() throws Exception {
         CreateUser createUser = new CreateUser(
-                "username",
                 "firstName",
                 "lastName",
                 "email",
@@ -161,9 +157,8 @@ public class UserControllerTest {
     public void update_WhenExists_Returns200() throws Exception {
         User user = new User();
         user.setId(new ObjectId().toHexString());
-        user.setEmail("email");
+        user.setEmail("email updated");
         user.setLastName("lastname");
-        user.setUsername("username updated");
         user.setFirstName("username");
         user.setRole(UserRole.USER);
 
@@ -185,7 +180,6 @@ public class UserControllerTest {
         user.setId(new ObjectId().toHexString());
         user.setEmail(null);
         user.setLastName("lastname");
-        user.setUsername("username updated");
         user.setFirstName("username");
 
         mockMvc.perform(put(domain + "/" + user.getId())
@@ -202,7 +196,6 @@ public class UserControllerTest {
         user.setId(new ObjectId().toHexString());
         user.setEmail("email");
         user.setLastName("lastname");
-        user.setUsername("username updated");
         user.setFirstName("username");
         user.setRole(UserRole.USER);
 
@@ -223,7 +216,6 @@ public class UserControllerTest {
         user.setId(new ObjectId().toHexString());
         user.setEmail("email");
         user.setLastName("lastname");
-        user.setUsername("username updated");
         user.setFirstName("username");
 
         mockMvc.perform(put(domain + "/" + user.getId())
