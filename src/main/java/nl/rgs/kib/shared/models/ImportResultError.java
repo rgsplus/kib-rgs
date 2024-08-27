@@ -21,10 +21,10 @@ public class ImportResultError {
 
     public static <T> ImportResultError constraintViolationImplToImportResultError(ConstraintViolationImpl<T> violation) {
         ImportResultError importResultError = new ImportResultError();
-        importResultError.setEntity(violation.getRootBeanClass().getSimpleName());
-        importResultError.setField(violation.getPropertyPath().toString());
+        importResultError.setEntity(violation.getRootBeanClass() == null ? null : violation.getRootBeanClass().getName());
+        importResultError.setField(violation.getPropertyPath() == null ? null : violation.getPropertyPath().toString());
         importResultError.setMessage(violation.getMessage());
-        importResultError.setValue(violation.getInvalidValue().toString());
+        importResultError.setValue(violation.getInvalidValue() == null ? null : violation.getInvalidValue().toString());
         return importResultError;
     }
 
