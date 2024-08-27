@@ -560,34 +560,6 @@ public class InspectionListTest {
                 }
 
                 @Test
-                public void testInspectionListItemStageMaxMinValidator() {
-                    InspectionListItem item = createInspectionListItem("Item 1");
-                    item.getStages().getFirst().setMax(-1.0);
-
-                    InspectionList inspectionList = new InspectionList();
-                    inspectionList.setId(new ObjectId().toHexString());
-                    inspectionList.setName("test");
-                    inspectionList.setItems(List.of(item));
-                    inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
-
-                    assertEquals(1, validator.validate(inspectionList).size(), "Max should be greater than or equal to 0.");
-                }
-
-                @Test
-                public void testInspectionListItemStageMaxMaxValidator() {
-                    InspectionListItem item = createInspectionListItem("Item 1");
-                    item.getStages().getFirst().setMax(101.0);
-
-                    InspectionList inspectionList = new InspectionList();
-                    inspectionList.setId(new ObjectId().toHexString());
-                    inspectionList.setName("test");
-                    inspectionList.setItems(List.of(item));
-                    inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
-
-                    assertEquals(1, validator.validate(inspectionList).size(), "Max should be less than or equal to 100.");
-                }
-
-                @Test
                 public void testInspectionListItemStageImagesNotNullValidator() {
                     InspectionListItem item = createInspectionListItem("Item 1");
                     item.getStages().getFirst().setImages(null);

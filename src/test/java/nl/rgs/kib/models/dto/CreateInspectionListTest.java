@@ -390,34 +390,6 @@ public class CreateInspectionListTest {
                 }
 
                 @Test
-                public void testCreateInspectionListItemStageMaxMinValidator() {
-                    InspectionListItem item = createInspectionListItem("test");
-                    item.getStages().getFirst().setMax(-1.0);
-
-                    CreateInspectionList inspectionList = new CreateInspectionList(
-                            "test",
-                            InspectionListStatus.DEFINITIVE,
-                            List.of(item)
-                    );
-
-                    assertEquals(1, validator.validate(inspectionList).size(), "Max should be greater than or equal to 0.");
-                }
-
-                @Test
-                public void testCreateInspectionListItemStageMaxMaxValidator() {
-                    InspectionListItem item = createInspectionListItem("test");
-                    item.getStages().getFirst().setMax(101.0);
-
-                    CreateInspectionList inspectionList = new CreateInspectionList(
-                            "test",
-                            InspectionListStatus.DEFINITIVE,
-                            List.of(item)
-                    );
-
-                    assertEquals(1, validator.validate(inspectionList).size(), "Max should be less than or equal to 100.");
-                }
-
-                @Test
                 public void testCreateInspectionListItemStageImagesNotNullValidator() {
                     InspectionListItem item = createInspectionListItem("test");
                     item.getStages().getFirst().setImages(null);
@@ -488,7 +460,6 @@ public class CreateInspectionListTest {
                         InspectionListItemStage stage1 = new InspectionListItemStage();
                         stage1.setStage(1);
                         stage1.setName("Stage 1");
-                        stage1.setMax(25.0);
                         stage1.setImages(List.of(image));
 
                         InspectionListItemStage stage2 = new InspectionListItemStage();

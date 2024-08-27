@@ -120,7 +120,6 @@ public class InspectionListServiceImpl implements InspectionListService {
                     InspectionListItemStage copiedStage = new InspectionListItemStage();
                     copiedStage.setStage(stage.getStage());
                     copiedStage.setName(stage.getName());
-                    copiedStage.setMax(stage.getMax());
                     copiedStage.setImages(stage.getImages().stream().map(image -> {
                         InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
                         copiedImage.setMain(image.getMain());
@@ -166,7 +165,6 @@ public class InspectionListServiceImpl implements InspectionListService {
                 InspectionListItemStage copiedStage = new InspectionListItemStage();
                 copiedStage.setStage(stage.getStage());
                 copiedStage.setName(stage.getName());
-                copiedStage.setMax(stage.getMax());
                 copiedStage.setImages(stage.getImages().stream().map(image -> {
                     InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
                     copiedImage.setMain(image.getMain());

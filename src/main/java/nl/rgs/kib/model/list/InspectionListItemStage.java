@@ -1,9 +1,6 @@
 package nl.rgs.kib.model.list;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,11 +17,6 @@ import java.util.List;
 @NoArgsConstructor()
 @AllArgsConstructor()
 public class InspectionListItemStage extends InspectionMethodStage {
-    @Min(0)
-    @Max(100)
-    @Schema(example = "25", minimum = "0", maximum = "100")
-    private Double max;
-
     @Valid()
     @NotNull()
     @MainImage()
