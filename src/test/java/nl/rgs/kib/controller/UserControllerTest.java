@@ -96,8 +96,9 @@ public class UserControllerTest {
         CreateUser createUser = new CreateUser(
                 "firstName",
                 "lastName",
-                "email",
-                UserRole.USER
+                "templates/email",
+                UserRole.USER,
+                false
         );
 
 
@@ -126,7 +127,8 @@ public class UserControllerTest {
                 "firstName",
                 "lastName",
                 null,
-                UserRole.USER
+                UserRole.USER,
+                false
         );
 
         mockMvc.perform(post(domain)
@@ -141,8 +143,9 @@ public class UserControllerTest {
         CreateUser createUser = new CreateUser(
                 "firstName",
                 "lastName",
-                "email",
-                UserRole.USER
+                "templates/email",
+                UserRole.USER,
+                false
         );
 
         mockMvc.perform(post(domain)
@@ -161,6 +164,7 @@ public class UserControllerTest {
         user.setLastName("lastname");
         user.setFirstName("username");
         user.setRole(UserRole.USER);
+        user.setTwoFactorAuthentication(false);
 
         when(userService.update(user)).thenReturn(Optional.of(user));
 
@@ -198,6 +202,7 @@ public class UserControllerTest {
         user.setLastName("lastname");
         user.setFirstName("username");
         user.setRole(UserRole.USER);
+        user.setTwoFactorAuthentication(false);
 
         when(userService.update(user)).thenReturn(Optional.empty());
 
@@ -214,7 +219,7 @@ public class UserControllerTest {
     public void update_WithoutAuthentication_Returns401() throws Exception {
         User user = new User();
         user.setId(new ObjectId().toHexString());
-        user.setEmail("email");
+        user.setEmail("templates/email");
         user.setLastName("lastname");
         user.setFirstName("username");
 
