@@ -146,217 +146,23 @@ public class FileImportServiceImpl implements FileImportService {
                             inspectionListItem.setStages(new LinkedList<>());
 
                             final String method = cell.getStringCellValue();
-                            switch (method) {
-                                case "Klasse 0 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
+                            Set<Integer> stages = new HashSet<>();
 
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
+                            for (int i = 0; i < method.length(); i++) {
+                                if (Character.isDigit(method.charAt(i))) {
+                                    int stage = Character.getNumericValue(method.charAt(i));
+                                    if (stage >= 0 && stage <= 9) {
+                                        stages.add(Character.getNumericValue(method.charAt(i)));
+                                    }
                                 }
-                                case "Klasse 0, 1, 2 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
+                            }
 
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(3);
-                                    inspectionListItemStage.setName("Klasse 2");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 1, 2, 3, 4 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(3);
-                                    inspectionListItemStage.setName("Klasse 2");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(5);
-                                    inspectionListItemStage.setName("Klasse 4");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 1, 2, 4 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(3);
-                                    inspectionListItemStage.setName("Klasse 2");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(5);
-                                    inspectionListItemStage.setName("Klasse 4");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 1, 3 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 1, 3 of 6" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(7);
-                                    inspectionListItemStage.setName("Klasse 6");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 1, 3 of 7" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(8);
-                                    inspectionListItemStage.setName("Klasse 7");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 1, 3 of 9" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(2);
-                                    inspectionListItemStage.setName("Klasse 1");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(10);
-                                    inspectionListItemStage.setName("Klasse 9");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 2, 3 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(3);
-                                    inspectionListItemStage.setName("Klasse 2");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
-                                case "Klasse 0, 3 of 5" -> {
-                                    InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(1);
-                                    inspectionListItemStage.setName("Klasse 0");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(4);
-                                    inspectionListItemStage.setName("Klasse 3");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-
-                                    inspectionListItemStage = new InspectionListItemStage();
-                                    inspectionListItemStage.setStage(6);
-                                    inspectionListItemStage.setName("Klasse 5");
-                                    inspectionListItem.getStages().add(inspectionListItemStage);
-                                }
+                            for (Integer stage : stages) {
+                                InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
+                                inspectionListItemStage.setStage(stage + 1);
+                                inspectionListItemStage.setName("Klasse " + stage);
+                                inspectionListItemStage.setImages(new ArrayList<>());
+                                inspectionListItem.getStages().add(inspectionListItemStage);
                             }
 
                             inspectionList.getItems().add(inspectionListItem);
