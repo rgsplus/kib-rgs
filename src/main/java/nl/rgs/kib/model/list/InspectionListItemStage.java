@@ -29,5 +29,5 @@ public class InspectionListItemStage extends InspectionMethodStage {
     @NotNull()
     @MainImage()
     @UniqueFileIds()
-    private List<InspectionListItemStageImage> images;
+    private List<InspectionListItemStageImage> images = List.of();
 }

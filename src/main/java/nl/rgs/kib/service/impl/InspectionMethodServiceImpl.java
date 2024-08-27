@@ -29,6 +29,11 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
+    public Optional<InspectionMethod> findByName(String name) {
+        return inspectionMethodRepository.findByName(name);
+    }
+
+    @Override
     public InspectionMethod create(@NotNull() CreateInspectionMethod createInspectionMethod) {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setName(createInspectionMethod.name());

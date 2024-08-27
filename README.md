@@ -70,6 +70,8 @@ server.port=RECOMMENDED
 spring.data.mongodb.host=REQUIRED *
 spring.data.mongodb.port=REQUIRED *
 spring.data.mongodb.database=REQUIRED *
+# Spring Main
+spring.main.allow-circular-references=true REQUIRED *
 # Spring Multipart
 spring.servlet.multipart.enabled=REQUIRED *
 spring.servlet.multipart.max-file-size=REQUIRED *

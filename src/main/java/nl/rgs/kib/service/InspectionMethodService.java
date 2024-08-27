@@ -12,6 +12,8 @@ public interface InspectionMethodService {
 
     Optional<InspectionMethod> findById(ObjectId id);
 
+    Optional<InspectionMethod> findByName(String name);
+
     InspectionMethod create(CreateInspectionMethod createInspectionMethod);
 
     Optional<InspectionMethod> update(InspectionMethod inspectionMethod);

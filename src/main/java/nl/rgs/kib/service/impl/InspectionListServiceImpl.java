@@ -9,8 +9,11 @@ import nl.rgs.kib.model.list.InspectionListItemStage;
 import nl.rgs.kib.model.list.InspectionListItemStageImage;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
+import nl.rgs.kib.service.FileImportService;
 import nl.rgs.kib.service.InspectionListService;
 import nl.rgs.kib.service.KibFileService;
+import nl.rgs.kib.shared.models.ImportDocument;
+import nl.rgs.kib.shared.models.ImportResult;
 import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +22,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,6 +35,9 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Autowired
     private InspectionListRepository inspectionListRepository;
+
+    @Autowired
+    private FileImportService fileImportService;
 
     @Autowired
     private MessageSource messageSource;
@@ -219,5 +223,18 @@ public class InspectionListServiceImpl implements InspectionListService {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public ImportResult<InspectionList> importInspectionList(ImportDocument importDocument) throws IOException {
+        String base64Data = importDocument.getDocument();
+
+        if (base64Data.startsWith("data:")) {
+            base64Data = base64Data.substring(base64Data.indexOf(",") + 1);
+        }
+
+        byte[] fileBytes = Base64.getDecoder().decode(base64Data);
+
+        return this.fileImportService.importExcelBluePrint(fileBytes, importDocument.getName());
     }
 }

@@ -8,11 +8,14 @@ import jakarta.validation.Valid;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.service.InspectionListService;
+import nl.rgs.kib.shared.models.ImportDocument;
+import nl.rgs.kib.shared.models.ImportResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController()
@@ -206,5 +209,30 @@ public class InspectionListController {
         return inspectionListService.copyItem(new ObjectId(id), itemId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/import")
+    @Operation(
+            summary = "Import an inspection list",
+            description = "Import an inspection list",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Imported the inspection list"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Invalid input",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content()
+                    ),
+            }
+    )
+    public ResponseEntity<ImportResult<InspectionList>> importInspectionList(@Valid() @RequestBody() ImportDocument inspectionList) throws IOException {
+        return ResponseEntity.ok(inspectionListService.importInspectionList(inspectionList));
     }
 }
