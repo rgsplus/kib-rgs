@@ -17,7 +17,7 @@ public interface InspectionListService {
 
     InspectionList create(CreateInspectionList createInspectionList);
 
-    Optional<InspectionList> update(InspectionList inspectionMethod);
+    Optional<InspectionList> update(InspectionList inspectionList);
 
     Optional<InspectionList> deleteById(ObjectId id);
 
