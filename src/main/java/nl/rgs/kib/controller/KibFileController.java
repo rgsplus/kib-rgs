@@ -11,6 +11,7 @@ import nl.rgs.kib.service.KibFileService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +24,7 @@ public class KibFileController {
     @Autowired
     private KibFileService kibFileService;
 
+    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/{id}")
     @Operation(
             summary = "Find a kib file by id",
@@ -50,6 +52,7 @@ public class KibFileController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping()
     @Operation(
             summary = "Create a kib file",
@@ -79,6 +82,7 @@ public class KibFileController {
         return ResponseEntity.status(201).body(kibFileService.create(file, collection, new ObjectId(objectId)));
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Delete a kib file by id",

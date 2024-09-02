@@ -10,6 +10,7 @@ import nl.rgs.kib.model.user.dto.CreateUser;
 import nl.rgs.kib.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping()
     @Operation(
             summary = "Find all users",
@@ -41,6 +43,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findAll());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/{id}")
     @Operation(
             summary = "Find a user by id",
@@ -68,6 +71,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping()
     @Operation(
             summary = "Create an user",
@@ -93,6 +97,7 @@ public class UserController {
         return ResponseEntity.status(201).body(userService.create(createUser));
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PutMapping("/{id}")
     @Operation(
             summary = "Update an user",
@@ -125,6 +130,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Delete an user by id",
@@ -153,6 +159,7 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("email-exists/{email}")
     @Operation(
             summary = "Email exists",
@@ -173,6 +180,7 @@ public class UserController {
         return ResponseEntity.ok(userService.emailExists(email));
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("username-exists/{username}")
     @Operation(
             summary = "Username exists",
@@ -193,6 +201,7 @@ public class UserController {
         return ResponseEntity.ok(userService.usernameExists(username));
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("admin-users-count")
     @Operation(
             summary = "Admin users count",

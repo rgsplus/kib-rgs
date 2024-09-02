@@ -11,6 +11,7 @@ import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class InspectionMethodController {
     @Autowired
     private InspectionMethodService inspectionMethodService;
 
+    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping()
     @Operation(
             summary = "Find all inspection methods",
@@ -42,6 +44,7 @@ public class InspectionMethodController {
         return ResponseEntity.ok(inspectionMethodService.findAll());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/{id}")
     @Operation(
             summary = "Find an inspection method by id",
@@ -69,6 +72,7 @@ public class InspectionMethodController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping()
     @Operation(
             summary = "Create an inspection method",
@@ -94,6 +98,7 @@ public class InspectionMethodController {
         return ResponseEntity.status(201).body(inspectionMethodService.create(createInspectionMethod));
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PutMapping("/{id}")
     @Operation(
             summary = "Update an inspection method",
@@ -126,6 +131,7 @@ public class InspectionMethodController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Delete an inspection method by id",
