@@ -35,7 +35,6 @@ public class OAuth2ClientSecurityConfig {
                         httpSecurityOAuth2ResourceServerConfigurer.jwt(jwtConfigurer ->
                                 jwtConfigurer.jwtAuthenticationConverter(this.jwtAuthenticationConverter())))
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
-
         return http.build();
     }
 
@@ -52,7 +51,7 @@ public class OAuth2ClientSecurityConfig {
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
-    
+
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
