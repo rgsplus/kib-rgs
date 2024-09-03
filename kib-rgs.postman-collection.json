@@ -467,6 +467,73 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "CopyInspectionList",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/inspection-list/copy/{id}",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"inspection-list",
+										"copy",
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CopyInspectionListItem",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/inspection-list/copy/{id}/item/{itemId}",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"inspection-list",
+										"copy",
+										"{id}",
+										"item",
+										"{itemId}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Import",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"document\": \"base64document\",\r\n    \"name\":\"Name of the inspection-list to import\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base-url}}/inspection-list/import",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"inspection-list",
+										"import"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
