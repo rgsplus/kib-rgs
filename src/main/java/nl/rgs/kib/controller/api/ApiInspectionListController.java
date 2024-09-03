@@ -1,7 +1,10 @@
 package nl.rgs.kib.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.rgs.kib.model.list.InspectionList;
@@ -18,7 +21,7 @@ import java.util.List;
 
 @RestController()
 @RequestMapping("/api/inspection-list")
-@Tag(name = "Public Api Inspection List")
+@Tag(name = "Inspection List")
 public class ApiInspectionListController {
     @Autowired
     private InspectionListService inspectionListService;
@@ -27,6 +30,15 @@ public class ApiInspectionListController {
     @Operation(
             summary = "Find all inspection lists",
             description = "Find all inspection lists",
+            parameters = {
+                    @Parameter(
+                            name = "api-key",
+                            description = "API Key",
+                            required = true,
+                            in = ParameterIn.HEADER,
+                            schema = @Schema(type = "string")
+                    )
+            },
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -47,6 +59,15 @@ public class ApiInspectionListController {
     @Operation(
             summary = "Find an inspection list by id",
             description = "Find an inspection list by id",
+            parameters = {
+                    @Parameter(
+                            name = "api-key",
+                            description = "API Key",
+                            required = true,
+                            in = ParameterIn.HEADER,
+                            schema = @Schema(type = "string")
+                    )
+            },
             responses = {
                     @ApiResponse(
                             responseCode = "200",
