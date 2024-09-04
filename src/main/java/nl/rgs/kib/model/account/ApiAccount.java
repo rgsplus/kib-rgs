@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.EndDateAfterStartDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -17,11 +18,13 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "api_account")
 public class ApiAccount extends BaseObject {
+
+    @Id()
     @NotNull()
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 
-    @NotNull()
+    @NotBlank()
     @Schema(example = "e0e4fe66-5114-4bd8-83f7-28c4bd3461a6")
     private String apiKey;
 
