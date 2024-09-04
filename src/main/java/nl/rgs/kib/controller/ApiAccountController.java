@@ -5,9 +5,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.rgs.kib.model.user.User;
-import nl.rgs.kib.model.user.dto.CreateUser;
-import nl.rgs.kib.service.UserService;
+import nl.rgs.kib.model.account.ApiAccount;
+import nl.rgs.kib.model.account.dto.CreateApiAccount;
+import nl.rgs.kib.service.ApiAccountService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,21 +17,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/user")
-@Tag(name = "User")
-public class UserController {
+@RequestMapping("/api-account")
+@Tag(name = "Api Account")
+public class ApiAccountController {
     @Autowired
-    private UserService userService;
+    private ApiAccountService apiAccountService;
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping()
     @Operation(
-            summary = "Find all users",
-            description = "Find all users",
+            summary = "Find all api accounts",
+            description = "Find all api accounts",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found all users"
+                            description = "Found all api accounts"
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -39,19 +40,19 @@ public class UserController {
                     ),
             }
     )
-    public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok(userService.findAll());
+    public ResponseEntity<List<ApiAccount>> findAll() {
+        return ResponseEntity.ok(apiAccountService.findAll());
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/{id}")
     @Operation(
-            summary = "Find a user by id",
-            description = "Find a user by id",
+            summary = "Find an api account by id",
+            description = "Find an api account by id",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the user"
+                            description = "Found the api account"
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -60,13 +61,13 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "Api account not found",
                             content = @Content()
                     ),
             }
     )
-    public ResponseEntity<User> findById(@PathVariable() String id) {
-        return userService.findById(id)
+    public ResponseEntity<ApiAccount> findById(@PathVariable() String id) {
+        return apiAccountService.findById(new ObjectId(id))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -74,12 +75,12 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping()
     @Operation(
-            summary = "Create an user",
-            description = "Create an user",
+            summary = "Create an api account",
+            description = "Create an api account",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
-                            description = "Created the user"
+                            description = "Created the api account"
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -93,15 +94,15 @@ public class UserController {
                     ),
             }
     )
-    public ResponseEntity<User> create(@Valid() @RequestBody() CreateUser createUser) {
-        return ResponseEntity.status(201).body(userService.create(createUser));
+    public ResponseEntity<ApiAccount> create(@Valid() @RequestBody() CreateApiAccount createApiAccount) {
+        return ResponseEntity.status(201).body(apiAccountService.create(createApiAccount));
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PutMapping("/{id}")
     @Operation(
-            summary = "Update an user",
-            description = "Update an user",
+            summary = "Update an api account",
+            description = "Update an api account",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -119,13 +120,13 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "Api account not found",
                             content = @Content()
                     ),
             }
     )
-    public ResponseEntity<User> update(@Valid() @RequestBody() User user) {
-        return userService.update(user)
+    public ResponseEntity<ApiAccount> update(@Valid() @RequestBody() ApiAccount apiAccount) {
+        return apiAccountService.update(apiAccount)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -133,8 +134,8 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(
-            summary = "Delete an user by id",
-            description = "Delete an user by id",
+            summary = "Delete an api account by id",
+            description = "Delete an api account by id",
             responses = {
                     @ApiResponse(
                             responseCode = "204",
@@ -148,77 +149,14 @@ public class UserController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "User not found",
+                            description = "Api account not found",
                             content = @Content()
                     ),
             }
     )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return userService.deleteById(id)
+        return apiAccountService.deleteById(new ObjectId(id))
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping("email-exists/{email}")
-    @Operation(
-            summary = "Email exists",
-            description = "Get if an email is already used by an user",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Get if an email is already used by an user"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content()
-                    ),
-            }
-    )
-    public ResponseEntity<Boolean> emailExists(@PathVariable() String email) {
-        return ResponseEntity.ok(userService.emailExists(email));
-    }
-
-    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping("username-exists/{username}")
-    @Operation(
-            summary = "Username exists",
-            description = "Get if an username is already used by an user",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Get if an username is already used by an user"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content()
-                    ),
-            }
-    )
-    public ResponseEntity<Boolean> usernameExists(@PathVariable() String username) {
-        return ResponseEntity.ok(userService.usernameExists(username));
-    }
-
-    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping("admin-users-count")
-    @Operation(
-            summary = "Admin users count",
-            description = "Get the count of admin users",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Get the count of admin users"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content()
-                    ),
-            }
-    )
-    public ResponseEntity<Long> adminUsersCount() {
-        return ResponseEntity.ok(userService.adminUsersCount());
     }
 }

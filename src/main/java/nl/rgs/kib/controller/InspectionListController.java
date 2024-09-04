@@ -13,6 +13,7 @@ import nl.rgs.kib.shared.models.ImportResult;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class InspectionListController {
     @Autowired
     private InspectionListService inspectionListService;
 
+    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping()
     @Operation(
             summary = "Find all inspection lists",
@@ -46,6 +48,7 @@ public class InspectionListController {
         return ResponseEntity.ok(inspectionListService.findAll());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/{id}")
     @Operation(
             summary = "Find an inspection list by id",
@@ -73,6 +76,7 @@ public class InspectionListController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping()
     @Operation(
             summary = "Create an inspection list",
@@ -98,6 +102,7 @@ public class InspectionListController {
         return ResponseEntity.status(201).body(inspectionListService.create(createInspectionList));
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PutMapping("/{id}")
     @Operation(
             summary = "Update an inspection list",
@@ -130,6 +135,7 @@ public class InspectionListController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @DeleteMapping("/{id}")
     @Operation(
             summary = "Delete an inspection list",
@@ -158,6 +164,7 @@ public class InspectionListController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping("/copy/{id}")
     @Operation(
             summary = "Copy an inspection list",
@@ -185,6 +192,7 @@ public class InspectionListController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PutMapping("/copy/{id}/item/{itemId}")
     @Operation(
             summary = "Copy an inspection list item",
@@ -212,6 +220,7 @@ public class InspectionListController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
     @PostMapping("/import")
     @Operation(
             summary = "Import an inspection list",

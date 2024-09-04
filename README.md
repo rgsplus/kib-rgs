@@ -76,6 +76,8 @@ spring.main.allow-circular-references=true REQUIRED *
 spring.servlet.multipart.enabled=REQUIRED *
 spring.servlet.multipart.max-file-size=REQUIRED *
 spring.servlet.multipart.max-request-size=REQUIRED *
+# Spring Security OAuth2
+spring.security.oauth2.resourceserver.jwt.issuer-uri=REQUIRED *
 # Keycloak
 keycloak.server=REQUIRED *
 keycloak.realm=REQUIRED *

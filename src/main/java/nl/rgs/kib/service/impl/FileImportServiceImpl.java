@@ -101,53 +101,54 @@ public class FileImportServiceImpl implements FileImportService {
                         }
 
                         cell = sheet.getRow(rowno).getCell(9);
-                        if (cell.getCellType().equals(CellType.STRING) && cell.getStringCellValue() != null) {
-                            Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodService.findByName("Conditiescore");
 
-                            ImportResult<InspectionList> importResult = new ImportResult<>();
+                        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodService.findByName("Conditiescore");
 
-                            InspectionMethod inspectionMethod = inspectionMethodOptional.orElseGet(() -> {
-                                InspectionMethod newInspectionMethod = new InspectionMethod();
-                                newInspectionMethod.setName("Conditiescore");
-                                newInspectionMethod.setStages(new LinkedList<>());
-                                for (int i = 1; i < 11; i++) {
-                                    InspectionMethodStage inspectionMethodStage = new InspectionMethodStage();
-                                    inspectionMethodStage.setName("" + i);
-                                    inspectionMethodStage.setStage(i);
-                                    newInspectionMethod.getStages().add(inspectionMethodStage);
-                                }
+                        ImportResult<InspectionList> importResult = new ImportResult<>();
 
-                                CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
-                                        newInspectionMethod.getName(),
-                                        newInspectionMethod.getInput(),
-                                        newInspectionMethod.getCalculationMethod(),
-                                        newInspectionMethod.getStages()
-                                );
-
-
-                                Set<ConstraintViolationImpl<CreateInspectionMethod>> inspectionMethodViolations = convertToImplSet(validator.validate(createInspectionMethod));
-
-                                if (!inspectionMethodViolations.isEmpty()) {
-                                    log.error("Invalid InspectionMethod: {}", inspectionMethodViolations);
-                                    importResult.setErrors(ImportResultError.constraintViolationsImplToImportResultsError(inspectionMethodViolations));
-                                } else {
-                                    newInspectionMethod = inspectionMethodService.create(createInspectionMethod);
-                                    return newInspectionMethod;
-                                }
-
-                                return null;
-                            });
-
-                            if (!importResult.getErrors().isEmpty()) {
-                                return importResult;
+                        InspectionMethod inspectionMethod = inspectionMethodOptional.orElseGet(() -> {
+                            InspectionMethod newInspectionMethod = new InspectionMethod();
+                            newInspectionMethod.setName("Conditiescore");
+                            newInspectionMethod.setStages(new LinkedList<>());
+                            for (int i = 1; i < 11; i++) {
+                                InspectionMethodStage inspectionMethodStage = new InspectionMethodStage();
+                                inspectionMethodStage.setName("" + i);
+                                inspectionMethodStage.setStage(i);
+                                newInspectionMethod.getStages().add(inspectionMethodStage);
                             }
 
-                            inspectionListItem.setInspectionMethod(inspectionMethod);
-                            inspectionListItem.setStages(new LinkedList<>());
+                            CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
+                                    newInspectionMethod.getName(),
+                                    newInspectionMethod.getInput(),
+                                    newInspectionMethod.getCalculationMethod(),
+                                    newInspectionMethod.getStages()
+                            );
 
-                            final String method = cell.getStringCellValue();
-                            Set<Integer> stages = new HashSet<>();
 
+                            Set<ConstraintViolationImpl<CreateInspectionMethod>> inspectionMethodViolations = convertToImplSet(validator.validate(createInspectionMethod));
+
+                            if (!inspectionMethodViolations.isEmpty()) {
+                                log.error("Invalid InspectionMethod: {}", inspectionMethodViolations);
+                                importResult.setErrors(ImportResultError.constraintViolationsImplToImportResultsError(inspectionMethodViolations));
+                            } else {
+                                newInspectionMethod = inspectionMethodService.create(createInspectionMethod);
+                                return newInspectionMethod;
+                            }
+
+                            return null;
+                        });
+
+                        if (!importResult.getErrors().isEmpty()) {
+                            return importResult;
+                        }
+
+                        inspectionListItem.setInspectionMethod(inspectionMethod);
+                        inspectionListItem.setStages(new LinkedList<>());
+
+                        final String method = cell.getStringCellValue();
+                        Set<Integer> stages = new HashSet<>();
+
+                        if (method != null) {
                             for (int i = 0; i < method.length(); i++) {
                                 if (Character.isDigit(method.charAt(i))) {
                                     int stage = Character.getNumericValue(method.charAt(i));
@@ -156,18 +157,18 @@ public class FileImportServiceImpl implements FileImportService {
                                     }
                                 }
                             }
-
-                            for (Integer stage : stages) {
-                                InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
-                                inspectionListItemStage.setStage(stage + 1);
-                                inspectionListItemStage.setName("Klasse " + stage);
-                                inspectionListItemStage.setImages(new ArrayList<>());
-                                inspectionListItem.getStages().add(inspectionListItemStage);
-                            }
-
-                            inspectionList.getItems().add(inspectionListItem);
-                            index++;
                         }
+
+                        for (Integer stage : stages) {
+                            InspectionListItemStage inspectionListItemStage = new InspectionListItemStage();
+                            inspectionListItemStage.setStage(stage + 1);
+                            inspectionListItemStage.setName("Klasse " + stage);
+                            inspectionListItemStage.setImages(new ArrayList<>());
+                            inspectionListItem.getStages().add(inspectionListItemStage);
+                        }
+
+                        inspectionList.getItems().add(inspectionListItem);
+                        index++;
                     }
                 }
             }
