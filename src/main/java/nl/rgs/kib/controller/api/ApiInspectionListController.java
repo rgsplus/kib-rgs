@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.service.InspectionListService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -86,7 +85,7 @@ public class ApiInspectionListController {
             }
     )
     public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
-        return inspectionListService.findById(new ObjectId(id))
+        return inspectionListService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

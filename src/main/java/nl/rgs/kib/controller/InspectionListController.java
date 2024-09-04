@@ -10,7 +10,6 @@ import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.service.InspectionListService;
 import nl.rgs.kib.shared.models.ImportDocument;
 import nl.rgs.kib.shared.models.ImportResult;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -70,7 +69,7 @@ public class InspectionListController {
             }
     )
     public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
-        return inspectionListService.findById(new ObjectId(id))
+        return inspectionListService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -158,7 +157,7 @@ public class InspectionListController {
             }
     )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return inspectionListService.deleteById(new ObjectId(id))
+        return inspectionListService.deleteById(id)
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -186,7 +185,7 @@ public class InspectionListController {
             }
     )
     public ResponseEntity<InspectionList> copy(@PathVariable() String id) {
-        return inspectionListService.copy(new ObjectId(id))
+        return inspectionListService.copy(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -214,7 +213,7 @@ public class InspectionListController {
             }
     )
     public ResponseEntity<InspectionList> copyItem(@PathVariable() String id, @PathVariable() String itemId) {
-        return inspectionListService.copyItem(new ObjectId(id), itemId)
+        return inspectionListService.copyItem(id, itemId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

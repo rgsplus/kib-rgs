@@ -4,7 +4,6 @@ import nl.rgs.kib.model.account.ApiAccount;
 import nl.rgs.kib.model.account.dto.CreateApiAccount;
 import nl.rgs.kib.repository.ApiAccountRepository;
 import nl.rgs.kib.service.ApiAccountService;
-import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
     }
 
     @Override
-    public Optional<ApiAccount> findById(ObjectId id) {
+    public Optional<ApiAccount> findById(String id) {
         return this.apiAccountRepository.findById(id);
     }
 
@@ -47,7 +46,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
 
     @Override
     public Optional<ApiAccount> update(@NotNull() ApiAccount apiAccount) {
-        return apiAccountRepository.findById(new ObjectId(apiAccount.getId())).map(existingApiAccount -> {
+        return apiAccountRepository.findById(apiAccount.getId()).map(existingApiAccount -> {
             existingApiAccount.setName(apiAccount.getName());
             existingApiAccount.setBusinessName(apiAccount.getBusinessName());
             existingApiAccount.setStartDate(apiAccount.getStartDate());
@@ -59,7 +58,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
     }
 
     @Override
-    public Optional<ApiAccount> deleteById(ObjectId id) {
+    public Optional<ApiAccount> deleteById(String id) {
         Optional<ApiAccount> apiAccount = apiAccountRepository.findById(id);
         apiAccount.ifPresent(method -> apiAccountRepository.deleteById(id));
         return apiAccount;

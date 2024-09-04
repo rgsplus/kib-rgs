@@ -4,7 +4,6 @@ import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.repository.InspectionMethodRepository;
 import nl.rgs.kib.service.InspectionMethodService;
-import org.bson.types.ObjectId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
-    public Optional<InspectionMethod> findById(ObjectId id) {
+    public Optional<InspectionMethod> findById(String id) {
         return inspectionMethodRepository.findById(id);
     }
 
@@ -46,7 +45,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
 
     @Override
     public Optional<InspectionMethod> update(@NotNull() InspectionMethod inspectionMethod) {
-        return inspectionMethodRepository.findById(new ObjectId(inspectionMethod.getId())).map(existingMethod -> {
+        return inspectionMethodRepository.findById(inspectionMethod.getId()).map(existingMethod -> {
             existingMethod.setName(inspectionMethod.getName());
             existingMethod.setInput(inspectionMethod.getInput());
             existingMethod.setCalculationMethod(inspectionMethod.getCalculationMethod());
@@ -57,7 +56,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
-    public Optional<InspectionMethod> deleteById(ObjectId id) {
+    public Optional<InspectionMethod> deleteById(String id) {
         Optional<InspectionMethod> inspectionMethod = inspectionMethodRepository.findById(id);
         inspectionMethod.ifPresent(method -> inspectionMethodRepository.deleteById(id));
         return inspectionMethod;

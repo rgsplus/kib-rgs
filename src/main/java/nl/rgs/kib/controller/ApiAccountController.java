@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import nl.rgs.kib.model.account.ApiAccount;
 import nl.rgs.kib.model.account.dto.CreateApiAccount;
 import nl.rgs.kib.service.ApiAccountService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -67,7 +66,7 @@ public class ApiAccountController {
             }
     )
     public ResponseEntity<ApiAccount> findById(@PathVariable() String id) {
-        return apiAccountService.findById(new ObjectId(id))
+        return apiAccountService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -155,7 +154,7 @@ public class ApiAccountController {
             }
     )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return apiAccountService.deleteById(new ObjectId(id))
+        return apiAccountService.deleteById(id)
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }

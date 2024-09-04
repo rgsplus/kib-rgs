@@ -2,7 +2,6 @@ package nl.rgs.kib.service;
 
 import com.mongodb.client.gridfs.GridFSFindIterable;
 import nl.rgs.kib.model.file.KibFile;
-import org.bson.types.ObjectId;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,15 +9,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KibFileService {
-    KibFile create(MultipartFile file, String collection, ObjectId objectId) throws IOException;
+    KibFile create(MultipartFile file, String collection, String String) throws IOException;
 
-    Optional<KibFile> findById(ObjectId id);
+    Optional<KibFile> findById(String id);
 
-    Optional<KibFile> deleteById(ObjectId id);
+    Optional<KibFile> deleteById(String id);
 
-    List<KibFile> deleteByIds(List<ObjectId> ids);
+    List<KibFile> deleteByIds(List<String> ids);
 
-    KibFile copyById(ObjectId id);
+    KibFile copyById(String id);
 
     GridFSFindIterable findAll();
 }

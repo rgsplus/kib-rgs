@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.service.InspectionMethodService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -67,7 +66,7 @@ public class InspectionMethodController {
             }
     )
     public ResponseEntity<InspectionMethod> findById(@PathVariable() String id) {
-        return inspectionMethodService.findById(new ObjectId(id))
+        return inspectionMethodService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -155,7 +154,7 @@ public class InspectionMethodController {
             }
     )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return inspectionMethodService.deleteById(new ObjectId(id))
+        return inspectionMethodService.deleteById(id)
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }

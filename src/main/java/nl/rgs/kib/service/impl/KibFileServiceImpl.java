@@ -6,7 +6,6 @@ import com.mongodb.client.gridfs.model.GridFSFile;
 import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.service.KibFileService;
 import org.apache.commons.io.IOUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -33,18 +32,18 @@ public class KibFileServiceImpl implements KibFileService {
     private GridFsOperations operations;
 
     @Override
-    public KibFile create(MultipartFile file, String collection, ObjectId objectId) throws IOException {
+    public KibFile create(MultipartFile file, String collection, String objectId) throws IOException {
         BasicDBObject metadata = new BasicDBObject();
         metadata.put("collection", collection);
-        metadata.put("objectId", objectId.toHexString());
+        metadata.put("objectId", objectId);
 
-        ObjectId id = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata);
+        String id = template.store(file.getInputStream(), file.getOriginalFilename(), file.getContentType(), metadata).toHexString();
 
         return this.findById(id).orElse(null);
     }
 
     @Override
-    public Optional<KibFile> findById(ObjectId id) {
+    public Optional<KibFile> findById(String id) {
         GridFSFile gridFSFile = operations.findOne(new Query(Criteria.where("_id").is(id)));
 
         return Optional.ofNullable(gridFSFile).map(file -> {
@@ -67,7 +66,7 @@ public class KibFileServiceImpl implements KibFileService {
     }
 
     @Override
-    public Optional<KibFile> deleteById(ObjectId id) {
+    public Optional<KibFile> deleteById(String id) {
         GridFSFile gridFSFile = operations.findOne(new Query(Criteria.where("_id").is(id)));
         if (gridFSFile != null) {
             Optional<KibFile> file = this.findById(id);
@@ -79,7 +78,7 @@ public class KibFileServiceImpl implements KibFileService {
 
     @Override
     @Transactional
-    public List<KibFile> deleteByIds(List<ObjectId> ids) {
+    public List<KibFile> deleteByIds(List<String> ids) {
         return ids.stream()
                 .map(this::deleteById)
                 .filter(Optional::isPresent)
@@ -88,7 +87,7 @@ public class KibFileServiceImpl implements KibFileService {
     }
 
     @Override
-    public KibFile copyById(ObjectId id) {
+    public KibFile copyById(String id) {
         GridFSFile gridFSFile = operations.findOne(new Query(Criteria.where("_id").is(id)));
 
         if (gridFSFile == null) {
@@ -104,7 +103,7 @@ public class KibFileServiceImpl implements KibFileService {
         }
 
         BasicDBObject metadata = new BasicDBObject();
-        metadata.put("copiedFrom", id.toHexString());
+        metadata.put("copiedFrom", id);
 
         if (gridFSFile.getMetadata() != null) {
             metadata.putAll(gridFSFile.getMetadata());
@@ -117,12 +116,12 @@ public class KibFileServiceImpl implements KibFileService {
         }
 
 
-        ObjectId newId = template.store(
+        String newId = template.store(
                 new ByteArrayInputStream(data),
                 gridFSFile.getFilename(),
                 contentType,
                 metadata
-        );
+        ).toHexString();
 
         return this.findById(newId).orElse(null);
     }

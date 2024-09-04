@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.file.KibFile;
 import nl.rgs.kib.service.KibFileService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,7 +46,7 @@ public class KibFileController {
             }
     )
     public ResponseEntity<KibFile> findById(@PathVariable() String id) throws IOException {
-        return kibFileService.findById(new ObjectId(id))
+        return kibFileService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -79,7 +78,7 @@ public class KibFileController {
             @RequestParam("collection") @NotBlank() String collection,
             @RequestParam("objectId") @NotBlank() String objectId
     ) throws IOException {
-        return ResponseEntity.status(201).body(kibFileService.create(file, collection, new ObjectId(objectId)));
+        return ResponseEntity.status(201).body(kibFileService.create(file, collection, objectId));
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
@@ -106,7 +105,7 @@ public class KibFileController {
             }
     )
     public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return kibFileService.deleteById(new ObjectId(id))
+        return kibFileService.deleteById(id)
                 .map(kibFile -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }

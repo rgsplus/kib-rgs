@@ -6,11 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-import java.util.Optional;
 import java.util.UUID;
 
 @Data()
@@ -19,7 +17,7 @@ import java.util.UUID;
 public class ApiAccount extends BaseObject {
     @NotNull()
     @Schema(example = "5f622c23a8efb61a54365f33")
-    private ObjectId id;
+    private String id;
 
     @NotNull()
     @Schema(example = "e0e4fe66-5114-4bd8-83f7-28c4bd3461a6")
@@ -46,13 +44,5 @@ public class ApiAccount extends BaseObject {
 
     public static String generateApiKey() {
         return UUID.randomUUID().toString();
-    }
-
-    public String getId() {
-        return Optional.ofNullable(id).map(ObjectId::toHexString).orElse(null);
-    }
-
-    public void setId(String id) {
-        this.id = Optional.ofNullable(id).map(ObjectId::new).orElse(null);
     }
 }

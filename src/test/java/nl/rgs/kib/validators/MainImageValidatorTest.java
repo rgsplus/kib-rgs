@@ -34,8 +34,8 @@ public class MainImageValidatorTest {
     @Test
     public void testIsValidWithOneMainImage() {
         List<InspectionListItemStageImage> items = List.of(
-                new InspectionListItemStageImage(false, new ObjectId()),
-                new InspectionListItemStageImage(true, new ObjectId())
+                new InspectionListItemStageImage(false, new ObjectId().toHexString()),
+                new InspectionListItemStageImage(true, new ObjectId().toHexString())
         );
 
         assertTrue(validator.isValid(items, null));
@@ -45,8 +45,8 @@ public class MainImageValidatorTest {
     @Test
     public void testIsInvalidWithMultipleMainImages() {
         List<InspectionListItemStageImage> items = List.of(
-                new InspectionListItemStageImage(true, new ObjectId()),
-                new InspectionListItemStageImage(true, new ObjectId())
+                new InspectionListItemStageImage(true, new ObjectId().toHexString()),
+                new InspectionListItemStageImage(true, new ObjectId().toHexString())
         );
 
         assertFalse(validator.isValid(items, null));
@@ -55,8 +55,8 @@ public class MainImageValidatorTest {
     @Test
     public void testIsInvalidWithNoMainImages() {
         List<InspectionListItemStageImage> items = List.of(
-                new InspectionListItemStageImage(false, new ObjectId()),
-                new InspectionListItemStageImage(false, new ObjectId())
+                new InspectionListItemStageImage(false, new ObjectId().toHexString()),
+                new InspectionListItemStageImage(false, new ObjectId().toHexString())
         );
 
         assertFalse(validator.isValid(items, null));

@@ -58,12 +58,12 @@ public class InspectionMethodControllerTest {
     @Test
     @WithMockUser()
     public void findById_WhenExists_Returns200() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(id.toHexString());
+        inspectionMethod.setId(id);
         when(inspectionMethodService.findById(id)).thenReturn(Optional.of(inspectionMethod));
 
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -73,10 +73,10 @@ public class InspectionMethodControllerTest {
     @Test
     @WithMockUser()
     public void findById_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         when(inspectionMethodService.findById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -85,8 +85,8 @@ public class InspectionMethodControllerTest {
 
     @Test
     public void findById_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        String id = new ObjectId().toHexString();
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
@@ -233,24 +233,24 @@ public class InspectionMethodControllerTest {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
 
-        when(inspectionMethodService.deleteById(new ObjectId(inspectionMethod.getId()))).thenReturn(Optional.of(inspectionMethod));
+        when(inspectionMethodService.deleteById(inspectionMethod.getId())).thenReturn(Optional.of(inspectionMethod));
 
         mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(inspectionMethodService).deleteById(new ObjectId(inspectionMethod.getId()));
+        verify(inspectionMethodService).deleteById(inspectionMethod.getId());
     }
 
     @Test
     @WithMockUser()
     public void deleteById_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
         when(inspectionMethodService.deleteById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete(domain + "/" + id.toHexString())
+        mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -260,9 +260,9 @@ public class InspectionMethodControllerTest {
 
     @Test
     public void deleteById_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
-        mockMvc.perform(delete(domain + "/" + id.toHexString())
+        mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());

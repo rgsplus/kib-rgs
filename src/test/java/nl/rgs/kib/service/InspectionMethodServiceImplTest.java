@@ -46,7 +46,7 @@ public class InspectionMethodServiceImplTest {
 
     @Test
     public void findById_ReturnsInspectionList() {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         InspectionMethod expected = new InspectionMethod();
         when(inspectionMethodRepository.findById(id)).thenReturn(Optional.of(expected));
 
@@ -59,7 +59,7 @@ public class InspectionMethodServiceImplTest {
 
     @Test
     public void findById_ReturnsEmptyBecauseMethodNotFound() {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         when(inspectionMethodRepository.findById(id)).thenReturn(Optional.empty());
 
         Optional<InspectionMethod> result = inspectionMethodService.findById(id);
@@ -107,14 +107,14 @@ public class InspectionMethodServiceImplTest {
         updatedMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         updatedMethod.setStages(List.of());
 
-        when(inspectionMethodRepository.findById(new ObjectId(existingMethod.getId()))).thenReturn(Optional.of(existingMethod));
+        when(inspectionMethodRepository.findById(existingMethod.getId())).thenReturn(Optional.of(existingMethod));
         when(inspectionMethodRepository.save(existingMethod)).thenReturn(existingMethod);
 
         Optional<InspectionMethod> result = inspectionMethodService.update(updatedMethod);
 
         assertTrue(result.isPresent());
         assertEquals(existingMethod, result.get());
-        verify(inspectionMethodRepository).findById(new ObjectId(existingMethod.getId()));
+        verify(inspectionMethodRepository).findById(existingMethod.getId());
         verify(inspectionMethodRepository).save(existingMethod);
     }
 
@@ -127,17 +127,17 @@ public class InspectionMethodServiceImplTest {
         updatedMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
         updatedMethod.setStages(List.of());
 
-        when(inspectionMethodRepository.findById(new ObjectId(updatedMethod.getId()))).thenReturn(Optional.empty());
+        when(inspectionMethodRepository.findById(updatedMethod.getId())).thenReturn(Optional.empty());
 
         Optional<InspectionMethod> result = inspectionMethodService.update(updatedMethod);
 
         assertTrue(result.isEmpty());
-        verify(inspectionMethodRepository).findById(new ObjectId(updatedMethod.getId()));
+        verify(inspectionMethodRepository).findById(updatedMethod.getId());
     }
 
     @Test
     public void deleteById_DeletesInspectionMethod() {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         InspectionMethod method = new InspectionMethod();
         when(inspectionMethodRepository.findById(id)).thenReturn(Optional.of(method));
 
@@ -151,7 +151,7 @@ public class InspectionMethodServiceImplTest {
 
     @Test
     public void deleteById_NotDeletesBecauseMethodNotFound() {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         when(inspectionMethodRepository.findById(id)).thenReturn(Optional.empty());
 
         Optional<InspectionMethod> result = inspectionMethodService.deleteById(id);

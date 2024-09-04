@@ -57,12 +57,12 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void findById_WhenExists_Returns200() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         InspectionList inspectionList = new InspectionList();
-        inspectionList.setId(id.toHexString());
+        inspectionList.setId(id);
         when(inspectionListService.findById(id)).thenReturn(Optional.of(inspectionList));
 
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -72,10 +72,10 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void findById_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         when(inspectionListService.findById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
@@ -84,8 +84,8 @@ public class InspectionListControllerTest {
 
     @Test
     public void findById_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        String id = new ObjectId().toHexString();
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
@@ -224,24 +224,24 @@ public class InspectionListControllerTest {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setId(new ObjectId().toHexString());
 
-        when(inspectionListService.deleteById(new ObjectId(inspectionList.getId()))).thenReturn(Optional.of(inspectionList));
+        when(inspectionListService.deleteById(inspectionList.getId())).thenReturn(Optional.of(inspectionList));
 
         mockMvc.perform(delete(domain + "/" + inspectionList.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(inspectionListService).deleteById(new ObjectId(inspectionList.getId()));
+        verify(inspectionListService).deleteById(inspectionList.getId());
     }
 
     @Test
     @WithMockUser()
     public void deleteById_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
         when(inspectionListService.deleteById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete(domain + "/" + id.toHexString())
+        mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -251,9 +251,9 @@ public class InspectionListControllerTest {
 
     @Test
     public void deleteById_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
-        mockMvc.perform(delete(domain + "/" + id.toHexString())
+        mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
@@ -262,13 +262,13 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void copy_WhenExists_Returns200() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         InspectionList inspectionList = new InspectionList();
-        inspectionList.setId(id.toHexString());
+        inspectionList.setId(id);
 
         when(inspectionListService.copy(id)).thenReturn(Optional.of(inspectionList));
 
-        mockMvc.perform(post(domain + "/copy/" + id.toHexString())
+        mockMvc.perform(post(domain + "/copy/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -279,11 +279,11 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void copy_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
         when(inspectionListService.copy(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(post(domain + "/copy/" + id.toHexString())
+        mockMvc.perform(post(domain + "/copy/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -293,9 +293,9 @@ public class InspectionListControllerTest {
 
     @Test
     public void copy_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
-        mockMvc.perform(post(domain + "/copy/" + id.toHexString())
+        mockMvc.perform(post(domain + "/copy/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
@@ -304,14 +304,14 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void copyItem_WhenExists_Returns200() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         String itemId = "itemId";
         InspectionList inspectionList = new InspectionList();
-        inspectionList.setId(id.toHexString());
+        inspectionList.setId(id);
 
         when(inspectionListService.copyItem(id, itemId)).thenReturn(Optional.of(inspectionList));
 
-        mockMvc.perform(put(domain + "/copy/" + id.toHexString() + "/item/" + itemId)
+        mockMvc.perform(put(domain + "/copy/" + id + "/item/" + itemId)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -322,12 +322,12 @@ public class InspectionListControllerTest {
     @Test
     @WithMockUser()
     public void copyItem_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         String itemId = "itemId";
 
         when(inspectionListService.copyItem(id, itemId)).thenReturn(Optional.empty());
 
-        mockMvc.perform(put(domain + "/copy/" + id.toHexString() + "/item/" + itemId)
+        mockMvc.perform(put(domain + "/copy/" + id + "/item/" + itemId)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -337,10 +337,10 @@ public class InspectionListControllerTest {
 
     @Test
     public void copyItem_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         String itemId = "itemId";
 
-        mockMvc.perform(put(domain + "/copy/" + id.toHexString() + "/item/" + itemId)
+        mockMvc.perform(put(domain + "/copy/" + id + "/item/" + itemId)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
