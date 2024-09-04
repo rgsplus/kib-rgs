@@ -3,6 +3,7 @@ package nl.rgs.kib.model.account.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import nl.rgs.kib.shared.validators.EndDateAfterStartDate;
 
 import java.util.Date;
 
@@ -18,6 +19,7 @@ import java.util.Date;
  * @param endDate
  * @param active
  */
+@EndDateAfterStartDate()
 public record CreateApiAccount(
         @NotBlank()
         @Schema(example = "John Doe", description = "Name of the account holder")

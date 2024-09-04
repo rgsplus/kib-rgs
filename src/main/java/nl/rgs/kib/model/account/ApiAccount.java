@@ -6,11 +6,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
+import nl.rgs.kib.shared.validators.EndDateAfterStartDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.UUID;
 
+@EndDateAfterStartDate()
 @Data()
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "api_account")
