@@ -15,7 +15,6 @@ import java.util.List;
 @Data()
 @NoArgsConstructor()
 public class User {
-
     @NotBlank()
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;

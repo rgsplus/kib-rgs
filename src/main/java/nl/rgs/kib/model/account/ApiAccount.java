@@ -18,9 +18,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "api_account")
 public class ApiAccount extends BaseObject {
-
     @Id()
-    @NotNull()
+    @NotBlank()
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 

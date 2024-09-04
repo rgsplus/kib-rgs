@@ -7,8 +7,7 @@ import lombok.Data;
 
 @Data()
 public class KibFile {
-
-    @NotNull()
+    @NotBlank()
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 

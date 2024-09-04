@@ -20,9 +20,8 @@ import java.util.Objects;
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_list")
 public class InspectionList extends BaseObject {
-
     @Id()
-    @NotNull()
+    @NotBlank()
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 
