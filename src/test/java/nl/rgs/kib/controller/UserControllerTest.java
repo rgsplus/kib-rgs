@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.rgs.kib.model.user.User;
 import nl.rgs.kib.model.user.UserRole;
 import nl.rgs.kib.model.user.dto.CreateUser;
+import nl.rgs.kib.service.ApiAccountService;
 import nl.rgs.kib.service.UserService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,9 @@ public class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private ApiAccountService apiAccountService;
 
     @Test
     @WithMockUser()

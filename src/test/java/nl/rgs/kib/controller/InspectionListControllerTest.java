@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.InspectionListStatus;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
+import nl.rgs.kib.service.ApiAccountService;
 import nl.rgs.kib.service.InspectionListService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,9 @@ public class InspectionListControllerTest {
 
     @MockBean
     private InspectionListService inspectionListService;
+
+    @MockBean
+    private ApiAccountService apiAccountService;
 
     @Test
     @WithMockUser()

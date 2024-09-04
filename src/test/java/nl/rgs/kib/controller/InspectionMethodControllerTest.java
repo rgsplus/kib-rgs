@@ -5,6 +5,7 @@ import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
 import nl.rgs.kib.model.method.InspectionMethodInput;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
+import nl.rgs.kib.service.ApiAccountService;
 import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ public class InspectionMethodControllerTest {
 
     @MockBean
     private InspectionMethodService inspectionMethodService;
+
+    @MockBean
+    private ApiAccountService apiAccountService;
 
     @Test
     @WithMockUser()

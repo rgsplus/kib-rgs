@@ -1,6 +1,7 @@
 package nl.rgs.kib.controller;
 
 import nl.rgs.kib.model.file.KibFile;
+import nl.rgs.kib.service.ApiAccountService;
 import nl.rgs.kib.service.KibFileService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,9 @@ public class KibFileControllerTest {
 
     @MockBean
     private KibFileService kibFileService;
+
+    @MockBean
+    private ApiAccountService apiAccountService;
 
     @Test
     @WithMockUser()
