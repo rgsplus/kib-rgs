@@ -44,8 +44,23 @@ public class ApiInspectionListController {
                             description = "Found all inspection list"
                     ),
                     @ApiResponse(
+                            responseCode = "400",
+                            description = "Missing API Key",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized",
+                            description = "Invalid API Key",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Inactive API Key",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Expired API Key",
                             content = @Content()
                     ),
             }
@@ -73,8 +88,23 @@ public class ApiInspectionListController {
                             description = "Found the inspection list"
                     ),
                     @ApiResponse(
+                            responseCode = "400",
+                            description = "Missing API Key",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized",
+                            description = "Invalid API Key",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Inactive API Key",
+                            content = @Content()
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Expired API Key",
                             content = @Content()
                     ),
                     @ApiResponse(
