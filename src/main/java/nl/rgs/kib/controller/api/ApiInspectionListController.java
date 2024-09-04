@@ -50,17 +50,7 @@ public class ApiInspectionListController {
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Invalid API Key",
-                            content = @Content()
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Inactive API Key",
-                            content = @Content()
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Expired API Key",
+                            description = "Invalid API Key || Expired API Key || Inactive API Key",
                             content = @Content()
                     ),
             }
@@ -94,17 +84,7 @@ public class ApiInspectionListController {
                     ),
                     @ApiResponse(
                             responseCode = "401",
-                            description = "Invalid API Key",
-                            content = @Content()
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Inactive API Key",
-                            content = @Content()
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Expired API Key",
+                            description = "Invalid API Key || Expired API Key || Inactive API Key",
                             content = @Content()
                     ),
                     @ApiResponse(
