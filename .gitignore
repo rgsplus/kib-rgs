@@ -1,0 +1,12 @@
+# IntelIj
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+
+#VS Code
+.vscode/
+src/main/resources/application.properties
+src/main/resources/application-production.properties
