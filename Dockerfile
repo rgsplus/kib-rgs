@@ -5,8 +5,8 @@ COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle clean build -x test --no-daemon
 
-# Stage 1, based on Java 
+# Stage 1, based on Java
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 COPY --from=build-stage /home/gradle/src/build/libs/*.war app.war
-ENV JAVA_TOOL_OPTIONS "--enable-preview"
+ENV JAVA_TOOL_OPTIONS="-Xms128m -Xmx3500m --enable-preview"
 ENTRYPOINT ["java","-jar","/app.war"]
