@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface KibFileService {
-    KibFile create(MultipartFile file, String collection, String String) throws IOException;
+    KibFile create(MultipartFile file, String collection, String objectId) throws IOException;
 
     Optional<KibFile> findById(String id);
 
