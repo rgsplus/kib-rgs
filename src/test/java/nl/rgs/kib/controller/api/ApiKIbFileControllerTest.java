@@ -62,12 +62,12 @@ public class ApiKIbFileControllerTest {
         when(apiAccountService.findByApiKey(apiKey)).thenReturn(Optional.of(apiAccount));
 
         String id = new ObjectId().toHexString();
-        when(kibFileService.findById(id)).thenReturn(Optional.empty());
+        when(kibFileService.findByIdAndResolution(id, null)).thenReturn(Optional.empty());
 
         mockMvc.perform(get(domain + "/" + id).contentType(MediaType.APPLICATION_JSON).header("api-key", apiKey)).andExpect(status().isNotFound());
 
         verify(apiAccountService).findByApiKey(apiKey);
-        verify(kibFileService).findById(id);
+        verify(kibFileService).findByIdAndResolution(id, null);
     }
 
     @Test
@@ -91,11 +91,11 @@ public class ApiKIbFileControllerTest {
         kibFile.setData("Test".getBytes());
 
         when(apiAccountService.findByApiKey(apiKey)).thenReturn(Optional.of(apiAccount));
-        when(kibFileService.findById(kibFile.getId())).thenReturn(Optional.of(kibFile));
+        when(kibFileService.findByIdAndResolution(kibFile.getId(), null)).thenReturn(Optional.of(kibFile));
 
         mockMvc.perform(get(domain + "/" + kibFile.getId()).contentType(MediaType.APPLICATION_JSON).header("api-key", apiKey)).andExpect(status().isOk());
 
         verify(apiAccountService).findByApiKey(apiKey);
-        verify(kibFileService).findById(kibFile.getId());
+        verify(kibFileService).findByIdAndResolution(kibFile.getId(), null);
     }
 }

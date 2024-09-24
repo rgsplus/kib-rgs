@@ -42,26 +42,26 @@ public class KibFileControllerTest {
         KibFile kibFile = new KibFile();
         kibFile.setId(id);
 
-        when(kibFileService.findById(id)).thenReturn(Optional.of(kibFile));
+        when(kibFileService.findByIdAndResolution(id, null)).thenReturn(Optional.of(kibFile));
 
         mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(kibFileService).findById(id);
+        verify(kibFileService).findByIdAndResolution(id, null);
     }
 
     @Test
     @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
-        when(kibFileService.findById(id)).thenReturn(Optional.empty());
+        when(kibFileService.findByIdAndResolution(id, null)).thenReturn(Optional.empty());
 
         mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(kibFileService).findById(id);
+        verify(kibFileService).findByIdAndResolution(id, null);
     }
 
     @Test
