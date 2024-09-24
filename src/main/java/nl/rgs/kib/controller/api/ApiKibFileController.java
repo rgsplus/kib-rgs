@@ -8,13 +8,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.rgs.kib.model.file.KibFile;
+import nl.rgs.kib.model.file.KibFileResolution;
 import nl.rgs.kib.service.KibFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -36,7 +34,7 @@ public class ApiKibFileController {
                             required = true,
                             in = ParameterIn.HEADER,
                             schema = @Schema(type = "string")
-                    )
+                    ),
             },
             responses = {
                     @ApiResponse(
@@ -60,8 +58,8 @@ public class ApiKibFileController {
                     ),
             }
     )
-    public ResponseEntity<KibFile> findById(@PathVariable String id) throws IOException {
-        return kibFileService.findById(id)
+    public ResponseEntity<KibFile> findById(@PathVariable String id, @RequestParam(required = false) KibFileResolution resolution) throws IOException {
+        return kibFileService.findByIdAndResolution(id, resolution)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

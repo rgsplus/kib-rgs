@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.file.KibFile;
+import nl.rgs.kib.model.file.KibFileResolution;
 import nl.rgs.kib.service.KibFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +46,8 @@ public class KibFileController {
                     ),
             }
     )
-    public ResponseEntity<KibFile> findById(@PathVariable String id) throws IOException {
-        return kibFileService.findById(id)
+    public ResponseEntity<KibFile> findById(@PathVariable String id, @RequestParam(required = false) KibFileResolution resolution) {
+        return kibFileService.findByIdAndResolution(id, resolution)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
