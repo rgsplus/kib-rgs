@@ -37,6 +37,20 @@ public class KibFileServiceImpl implements KibFileService {
     @Autowired
     private GridFsOperations operations;
 
+    /**
+     * Create a new file.
+     * <p>
+     * The file will be stored in the database. The metadata will contain the collection and objectId that the file belongs to.
+     * </p>
+     *
+     * @param file       The file to store
+     * @param collection The collection that the file belongs to
+     *                   (e.g. "users", "inspections", "companies")
+     * @param objectId   The id of the object that the file belongs to
+     *                   (e.g. the id of the user, inspection, or company)
+     * @return The created file
+     * @throws IOException If an I/O error occurs
+     */
     @Override
     public KibFile create(MultipartFile file, String collection, String objectId) throws IOException {
         BasicDBObject metadata = new BasicDBObject();
@@ -101,6 +115,16 @@ public class KibFileServiceImpl implements KibFileService {
                 .toList();
     }
 
+    /**
+     * Copy a file by id.
+     * <p>
+     * The file will be copied to a new file with a new id.
+     * The metadata will contain the id of the original file.
+     * </p>
+     *
+     * @param id The id of the file to copy
+     * @return The copied file
+     */
     @Override
     public KibFile copyById(String id) {
         GridFSFile gridFSFile = operations.findOne(new Query(Criteria.where("_id").is(id)));
