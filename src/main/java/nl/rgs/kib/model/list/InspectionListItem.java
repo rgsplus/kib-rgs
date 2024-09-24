@@ -19,17 +19,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-@Data()
-@NoArgsConstructor()
-@AllArgsConstructor()
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class InspectionListItem implements Indexable, Ideable {
 
-    @NotNull()
+    @NotNull
     @Schema(example = "93c897cc-1ff0-4a38-8d89-cfe91fa3c66b")
     @Field(name = "id")
     private String id;
 
-    @NotNull()
+    @NotNull
     @Min(0)
     @Schema(example = "1", minimum = "0")
     private Integer index;
@@ -43,7 +43,7 @@ public class InspectionListItem implements Indexable, Ideable {
     @Schema(example = "Constructief")
     private String field;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "Constructieve staat fundering en gevelmetselwerk")
     private String name;
 
@@ -53,14 +53,14 @@ public class InspectionListItem implements Indexable, Ideable {
     @Schema(example = "Visuele beoordeling fundering door gevel en vloeren")
     private String measuringMethod;
 
-    @DBRef()
-    @NotNull()
+    @DBRef
+    @NotNull
     @JsonIgnoreProperties({"metadata"})
     private InspectionMethod inspectionMethod;
 
-    @Valid()
+    @Valid
     @Size(min = 2, max = 10)
-    @NotNull()
-    @UniqueStages()
+    @NotNull
+    @UniqueStages
     private List<InspectionListItemStage> stages = List.of();
 }

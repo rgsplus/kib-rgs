@@ -41,7 +41,7 @@ public class ApiAccountControllerTest {
     private ApiAccountService apiAccountService;
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findAll_Returns200() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -58,7 +58,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         ApiAccount apiAccount = new ApiAccount();
@@ -73,7 +73,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
         when(apiAccountService.findById(id)).thenReturn(Optional.empty());
@@ -94,7 +94,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201() throws Exception {
         CreateApiAccount createApiAccount = new CreateApiAccount(
                 "test",
@@ -125,7 +125,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_WhenInvalid_Returns400() throws Exception {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 null,
@@ -158,7 +158,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenExists_Returns200() throws Exception {
         ApiAccount apiAccount = new ApiAccount();
         apiAccount.setId(new ObjectId().toHexString());
@@ -181,7 +181,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenInvalid_Returns400() throws Exception {
         ApiAccount apiAccount = new ApiAccount();
         apiAccount.setId(new ObjectId().toHexString());
@@ -200,7 +200,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenNotExists_Returns404() throws Exception {
         ApiAccount apiAccount = new ApiAccount();
         apiAccount.setId(new ObjectId().toHexString());
@@ -241,7 +241,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
         ApiAccount apiAccount = new ApiAccount();
         apiAccount.setId(new ObjectId().toHexString());
@@ -257,7 +257,7 @@ public class ApiAccountControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 

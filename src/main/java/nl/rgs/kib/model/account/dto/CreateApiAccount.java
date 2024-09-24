@@ -19,24 +19,24 @@ import java.util.Date;
  * @param endDate
  * @param active
  */
-@EndDateAfterStartDate()
+@EndDateAfterStartDate
 public record CreateApiAccount(
-        @NotBlank()
+        @NotBlank
         @Schema(example = "John Doe", description = "Name of the account holder")
         String name,
 
-        @NotBlank()
+        @NotBlank
         @Schema(example = "Facebook", description = "Name of the business")
         String businessName,
 
-        @NotNull()
+        @NotNull
         @Schema(example = "2021-09-15T00:00:00.000Z", description = "Start date of the account")
         Date startDate,
 
         @Schema(example = "2021-09-15T00:00:00.000Z", description = "End date of the account")
         Date endDate,
 
-        @NotNull()
+        @NotNull
         @Schema(example = "true")
         Boolean active
 ) {

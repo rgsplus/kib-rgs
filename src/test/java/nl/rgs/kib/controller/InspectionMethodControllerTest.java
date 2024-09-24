@@ -43,7 +43,7 @@ public class InspectionMethodControllerTest {
     private ApiAccountService apiAccountService;
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findAll_Returns200() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -60,7 +60,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         InspectionMethod inspectionMethod = new InspectionMethod();
@@ -75,7 +75,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
         when(inspectionMethodService.findById(id)).thenReturn(Optional.empty());
@@ -96,7 +96,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201() throws Exception {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 "test",
@@ -124,7 +124,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_WhenInvalid_Returns400() throws Exception {
         CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
                 null,
@@ -157,7 +157,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenExists_Returns200() throws Exception {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
@@ -178,7 +178,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenInvalid_Returns400() throws Exception {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
@@ -195,7 +195,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenNotExists_Returns404() throws Exception {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
@@ -232,7 +232,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setId(new ObjectId().toHexString());
@@ -248,7 +248,7 @@ public class InspectionMethodControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 

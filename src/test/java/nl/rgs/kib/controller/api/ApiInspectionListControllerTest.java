@@ -55,7 +55,7 @@ public class ApiInspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findAll_Returns200() throws Exception {
         String apiKey = ApiAccount.generateApiKey();
         apiAccount.setApiKey(apiKey);
@@ -75,7 +75,7 @@ public class ApiInspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String apiKey = ApiAccount.generateApiKey();
         apiAccount.setApiKey(apiKey);
@@ -93,7 +93,7 @@ public class ApiInspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String apiKey = ApiAccount.generateApiKey();
         apiAccount.setApiKey(apiKey);

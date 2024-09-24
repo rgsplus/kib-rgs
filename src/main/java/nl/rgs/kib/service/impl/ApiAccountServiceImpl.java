@@ -32,7 +32,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
     }
 
     @Override
-    public ApiAccount create(@NotNull() CreateApiAccount createApiAccount) {
+    public ApiAccount create(@NotNull CreateApiAccount createApiAccount) {
         ApiAccount apiAccount = new ApiAccount();
         apiAccount.setApiKey(ApiAccount.generateApiKey());
         apiAccount.setName(createApiAccount.name());
@@ -45,7 +45,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
     }
 
     @Override
-    public Optional<ApiAccount> update(@NotNull() ApiAccount apiAccount) {
+    public Optional<ApiAccount> update(@NotNull ApiAccount apiAccount) {
         return apiAccountRepository.findById(apiAccount.getId()).map(existingApiAccount -> {
             existingApiAccount.setName(apiAccount.getName());
             existingApiAccount.setBusinessName(apiAccount.getBusinessName());

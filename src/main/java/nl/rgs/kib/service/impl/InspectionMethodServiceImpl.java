@@ -33,7 +33,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
-    public InspectionMethod create(@NotNull() CreateInspectionMethod createInspectionMethod) {
+    public InspectionMethod create(@NotNull CreateInspectionMethod createInspectionMethod) {
         InspectionMethod inspectionMethod = new InspectionMethod();
         inspectionMethod.setName(createInspectionMethod.name());
         inspectionMethod.setInput(createInspectionMethod.input());
@@ -44,7 +44,7 @@ public class InspectionMethodServiceImpl implements InspectionMethodService {
     }
 
     @Override
-    public Optional<InspectionMethod> update(@NotNull() InspectionMethod inspectionMethod) {
+    public Optional<InspectionMethod> update(@NotNull InspectionMethod inspectionMethod) {
         return inspectionMethodRepository.findById(inspectionMethod.getId()).map(existingMethod -> {
             existingMethod.setName(inspectionMethod.getName());
             existingMethod.setInput(inspectionMethod.getInput());

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RestController()
+@RestController
 @RequestMapping("/api/kib-file")
 @Tag(name = "Kib File")
 public class ApiKibFileController {
@@ -46,21 +46,21 @@ public class ApiKibFileController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Missing API Key",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Invalid API Key || Expired API Key || Inactive API Key",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Kib file not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<KibFile> findById(@PathVariable() String id) throws IOException {
+    public ResponseEntity<KibFile> findById(@PathVariable String id) throws IOException {
         return kibFileService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

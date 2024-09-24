@@ -16,27 +16,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-@Data()
+@Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_list")
 public class InspectionList extends BaseObject {
-    @Id()
-    @NotBlank()
+    @Id
+    @NotBlank
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "RGS+ NEN_2767")
     private String name;
 
-    @NotNull()
+    @NotNull
     @Schema(example = "DEFINITIVE")
     private InspectionListStatus status;
 
-    @Valid()
-    @NotNull()
-    @UniqueIds()
-    @ValidIndexes()
+    @Valid
+    @NotNull
+    @UniqueIds
+    @ValidIndexes
     private List<InspectionListItem> items = List.of();
 
     public static List<InspectionListItem> sortItemsStagesAndImages(List<InspectionListItem> items) {

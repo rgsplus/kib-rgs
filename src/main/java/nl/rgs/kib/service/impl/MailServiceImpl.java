@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class MailServiceImpl implements MailService {
 
-    @Autowired()
+    @Autowired
     private JavaMailSender emailSender;
 
     @Override

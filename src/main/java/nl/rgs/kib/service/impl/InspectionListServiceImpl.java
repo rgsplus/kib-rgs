@@ -53,7 +53,7 @@ public class InspectionListServiceImpl implements InspectionListService {
     }
 
     @Override
-    public InspectionList create(@NotNull() CreateInspectionList createInspectionList) {
+    public InspectionList create(@NotNull CreateInspectionList createInspectionList) {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
@@ -64,7 +64,7 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Override
     @Transactional
-    public Optional<InspectionList> update(@NotNull() InspectionList inspectionList) {
+    public Optional<InspectionList> update(@NotNull InspectionList inspectionList) {
         return inspectionListRepository.findById(inspectionList.getId()).map(existingList -> {
             List<String> deletedFileIds = InspectionList.getDeletedFileIds(existingList, inspectionList);
             kibFileService.deleteByIds(deletedFileIds);

@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/api/inspection-list")
 @Tag(name = "Inspection List")
 public class ApiInspectionListController {
     @Autowired
     private InspectionListService inspectionListService;
 
-    @GetMapping()
+    @GetMapping
     @Operation(
             summary = "Find all inspection lists",
             description = "Find all inspection lists",
@@ -46,12 +46,12 @@ public class ApiInspectionListController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Missing API Key",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Invalid API Key || Expired API Key || Inactive API Key",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
@@ -80,21 +80,21 @@ public class ApiInspectionListController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Missing API Key",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Invalid API Key || Expired API Key || Inactive API Key",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Inspection list not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
+    public ResponseEntity<InspectionList> findById(@PathVariable String id) {
         return inspectionListService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

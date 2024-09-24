@@ -42,7 +42,7 @@ public class InspectionListControllerTest {
     private ApiAccountService apiAccountService;
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findAll_Returns200() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -59,7 +59,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         InspectionList inspectionList = new InspectionList();
@@ -74,7 +74,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
         when(inspectionListService.findById(id)).thenReturn(Optional.empty());
@@ -95,7 +95,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201() throws Exception {
         CreateInspectionList createInspectionList = new CreateInspectionList(
                 "test",
@@ -121,7 +121,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_WhenInvalid_Returns400() throws Exception {
         CreateInspectionList createInspectionList = new CreateInspectionList(
                 null,
@@ -152,7 +152,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenExists_Returns200() throws Exception {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setId(new ObjectId().toHexString());
@@ -172,7 +172,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenInvalid_Returns400() throws Exception {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setId(new ObjectId().toHexString());
@@ -188,7 +188,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenNotExists_Returns404() throws Exception {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setId(new ObjectId().toHexString());
@@ -223,7 +223,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setId(new ObjectId().toHexString());
@@ -239,7 +239,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 
@@ -264,7 +264,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void copy_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         InspectionList inspectionList = new InspectionList();
@@ -281,7 +281,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void copy_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 
@@ -306,7 +306,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void copyItem_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         String itemId = "itemId";
@@ -324,7 +324,7 @@ public class InspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void copyItem_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
         String itemId = "itemId";

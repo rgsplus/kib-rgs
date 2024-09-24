@@ -14,29 +14,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Comparator;
 import java.util.List;
 
-@Data()
+@Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_method")
 public class InspectionMethod extends BaseObject {
-    @Id()
-    @NotBlank()
+    @Id
+    @NotBlank
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "QuickScan")
     private String name;
 
-    @NotNull()
+    @NotNull
     @Schema(example = "STAGE")
     private InspectionMethodInput input;
 
     @Schema(example = "NEN2767")
     private InspectionMethodCalculationMethod calculationMethod;
 
-    @Valid()
-    @NotNull()
-    @UniqueStages()
+    @Valid
+    @NotNull
+    @UniqueStages
     private List<InspectionMethodStage> stages = List.of();
 
     public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {

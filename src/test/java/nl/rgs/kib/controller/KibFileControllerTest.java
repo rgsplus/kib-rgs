@@ -36,7 +36,7 @@ public class KibFileControllerTest {
     private ApiAccountService apiAccountService;
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         KibFile kibFile = new KibFile();
@@ -52,7 +52,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
         when(kibFileService.findById(id)).thenReturn(Optional.empty());
@@ -73,7 +73,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withJPG() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.jpg", "image/jpeg", "some image".getBytes());
         String collection = "collection";
@@ -93,7 +93,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withPNG() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.png", "image/png", "some image".getBytes());
         String collection = "collection";
@@ -113,7 +113,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withGIF() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.gif", "image/gif", "some image".getBytes());
         String collection = "collection";
@@ -133,7 +133,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withExcel() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "some image".getBytes());
         String collection = "collection";
@@ -153,7 +153,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withWord() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "collection";
@@ -173,7 +173,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns400_withNullCollection() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = null;
@@ -183,7 +183,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns400_withBlankCollection() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "";
@@ -193,7 +193,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns400_withNullString() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "collection";
@@ -203,7 +203,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns400_withBlankString() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "collection";
@@ -222,7 +222,7 @@ public class KibFileControllerTest {
 
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
@@ -238,7 +238,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 

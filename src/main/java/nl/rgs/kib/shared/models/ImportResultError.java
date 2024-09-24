@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data()
-@AllArgsConstructor()
-@NoArgsConstructor()
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ImportResultError {
     private String entity;
     private String field;

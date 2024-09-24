@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/api-account")
 @Tag(name = "Api Account")
 public class ApiAccountController {
@@ -23,7 +23,7 @@ public class ApiAccountController {
     private ApiAccountService apiAccountService;
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping()
+    @GetMapping
     @Operation(
             summary = "Find all api accounts",
             description = "Find all api accounts",
@@ -35,7 +35,7 @@ public class ApiAccountController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
@@ -56,23 +56,23 @@ public class ApiAccountController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Api account not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<ApiAccount> findById(@PathVariable() String id) {
+    public ResponseEntity<ApiAccount> findById(@PathVariable String id) {
         return apiAccountService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @PostMapping()
+    @PostMapping
     @Operation(
             summary = "Create an api account",
             description = "Create an api account",
@@ -84,16 +84,16 @@ public class ApiAccountController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<ApiAccount> create(@Valid() @RequestBody() CreateApiAccount createApiAccount) {
+    public ResponseEntity<ApiAccount> create(@Valid @RequestBody CreateApiAccount createApiAccount) {
         return ResponseEntity.status(201).body(apiAccountService.create(createApiAccount));
     }
 
@@ -110,21 +110,21 @@ public class ApiAccountController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Api account not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<ApiAccount> update(@Valid() @RequestBody() ApiAccount apiAccount) {
+    public ResponseEntity<ApiAccount> update(@Valid @RequestBody ApiAccount apiAccount) {
         return apiAccountService.update(apiAccount)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -139,21 +139,21 @@ public class ApiAccountController {
                     @ApiResponse(
                             responseCode = "204",
                             description = "Deleted",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Api account not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<Void> deleteById(@PathVariable() String id) {
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return apiAccountService.deleteById(id)
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());

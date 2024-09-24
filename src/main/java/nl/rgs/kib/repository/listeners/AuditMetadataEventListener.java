@@ -10,13 +10,13 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-@Component()
+@Component
 public class AuditMetadataEventListener<T extends BaseObject> extends AbstractMongoEventListener<T> {
 
-    @Autowired()
+    @Autowired
     private AuditorAware<String> auditorAware;
 
-    @Override()
+    @Override
     public void onBeforeConvert(BeforeConvertEvent<T> event) {
         AuditMetadata metadata = event.getSource().getMetadata();
 

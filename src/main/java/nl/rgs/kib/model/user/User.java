@@ -12,29 +12,29 @@ import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;
 
-@Data()
-@NoArgsConstructor()
+@Data
+@NoArgsConstructor
 public class User {
-    @NotBlank()
+    @NotBlank
     @Schema(example = "5f622c23a8efb61a54365f33")
     private String id;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "John")
     private String firstName;
 
     @Schema(example = "Doe")
     private String lastName;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "john.doe@gmail.com")
     private String email;
 
-    @NotNull()
+    @NotNull
     @Schema(example = "USER")
     private UserRole role;
 
-    @NotNull()
+    @NotNull
     @Schema(example = "true")
     private Boolean twoFactorAuthentication;
 
