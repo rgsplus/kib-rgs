@@ -39,6 +39,13 @@ public class InspectionMethod extends BaseObject {
     @UniqueStages
     private List<InspectionMethodStage> stages = List.of();
 
+    /**
+     * Sorts the stages by <b>stage</b>.
+     *
+     * @param stages the list of stages to sort
+     * @return the sorted list of stages
+     * @see InspectionMethodStage
+     */
     public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {
         return stages.stream()
                 .sorted(Comparator.comparing(InspectionMethodStage::getStage))
