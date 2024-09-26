@@ -15,5 +15,5 @@ RUN gradle clean build -x test --no-daemon
 # i think works with war file
 FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 COPY --from=build-stage /home/gradle/src/build/libs/*.war app.war
-ENV JAVA_TOOL_OPTIONS "--enable-preview"
+ENV JAVA_TOOL_OPTIONS="--enable-preview"
 ENTRYPOINT ["java","-jar","/app.war"]
