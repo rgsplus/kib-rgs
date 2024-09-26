@@ -23,6 +23,7 @@ import java.util.List;
 @RequestMapping("/inspection-list")
 @Tag(name = "Inspection List")
 public class InspectionListController {
+
     @Autowired
     private InspectionListService inspectionListService;
 

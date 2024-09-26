@@ -10,3 +10,4 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:21
 COPY --from=build-stage /home/gradle/src/build/libs/*.war app.war
 ENV JAVA_TOOL_OPTIONS="-Xms128m -Xmx1800m --enable-preview"
 ENTRYPOINT ["java","-jar","/app.war"]
+
