@@ -25,6 +25,9 @@ public record CreateApiAccount(
         @Schema(example = "John Doe", description = "Name of the account holder")
         String name,
 
+        @Schema(example = "Api account for Facebook", description = "Description of the account")
+        String description,
+
         @NotBlank
         @Schema(example = "Facebook", description = "Name of the business")
         String businessName,

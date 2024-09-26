@@ -36,6 +36,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
         ApiAccount apiAccount = new ApiAccount();
         apiAccount.setApiKey(ApiAccount.generateApiKey());
         apiAccount.setName(createApiAccount.name());
+        apiAccount.setDescription(createApiAccount.description());
         apiAccount.setBusinessName(createApiAccount.businessName());
         apiAccount.setStartDate(createApiAccount.startDate());
         apiAccount.setEndDate(createApiAccount.endDate());
@@ -48,6 +49,7 @@ public class ApiAccountServiceImpl implements ApiAccountService {
     public Optional<ApiAccount> update(@NotNull ApiAccount apiAccount) {
         return apiAccountRepository.findById(apiAccount.getId()).map(existingApiAccount -> {
             existingApiAccount.setName(apiAccount.getName());
+            existingApiAccount.setDescription(apiAccount.getDescription());
             existingApiAccount.setBusinessName(apiAccount.getBusinessName());
             existingApiAccount.setStartDate(apiAccount.getStartDate());
             existingApiAccount.setEndDate(apiAccount.getEndDate());

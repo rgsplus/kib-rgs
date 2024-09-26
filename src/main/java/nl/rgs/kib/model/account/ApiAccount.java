@@ -31,6 +31,9 @@ public class ApiAccount extends BaseObject {
     @Schema(example = "John Doe", description = "Name of the account holder")
     private String name;
 
+    @Schema(example = "Api account for Facebook", description = "Description of the account")
+    private String description;
+
     @NotBlank
     @Schema(example = "Facebook", description = "Name of the business")
     private String businessName;

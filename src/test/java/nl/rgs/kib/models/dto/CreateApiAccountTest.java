@@ -20,6 +20,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountNameNotNullValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     null,
+                    "Api account for testing",
                     "Facebook",
                     new Date(),
                     null,
@@ -33,6 +34,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountNameNotBlankValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     "",
+                    "Api account for testing",
                     "Facebook",
                     new Date(),
                     null,
@@ -46,6 +48,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountBusinessNameNotNullValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     "test",
+                    "Api account for testing",
                     null,
                     new Date(),
                     null,
@@ -59,6 +62,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountBusinessNameNotBlankValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     "test",
+                    "Api account for testing",
                     "",
                     new Date(),
                     null,
@@ -72,6 +76,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountStartDateNotNullValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     "test",
+                    "Api account for testing",
                     "Facebook",
                     null,
                     null,
@@ -85,6 +90,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountActiveNotNullValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     "test",
+                    "Api account for testing",
                     "Facebook",
                     new Date(),
                     null,
@@ -98,6 +104,7 @@ public class CreateApiAccountTest {
         public void testCreateApiAccountStartDateBeforeEndDateValidator() {
             CreateApiAccount createApiAccount = new CreateApiAccount(
                     "test",
+                    "Api account for testing",
                     "Facebook",
                     new Date(),
                     new Date(0),
