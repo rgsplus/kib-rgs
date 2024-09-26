@@ -1,6 +1,7 @@
 package nl.rgs.kib.controller;
 
 import nl.rgs.kib.model.file.KibFile;
+import nl.rgs.kib.service.ApiAccountService;
 import nl.rgs.kib.service.KibFileService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -31,45 +32,48 @@ public class KibFileControllerTest {
     @MockBean
     private KibFileService kibFileService;
 
+    @MockBean
+    private ApiAccountService apiAccountService;
+
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         KibFile kibFile = new KibFile();
-        kibFile.setId(id.toHexString());
+        kibFile.setId(id);
 
-        when(kibFileService.findById(id)).thenReturn(Optional.of(kibFile));
+        when(kibFileService.findByIdAndResolution(id, null)).thenReturn(Optional.of(kibFile));
 
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(kibFileService).findById(id);
+        verify(kibFileService).findByIdAndResolution(id, null);
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
-        when(kibFileService.findById(id)).thenReturn(Optional.empty());
+        String id = new ObjectId().toHexString();
+        when(kibFileService.findByIdAndResolution(id, null)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(kibFileService).findById(id);
+        verify(kibFileService).findByIdAndResolution(id, null);
     }
 
     @Test
     public void findById_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
-        mockMvc.perform(get(domain + "/" + id.toHexString())
+        String id = new ObjectId().toHexString();
+        mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withJPG() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.jpg", "image/jpeg", "some image".getBytes());
         String collection = "collection";
@@ -81,15 +85,15 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, objectId)).thenReturn(kibFile);
 
         mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file, collection, new ObjectId(objectId));
+        verify(kibFileService).create(file, collection, objectId);
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withPNG() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.png", "image/png", "some image".getBytes());
         String collection = "collection";
@@ -101,15 +105,15 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, objectId)).thenReturn(kibFile);
 
         mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file, collection, new ObjectId(objectId));
+        verify(kibFileService).create(file, collection, objectId);
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withGIF() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "photo.gif", "image/gif", "some image".getBytes());
         String collection = "collection";
@@ -121,15 +125,15 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, objectId)).thenReturn(kibFile);
 
         mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file, collection, new ObjectId(objectId));
+        verify(kibFileService).create(file, collection, objectId);
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withExcel() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "some image".getBytes());
         String collection = "collection";
@@ -141,15 +145,15 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, objectId)).thenReturn(kibFile);
 
         mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file, collection, new ObjectId(objectId));
+        verify(kibFileService).create(file, collection, objectId);
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201_withWord() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "collection";
@@ -161,15 +165,15 @@ public class KibFileControllerTest {
         kibFile.setType(file.getContentType());
         kibFile.setData(file.getBytes());
 
-        when(kibFileService.create(file, collection, new ObjectId(objectId))).thenReturn(kibFile);
+        when(kibFileService.create(file, collection, objectId)).thenReturn(kibFile);
 
         mockMvc.perform(multipart(domain).file(file).param("collection", collection).param("objectId", objectId).with(csrf())).andExpect(status().isCreated());
 
-        verify(kibFileService).create(file, collection, new ObjectId(objectId));
+        verify(kibFileService).create(file, collection, objectId);
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns400_withNullCollection() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = null;
@@ -179,7 +183,7 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns400_withBlankCollection() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "";
@@ -189,8 +193,8 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
-    public void create_Returns400_withNullObjectId() throws Exception {
+    @WithMockUser
+    public void create_Returns400_withNullString() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "collection";
         String objectId = null;
@@ -199,8 +203,8 @@ public class KibFileControllerTest {
     }
 
     @Test
-    @WithMockUser()
-    public void create_Returns400_withBlankObjectId() throws Exception {
+    @WithMockUser
+    public void create_Returns400_withBlankString() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "file.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "some image".getBytes());
         String collection = "collection";
         String objectId = "";
@@ -218,29 +222,29 @@ public class KibFileControllerTest {
 
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
         KibFile kibFile = new KibFile();
         kibFile.setId(new ObjectId().toHexString());
 
-        when(kibFileService.deleteById(new ObjectId(kibFile.getId()))).thenReturn(Optional.of(kibFile));
+        when(kibFileService.deleteById(kibFile.getId())).thenReturn(Optional.of(kibFile));
 
         mockMvc.perform(delete(domain + "/" + kibFile.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(kibFileService).deleteById(new ObjectId(kibFile.getId()));
+        verify(kibFileService).deleteById(kibFile.getId());
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenNotExists_Returns404() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
         when(kibFileService.deleteById(id)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete(domain + "/" + id.toHexString())
+        mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
@@ -250,9 +254,9 @@ public class KibFileControllerTest {
 
     @Test
     public void deleteById_WithoutAuthentication_Returns401() throws Exception {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
 
-        mockMvc.perform(delete(domain + "/" + id.toHexString())
+        mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isUnauthorized());

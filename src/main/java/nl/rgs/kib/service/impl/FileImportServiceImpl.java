@@ -52,6 +52,37 @@ public class FileImportServiceImpl implements FileImportService {
         inspectionList.setName(name);
         inspectionList.setStatus(InspectionListStatus.CONCEPT);
 
+        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodService.findByName("Conditiescore");
+        InspectionMethod inspectionMethod = inspectionMethodOptional.orElseGet(() -> {
+            InspectionMethod newInspectionMethod = new InspectionMethod();
+            newInspectionMethod.setName("Conditiescore");
+            newInspectionMethod.setStages(new LinkedList<>());
+            for (int i = 1; i < 11; i++) {
+                InspectionMethodStage inspectionMethodStage = new InspectionMethodStage();
+                inspectionMethodStage.setName("" + i);
+                inspectionMethodStage.setStage(i);
+                newInspectionMethod.getStages().add(inspectionMethodStage);
+            }
+
+            CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
+                    newInspectionMethod.getName(),
+                    newInspectionMethod.getInput(),
+                    newInspectionMethod.getCalculationMethod(),
+                    newInspectionMethod.getStages()
+            );
+
+            Set<ConstraintViolationImpl<CreateInspectionMethod>> inspectionMethodViolations = convertToImplSet(validator.validate(createInspectionMethod));
+
+            if (!inspectionMethodViolations.isEmpty()) {
+                log.error("Invalid InspectionMethod: {}", inspectionMethodViolations);
+            } else {
+                newInspectionMethod = inspectionMethodService.create(createInspectionMethod);
+                return newInspectionMethod;
+            }
+
+            return null;
+        });
+
         int index = 0;
         for (int sheetno = 0; sheetno < workbook.getNumberOfSheets(); sheetno++) {
             final String sheetName = workbook.getSheetName(sheetno);
@@ -101,46 +132,6 @@ public class FileImportServiceImpl implements FileImportService {
                         }
 
                         cell = sheet.getRow(rowno).getCell(9);
-
-                        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodService.findByName("Conditiescore");
-
-                        ImportResult<InspectionList> importResult = new ImportResult<>();
-
-                        InspectionMethod inspectionMethod = inspectionMethodOptional.orElseGet(() -> {
-                            InspectionMethod newInspectionMethod = new InspectionMethod();
-                            newInspectionMethod.setName("Conditiescore");
-                            newInspectionMethod.setStages(new LinkedList<>());
-                            for (int i = 1; i < 11; i++) {
-                                InspectionMethodStage inspectionMethodStage = new InspectionMethodStage();
-                                inspectionMethodStage.setName("" + i);
-                                inspectionMethodStage.setStage(i);
-                                newInspectionMethod.getStages().add(inspectionMethodStage);
-                            }
-
-                            CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
-                                    newInspectionMethod.getName(),
-                                    newInspectionMethod.getInput(),
-                                    newInspectionMethod.getCalculationMethod(),
-                                    newInspectionMethod.getStages()
-                            );
-
-
-                            Set<ConstraintViolationImpl<CreateInspectionMethod>> inspectionMethodViolations = convertToImplSet(validator.validate(createInspectionMethod));
-
-                            if (!inspectionMethodViolations.isEmpty()) {
-                                log.error("Invalid InspectionMethod: {}", inspectionMethodViolations);
-                                importResult.setErrors(ImportResultError.constraintViolationsImplToImportResultsError(inspectionMethodViolations));
-                            } else {
-                                newInspectionMethod = inspectionMethodService.create(createInspectionMethod);
-                                return newInspectionMethod;
-                            }
-
-                            return null;
-                        });
-
-                        if (!importResult.getErrors().isEmpty()) {
-                            return importResult;
-                        }
 
                         inspectionListItem.setInspectionMethod(inspectionMethod);
                         inspectionListItem.setStages(new LinkedList<>());

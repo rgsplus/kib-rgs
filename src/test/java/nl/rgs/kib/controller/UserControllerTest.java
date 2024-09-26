@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.rgs.kib.model.user.User;
 import nl.rgs.kib.model.user.UserRole;
 import nl.rgs.kib.model.user.dto.CreateUser;
+import nl.rgs.kib.service.ApiAccountService;
 import nl.rgs.kib.service.UserService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
@@ -36,8 +37,11 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
+    @MockBean
+    private ApiAccountService apiAccountService;
+
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findAll_Returns200() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -54,7 +58,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
         User user = new User();
@@ -70,7 +74,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
         when(userService.findById(id)).thenReturn(Optional.empty());
@@ -91,7 +95,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_Returns201() throws Exception {
         CreateUser createUser = new CreateUser(
                 "firstName",
@@ -121,7 +125,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void create_WhenInvalid_Returns400() throws Exception {
         CreateUser createUser = new CreateUser(
                 "firstName",
@@ -156,7 +160,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenExists_Returns200() throws Exception {
         User user = new User();
         user.setId(new ObjectId().toHexString());
@@ -178,7 +182,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenInvalid_Returns400() throws Exception {
         User user = new User();
         user.setId(new ObjectId().toHexString());
@@ -194,7 +198,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void update_WhenNotExists_Returns404() throws Exception {
         User user = new User();
         user.setId(new ObjectId().toHexString());
@@ -231,7 +235,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
         User user = new User();
         user.setId(new ObjectId().toHexString());
@@ -247,7 +251,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void deleteById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 
@@ -272,7 +276,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void emailExist_Returns200() throws Exception {
         String email = "example@email.com";
 
@@ -297,7 +301,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser
     public void usernameExist_Returns200() throws Exception {
         String username = "john.doe";
 

@@ -48,12 +48,12 @@ public class InspectionListServiceImpl implements InspectionListService {
     }
 
     @Override
-    public Optional<InspectionList> findById(ObjectId id) {
+    public Optional<InspectionList> findById(String id) {
         return inspectionListRepository.findById(id);
     }
 
     @Override
-    public InspectionList create(@NotNull() CreateInspectionList createInspectionList) {
+    public InspectionList create(@NotNull CreateInspectionList createInspectionList) {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
@@ -64,9 +64,9 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Override
     @Transactional
-    public Optional<InspectionList> update(@NotNull() InspectionList inspectionList) {
-        return inspectionListRepository.findById(new ObjectId(inspectionList.getId())).map(existingList -> {
-            List<ObjectId> deletedFileIds = InspectionList.getDeletedFileIds(existingList, inspectionList);
+    public Optional<InspectionList> update(@NotNull InspectionList inspectionList) {
+        return inspectionListRepository.findById(inspectionList.getId()).map(existingList -> {
+            List<String> deletedFileIds = InspectionList.getDeletedFileIds(existingList, inspectionList);
             kibFileService.deleteByIds(deletedFileIds);
 
             existingList.setName(inspectionList.getName());
@@ -79,11 +79,11 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Override
     @Transactional
-    public Optional<InspectionList> deleteById(ObjectId id) {
+    public Optional<InspectionList> deleteById(String id) {
         Optional<InspectionList> inspectionList = inspectionListRepository.findById(id);
         inspectionList.ifPresent(list ->
                 {
-                    List<ObjectId> allFileIds = InspectionList.getAllFileIds(list);
+                    List<String> allFileIds = InspectionList.getAllFileIds(list);
                     kibFileService.deleteByIds(allFileIds);
 
                     inspectionListRepository.deleteById(id);
@@ -94,7 +94,7 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Override
     @Transactional
-    public Optional<InspectionList> copy(ObjectId id) {
+    public Optional<InspectionList> copy(String id) {
         return inspectionListRepository.findById(id).map(inspectionList -> {
             InspectionList copy = new InspectionList();
 
@@ -124,7 +124,7 @@ public class InspectionListServiceImpl implements InspectionListService {
                         InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
                         copiedImage.setMain(image.getMain());
 
-                        KibFile copiedFile = kibFileService.copyById(new ObjectId(image.getFileId()));
+                        KibFile copiedFile = kibFileService.copyById(image.getFileId());
                         copiedImage.setFileId(copiedFile.getId());
 
                         return copiedImage;
@@ -142,12 +142,12 @@ public class InspectionListServiceImpl implements InspectionListService {
 
     @Override
     @Transactional
-    public Optional<InspectionList> copyItem(ObjectId id, String itemId) {
+    public Optional<InspectionList> copyItem(String id, String itemId) {
         return inspectionListRepository.findById(id).map(inspectionList -> {
             InspectionListItem item = inspectionList.getItems().stream().filter(i -> i.getId().equals(itemId)).findFirst().orElseThrow();
 
             InspectionListItem copiedItem = new InspectionListItem();
-            copiedItem.setId(new ObjectId().toString());
+            copiedItem.setId(new ObjectId().toHexString());
             copiedItem.setIndex(inspectionList.getItems().size());
 
             Locale locale = LocaleContextHolder.getLocale();
@@ -169,7 +169,7 @@ public class InspectionListServiceImpl implements InspectionListService {
                     InspectionListItemStageImage copiedImage = new InspectionListItemStageImage();
                     copiedImage.setMain(image.getMain());
 
-                    KibFile copiedFile = kibFileService.copyById(new ObjectId(image.getFileId()));
+                    KibFile copiedFile = kibFileService.copyById(image.getFileId());
                     copiedImage.setFileId(copiedFile.getId());
 
                     return copiedImage;
@@ -190,7 +190,7 @@ public class InspectionListServiceImpl implements InspectionListService {
         GridFSFindIterable files = this.kibFileService.findAll();
         for (GridFSFile file : files) {
             if (isOrphanDocument(file)) {
-                this.kibFileService.deleteById(file.getObjectId());
+                this.kibFileService.deleteById(file.getObjectId().toHexString());
             }
         }
     }
@@ -198,13 +198,13 @@ public class InspectionListServiceImpl implements InspectionListService {
     private boolean isOrphanDocument(GridFSFile file) {
         if (file.getMetadata() == null ||
                 !file.getMetadata().containsKey("collection") ||
-                !file.getMetadata().containsKey("objectId")) {
+                !file.getMetadata().containsKey("String")) {
             return true;
         }
 
         String fileId = file.getObjectId().toHexString();
         String collection = String.valueOf(file.getMetadata().get("collection"));
-        ObjectId objectId = new ObjectId(String.valueOf(file.getMetadata().get("objectId")));
+        String objectId = String.valueOf(file.getMetadata().get("String"));
 
         if (collection.equals("inspection-list")) {
             Optional<InspectionList> inspectionListOptional = this.findById(objectId);

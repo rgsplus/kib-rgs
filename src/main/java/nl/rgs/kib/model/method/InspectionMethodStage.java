@@ -10,17 +10,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.shared.models.Stageable;
 
-@Data()
-@NoArgsConstructor()
-@AllArgsConstructor()
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class InspectionMethodStage implements Stageable {
-    @NotNull()
+    @NotNull
     @Min(1)
     @Max(10)
     @Schema(example = "1", allowableValues = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"})
     private Integer stage;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "Good")
     private String name;
 }

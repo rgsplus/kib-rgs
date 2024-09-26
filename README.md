@@ -7,10 +7,10 @@ developed using Java with Spring Boot and MongoDB.
 
 - [Project Structure](#project-structure)
 - [Project Setup Instructions](#project-setup-instructions)
-    - [Important Notice](#important-notice)
-    - [Creating the `application.properties` File](#creating-the-applicationproperties-file)
-    - [Running MongoDB with Docker](#running-mongodb-with-docker)
-    - [Running the Application](#running-the-application)
+  - [Important Notice](#important-notice)
+  - [Creating the `application.properties` File](#creating-the-applicationproperties-file)
+  - [Running MongoDB with Docker](#running-mongodb-with-docker)
+  - [Running the Application](#running-the-application)
 - [Swagger](#swagger)
 - [Postman](#postman)
 - [License](#license)
@@ -20,31 +20,31 @@ developed using Java with Spring Boot and MongoDB.
 The project is structured as follows:
 
 - `src/main/java/com/kib/rgs`: Contains the main Java classes of the project.
-    - `config`: Contains the configuration classes of the project.
-    - `controller`: Contains the REST controllers of the project.
-    - `model`:
-        - `user`: Contains the `User` domain class.
-            - `dto`: Contains the DTO classes related to the `User` domain class.
-        - `list`: Contains the `InspectionList` domain class.
-            - `dto`: Contains the DTO classes related to the `InspectionList` domain class.
-        - `method`: Contains the `InspectionMethod` domain class.
-            - `dto`: Contains the DTO classes related to the `InspectionMethod` domain class.
-    - `repository`: Contains the repository interfaces of the project.
-        - `listeners`: Contains the listeners of the project, now only is the `AuditMetadataEventListener`. This
-          listener is responsible for setting the `createdBy`, `createdDate`, `lastModifiedBy`, and `lastModifiedDate`
-          fields of the entities.
-    - `service`: Contains the service interfaces and implementations of the project.
-        - `impl`: Contains the service implementations of the project.
-    - `shared`: Contains the shared classes of the project.
-        - `models`: Contains the shared models of the project.
-        - `validators`: Contains the validator classes of the project.
+  - `config`: Contains the configuration classes of the project.
+  - `controller`: Contains the REST controllers of the project.
+  - `model`:
+    - `user`: Contains the `User` domain class.
+      - `dto`: Contains the DTO classes related to the `User` domain class.
+    - `list`: Contains the `InspectionList` domain class.
+      - `dto`: Contains the DTO classes related to the `InspectionList` domain class.
+    - `method`: Contains the `InspectionMethod` domain class.
+      - `dto`: Contains the DTO classes related to the `InspectionMethod` domain class.
+  - `repository`: Contains the repository interfaces of the project.
+    - `listeners`: Contains the listeners of the project, now only is the `AuditMetadataEventListener`. This
+      listener is responsible for setting the `createdBy`, `createdDate`, `lastModifiedBy`, and `lastModifiedDate`
+      fields of the entities.
+  - `service`: Contains the service interfaces and implementations of the project.
+    - `impl`: Contains the service implementations of the project.
+  - `shared`: Contains the shared classes of the project.
+    - `models`: Contains the shared models of the project.
+    - `validators`: Contains the validator classes of the project.
 - `src/main/resources`: Contains the resources of the project.
 - `src/test/java/com/kib/rgs`: Contains the test classes of the project.
-    - `controller`: Contains the test classes of the REST controllers of the project.
-    - `models`: Contains the test classes for the models of the project.
-        - `dto`: Contains the test classes for the DTO models of the project.
-    - `service`: Contains the test classes of the services of the project.
-    - `validators`: Contains the test classes of the validators of the project.
+  - `controller`: Contains the test classes of the REST controllers of the project.
+  - `models`: Contains the test classes for the models of the project.
+    - `dto`: Contains the test classes for the DTO models of the project.
+  - `service`: Contains the test classes of the services of the project.
+  - `validators`: Contains the test classes of the validators of the project.
 
 ## Project Setup Instructions <a name="project-setup-instructions"></a>
 

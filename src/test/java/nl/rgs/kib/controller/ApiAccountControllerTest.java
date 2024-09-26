@@ -1,12 +1,12 @@
 package nl.rgs.kib.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import nl.rgs.kib.model.method.InspectionMethod;
+import nl.rgs.kib.model.account.ApiAccount;
+import nl.rgs.kib.model.account.dto.CreateApiAccount;
 import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
 import nl.rgs.kib.model.method.InspectionMethodInput;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.service.ApiAccountService;
-import nl.rgs.kib.service.InspectionMethodService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,19 +26,16 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(InspectionMethodController.class)
-public class InspectionMethodControllerTest {
+@WebMvcTest(ApiAccountController.class)
+public class ApiAccountControllerTest {
 
-    private final static String domain = "/inspection-method";
+    private final static String domain = "/api-account";
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @MockBean
-    private InspectionMethodService inspectionMethodService;
 
     @MockBean
     private ApiAccountService apiAccountService;
@@ -49,7 +47,7 @@ public class InspectionMethodControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(inspectionMethodService).findAll();
+        verify(apiAccountService).findAll();
     }
 
     @Test
@@ -63,28 +61,28 @@ public class InspectionMethodControllerTest {
     @WithMockUser
     public void findById_WhenExists_Returns200() throws Exception {
         String id = new ObjectId().toHexString();
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(id);
-        when(inspectionMethodService.findById(id)).thenReturn(Optional.of(inspectionMethod));
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(id);
+        when(apiAccountService.findById(id)).thenReturn(Optional.of(apiAccount));
 
         mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(inspectionMethodService).findById(id);
+        verify(apiAccountService).findById(id);
     }
 
     @Test
     @WithMockUser
     public void findById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
-        when(inspectionMethodService.findById(id)).thenReturn(Optional.empty());
+        when(apiAccountService.findById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(get(domain + "/" + id)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(inspectionMethodService).findById(id);
+        verify(apiAccountService).findById(id);
     }
 
     @Test
@@ -98,29 +96,32 @@ public class InspectionMethodControllerTest {
     @Test
     @WithMockUser
     public void create_Returns201() throws Exception {
-        CreateInspectionMethod createInspectionMethod = new CreateInspectionMethod(
+        CreateApiAccount createApiAccount = new CreateApiAccount(
                 "test",
-                InspectionMethodInput.STAGE,
-                InspectionMethodCalculationMethod.NEN2767,
-                List.of()
+                "Facebook",
+                new Date(),
+                null,
+                true
         );
 
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
-        inspectionMethod.setName(createInspectionMethod.name());
-        inspectionMethod.setInput(createInspectionMethod.input());
-        inspectionMethod.setCalculationMethod(createInspectionMethod.calculationMethod());
-        inspectionMethod.setStages(createInspectionMethod.stages());
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(new ObjectId().toHexString());
+        apiAccount.setApiKey(ApiAccount.generateApiKey());
+        apiAccount.setName(createApiAccount.name());
+        apiAccount.setBusinessName(createApiAccount.businessName());
+        apiAccount.setStartDate(createApiAccount.startDate());
+        apiAccount.setEndDate(createApiAccount.endDate());
+        apiAccount.setActive(createApiAccount.active());
 
-        when(inspectionMethodService.create(createInspectionMethod)).thenReturn(inspectionMethod);
+        when(apiAccountService.create(createApiAccount)).thenReturn(apiAccount);
 
         mockMvc.perform(post(domain)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(createInspectionMethod)))
+                        .content(objectMapper.writeValueAsString(createApiAccount)))
                 .andExpect(status().isCreated());
 
-        verify(inspectionMethodService).create(createInspectionMethod);
+        verify(apiAccountService).create(createApiAccount);
     }
 
     @Test
@@ -159,92 +160,100 @@ public class InspectionMethodControllerTest {
     @Test
     @WithMockUser
     public void update_WhenExists_Returns200() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
-        inspectionMethod.setName("test");
-        inspectionMethod.setInput(InspectionMethodInput.STAGE);
-        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-        inspectionMethod.setStages(List.of());
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(new ObjectId().toHexString());
+        apiAccount.setApiKey(ApiAccount.generateApiKey());
+        apiAccount.setName("test");
+        apiAccount.setBusinessName("Facebook");
+        apiAccount.setStartDate(new Date());
+        apiAccount.setEndDate(null);
+        apiAccount.setActive(true);
 
-        when(inspectionMethodService.update(inspectionMethod)).thenReturn(Optional.of(inspectionMethod));
+        when(apiAccountService.update(apiAccount)).thenReturn(Optional.of(apiAccount));
 
-        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(put(domain + "/" + apiAccount.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                        .content(objectMapper.writeValueAsString(apiAccount)))
                 .andExpect(status().isOk());
 
-        verify(inspectionMethodService).update(inspectionMethod);
+        verify(apiAccountService).update(apiAccount);
     }
 
     @Test
     @WithMockUser
     public void update_WhenInvalid_Returns400() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
-        inspectionMethod.setName(null);
-        inspectionMethod.setInput(InspectionMethodInput.STAGE);
-        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-        inspectionMethod.setStages(List.of());
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(new ObjectId().toHexString());
+        apiAccount.setApiKey(ApiAccount.generateApiKey());
+        apiAccount.setName("");
+        apiAccount.setBusinessName("Facebook");
+        apiAccount.setStartDate(new Date());
+        apiAccount.setEndDate(null);
+        apiAccount.setActive(true);
 
-        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(put(domain + "/" + apiAccount.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                        .content(objectMapper.writeValueAsString(apiAccount)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     @WithMockUser
     public void update_WhenNotExists_Returns404() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
-        inspectionMethod.setName("test");
-        inspectionMethod.setInput(InspectionMethodInput.STAGE);
-        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-        inspectionMethod.setStages(List.of());
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(new ObjectId().toHexString());
+        apiAccount.setApiKey(ApiAccount.generateApiKey());
+        apiAccount.setName("test");
+        apiAccount.setBusinessName("Facebook");
+        apiAccount.setStartDate(new Date());
+        apiAccount.setEndDate(null);
+        apiAccount.setActive(true);
 
-        when(inspectionMethodService.update(inspectionMethod)).thenReturn(Optional.empty());
+        when(apiAccountService.update(apiAccount)).thenReturn(Optional.empty());
 
-        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(put(domain + "/" + apiAccount.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                        .content(objectMapper.writeValueAsString(apiAccount)))
                 .andExpect(status().isNotFound());
 
-        verify(inspectionMethodService).update(inspectionMethod);
+        verify(apiAccountService).update(apiAccount);
     }
 
     @Test
     public void update_WithoutAuthentication_Returns401() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
-        inspectionMethod.setName("test");
-        inspectionMethod.setInput(InspectionMethodInput.STAGE);
-        inspectionMethod.setCalculationMethod(InspectionMethodCalculationMethod.NEN2767);
-        inspectionMethod.setStages(List.of());
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(new ObjectId().toHexString());
+        apiAccount.setApiKey(ApiAccount.generateApiKey());
+        apiAccount.setName("test");
+        apiAccount.setBusinessName("Facebook");
+        apiAccount.setStartDate(new Date());
+        apiAccount.setEndDate(null);
+        apiAccount.setActive(true);
 
-        mockMvc.perform(put(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(put(domain + "/" + apiAccount.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(inspectionMethod)))
+                        .content(objectMapper.writeValueAsString(apiAccount)))
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     @WithMockUser
     public void deleteById_WhenExists_Returns204() throws Exception {
-        InspectionMethod inspectionMethod = new InspectionMethod();
-        inspectionMethod.setId(new ObjectId().toHexString());
+        ApiAccount apiAccount = new ApiAccount();
+        apiAccount.setId(new ObjectId().toHexString());
 
-        when(inspectionMethodService.deleteById(inspectionMethod.getId())).thenReturn(Optional.of(inspectionMethod));
+        when(apiAccountService.deleteById(apiAccount.getId())).thenReturn(Optional.of(apiAccount));
 
-        mockMvc.perform(delete(domain + "/" + inspectionMethod.getId())
+        mockMvc.perform(delete(domain + "/" + apiAccount.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        verify(inspectionMethodService).deleteById(inspectionMethod.getId());
+        verify(apiAccountService).deleteById(apiAccount.getId());
     }
 
     @Test
@@ -252,14 +261,14 @@ public class InspectionMethodControllerTest {
     public void deleteById_WhenNotExists_Returns404() throws Exception {
         String id = new ObjectId().toHexString();
 
-        when(inspectionMethodService.deleteById(id)).thenReturn(Optional.empty());
+        when(apiAccountService.deleteById(id)).thenReturn(Optional.empty());
 
         mockMvc.perform(delete(domain + "/" + id)
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        verify(inspectionMethodService).deleteById(id);
+        verify(apiAccountService).deleteById(id);
     }
 
     @Test

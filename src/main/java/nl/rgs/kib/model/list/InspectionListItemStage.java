@@ -12,14 +12,14 @@ import nl.rgs.kib.shared.validators.UniqueFileIds;
 
 import java.util.List;
 
-@Data()
+@Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor()
-@AllArgsConstructor()
+@NoArgsConstructor
+@AllArgsConstructor
 public class InspectionListItemStage extends InspectionMethodStage {
-    @Valid()
-    @NotNull()
-    @MainImage()
-    @UniqueFileIds()
+    @Valid
+    @NotNull
+    @MainImage
+    @UniqueFileIds
     private List<InspectionListItemStageImage> images = List.of();
 }

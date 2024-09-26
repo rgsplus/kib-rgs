@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data()
-@AllArgsConstructor()
-@NoArgsConstructor()
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ImportResult<T> {
     private List<ImportResultError> errors = List.of();
     private T result;

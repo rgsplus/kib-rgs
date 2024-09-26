@@ -8,51 +8,47 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.UniqueStages;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
-@Data()
+@Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_method")
 public class InspectionMethod extends BaseObject {
-
-    @Id()
-    @NotNull()
+    @Id
+    @NotBlank
     @Schema(example = "5f622c23a8efb61a54365f33")
-    private ObjectId id;
+    private String id;
 
-    @NotBlank()
+    @NotBlank
     @Schema(example = "QuickScan")
     private String name;
 
-    @NotNull()
+    @NotNull
     @Schema(example = "STAGE")
     private InspectionMethodInput input;
 
     @Schema(example = "NEN2767")
     private InspectionMethodCalculationMethod calculationMethod;
 
-    @Valid()
-    @NotNull()
-    @UniqueStages()
+    @Valid
+    @NotNull
+    @UniqueStages
     private List<InspectionMethodStage> stages = List.of();
 
+    /**
+     * Sorts the stages by <b>stage</b>.
+     *
+     * @param stages the list of stages to sort
+     * @return the sorted list of stages
+     * @see InspectionMethodStage
+     */
     public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {
         return stages.stream()
                 .sorted(Comparator.comparing(InspectionMethodStage::getStage))
                 .toList();
-    }
-
-    public String getId() {
-        return Optional.ofNullable(id).map(ObjectId::toHexString).orElse(null);
-    }
-
-    public void setId(String id) {
-        this.id = Optional.ofNullable(id).map(ObjectId::new).orElse(null);
     }
 }

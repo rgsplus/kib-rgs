@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.model.method.dto.CreateInspectionMethod;
 import nl.rgs.kib.service.InspectionMethodService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/inspection-method")
 @Tag(name = "Inspection Method")
 public class InspectionMethodController {
@@ -24,7 +23,7 @@ public class InspectionMethodController {
     private InspectionMethodService inspectionMethodService;
 
     @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping()
+    @GetMapping
     @Operation(
             summary = "Find all inspection methods",
             description = "Find all inspection methods",
@@ -36,7 +35,7 @@ public class InspectionMethodController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
@@ -57,23 +56,23 @@ public class InspectionMethodController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Inspection method not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<InspectionMethod> findById(@PathVariable() String id) {
-        return inspectionMethodService.findById(new ObjectId(id))
+    public ResponseEntity<InspectionMethod> findById(@PathVariable String id) {
+        return inspectionMethodService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @PostMapping()
+    @PostMapping
     @Operation(
             summary = "Create an inspection method",
             description = "Create an inspection method",
@@ -85,16 +84,16 @@ public class InspectionMethodController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<InspectionMethod> create(@Valid() @RequestBody() CreateInspectionMethod createInspectionMethod) {
+    public ResponseEntity<InspectionMethod> create(@Valid @RequestBody CreateInspectionMethod createInspectionMethod) {
         return ResponseEntity.status(201).body(inspectionMethodService.create(createInspectionMethod));
     }
 
@@ -111,21 +110,21 @@ public class InspectionMethodController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Inspection method not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<InspectionMethod> update(@Valid() @RequestBody() InspectionMethod inspectionMethod) {
+    public ResponseEntity<InspectionMethod> update(@Valid @RequestBody InspectionMethod inspectionMethod) {
         return inspectionMethodService.update(inspectionMethod)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -140,22 +139,22 @@ public class InspectionMethodController {
                     @ApiResponse(
                             responseCode = "204",
                             description = "Deleted",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Inspection method not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<Void> deleteById(@PathVariable() String id) {
-        return inspectionMethodService.deleteById(new ObjectId(id))
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
+        return inspectionMethodService.deleteById(id)
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
     }

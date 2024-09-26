@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/user")
 @Tag(name = "User")
 public class UserController {
@@ -23,7 +23,7 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping()
+    @GetMapping
     @Operation(
             summary = "Find all users",
             description = "Find all users",
@@ -35,7 +35,7 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
@@ -56,23 +56,23 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "User not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<User> findById(@PathVariable() String id) {
+    public ResponseEntity<User> findById(@PathVariable String id) {
         return userService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
-    @PostMapping()
+    @PostMapping
     @Operation(
             summary = "Create an user",
             description = "Create an user",
@@ -84,16 +84,16 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<User> create(@Valid() @RequestBody() CreateUser createUser) {
+    public ResponseEntity<User> create(@Valid @RequestBody CreateUser createUser) {
         return ResponseEntity.status(201).body(userService.create(createUser));
     }
 
@@ -110,21 +110,21 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "User not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<User> update(@Valid() @RequestBody() User user) {
+    public ResponseEntity<User> update(@Valid @RequestBody User user) {
         return userService.update(user)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -139,21 +139,21 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "204",
                             description = "Deleted",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "User not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<Void> deleteById(@PathVariable() String id) {
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return userService.deleteById(id)
                 .map(inspectionMethod -> ResponseEntity.noContent().<Void>build())
                 .orElse(ResponseEntity.notFound().build());
@@ -172,11 +172,11 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<Boolean> emailExists(@PathVariable() String email) {
+    public ResponseEntity<Boolean> emailExists(@PathVariable String email) {
         return ResponseEntity.ok(userService.emailExists(email));
     }
 
@@ -193,11 +193,11 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<Boolean> usernameExists(@PathVariable() String username) {
+    public ResponseEntity<Boolean> usernameExists(@PathVariable String username) {
         return ResponseEntity.ok(userService.usernameExists(username));
     }
 
@@ -214,7 +214,7 @@ public class UserController {
                     @ApiResponse(
                             responseCode = "401",
                             description = "Unauthorized",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )

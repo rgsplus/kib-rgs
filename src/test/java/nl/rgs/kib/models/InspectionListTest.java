@@ -163,8 +163,8 @@ public class InspectionListTest {
 
         @Test
         public void testGetDeletedFileIdsWithSameImages() {
-            ObjectId fileId1 = new ObjectId();
-            ObjectId fileId2 = new ObjectId();
+            String fileId1 = new ObjectId().toHexString();
+            String fileId2 = new ObjectId().toHexString();
 
             // Existing list
             InspectionListItemStageImage existingInspectionListItemStageImage1 = new InspectionListItemStageImage(false, fileId1);
@@ -197,8 +197,8 @@ public class InspectionListTest {
 
         @Test
         public void testGetDeletedFileIdsWithDeletedImage() {
-            ObjectId fileId1 = new ObjectId();
-            ObjectId fileId2 = new ObjectId();
+            String fileId1 = new ObjectId().toHexString();
+            String fileId2 = new ObjectId().toHexString();
 
             // Existing list
             InspectionListItemStageImage existingInspectionListItemStageImage1 = new InspectionListItemStageImage(false, fileId1);
@@ -230,7 +230,7 @@ public class InspectionListTest {
 
         @Test
         public void testGetDeletedFileIdsWithDeletedImageAndNullFileId() {
-            ObjectId fileId1 = new ObjectId();
+            String fileId1 = new ObjectId().toHexString();
 
             // Existing list
             InspectionListItemStageImage existingInspectionListItemStageImage1 = new InspectionListItemStageImage(false, fileId1);
@@ -262,7 +262,7 @@ public class InspectionListTest {
 
         @Test
         public void testGetDeletedFileIdsWithDeletedImageAndNullFileIdInUpdatedList() {
-            ObjectId fileId1 = new ObjectId();
+            String fileId1 = new ObjectId().toHexString();
 
             // Existing list
             InspectionListItemStageImage existingInspectionListItemStageImage1 = new InspectionListItemStageImage(false, fileId1);
@@ -302,10 +302,10 @@ public class InspectionListTest {
 
         @Test
         public void testGetAllFileIdsWithMultipleItems() {
-            ObjectId fileId1 = new ObjectId();
-            ObjectId fileId2 = new ObjectId();
-            ObjectId fileId3 = new ObjectId();
-            ObjectId fileId4 = new ObjectId();
+            String fileId1 = new ObjectId().toHexString();
+            String fileId2 = new ObjectId().toHexString();
+            String fileId3 = new ObjectId().toHexString();
+            String fileId4 = new ObjectId().toHexString();
 
             InspectionListItemStageImage stageImage1 = new InspectionListItemStageImage(false, fileId1);
             InspectionListItemStageImage stageImage2 = new InspectionListItemStageImage(true, fileId2);
@@ -330,9 +330,9 @@ public class InspectionListTest {
 
         @Test
         public void testGetAllFileIdsWithNullFileId() {
-            ObjectId fileId1 = new ObjectId();
-            ObjectId fileId2 = new ObjectId();
-            ObjectId fileId3 = new ObjectId();
+            String fileId1 = new ObjectId().toHexString();
+            String fileId2 = new ObjectId().toHexString();
+            String fileId3 = new ObjectId().toHexString();
 
             InspectionListItemStageImage stageImage1 = new InspectionListItemStageImage(false, fileId1);
             InspectionListItemStageImage stageImage2 = new InspectionListItemStageImage(true, fileId2);
@@ -576,8 +576,8 @@ public class InspectionListTest {
                 @Test
                 public void testInspectionListItemStageImagesMainImageValidator() {
                     InspectionListItem item = createInspectionListItem("Item 1");
-                    InspectionListItemStageImage image1 = new InspectionListItemStageImage(true, new ObjectId());
-                    InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId());
+                    InspectionListItemStageImage image1 = new InspectionListItemStageImage(true, new ObjectId().toHexString());
+                    InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId().toHexString());
                     item.getStages().getFirst().setImages(List.of(image1, image2));
 
                     InspectionList inspectionList = new InspectionList();
@@ -592,7 +592,7 @@ public class InspectionListTest {
                 @Test
                 public void testInspectionListItemStageImagesUniqueFileIdsValidator() {
                     InspectionListItem item = createInspectionListItem("Item 1");
-                    ObjectId fileId = new ObjectId();
+                    String fileId = new ObjectId().toHexString();
                     InspectionListItemStageImage image1 = new InspectionListItemStageImage(true, fileId);
                     InspectionListItemStageImage image2 = new InspectionListItemStageImage(false, fileId);
                     item.getStages().getFirst().setImages(List.of(image1, image2));
@@ -698,9 +698,9 @@ public class InspectionListTest {
 
             @Test
             public void testSortItemsStagesAndImagesWithUnorderedImages() {
-                InspectionListItemStageImage image1 = new InspectionListItemStageImage(false, new ObjectId());
-                InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId());
-                InspectionListItemStageImage image3 = new InspectionListItemStageImage(false, new ObjectId());
+                InspectionListItemStageImage image1 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
+                InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId().toHexString());
+                InspectionListItemStageImage image3 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
 
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(1);

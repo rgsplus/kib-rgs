@@ -35,8 +35,8 @@ public class UniqueFileIdsValidatorTest {
     @Test
     public void testIsValidWithUniqueFileIds() {
         List<InspectionListItemStageImage> items = List.of(
-                new InspectionListItemStageImage(true, new ObjectId()),
-                new InspectionListItemStageImage(false, new ObjectId())
+                new InspectionListItemStageImage(true, new ObjectId().toHexString()),
+                new InspectionListItemStageImage(false, new ObjectId().toHexString())
         );
 
         assertTrue(validator.isValid(items, null));
@@ -44,7 +44,7 @@ public class UniqueFileIdsValidatorTest {
 
     @Test
     public void testIsInvalidWithNonUniqueIds() {
-        ObjectId id = new ObjectId();
+        String id = new ObjectId().toHexString();
         List<InspectionListItemStageImage> items = List.of(
                 new InspectionListItemStageImage(true, id),
                 new InspectionListItemStageImage(false, id)

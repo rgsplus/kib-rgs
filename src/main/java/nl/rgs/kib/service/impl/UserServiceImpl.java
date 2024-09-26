@@ -33,10 +33,10 @@ import java.util.*;
 @Slf4j
 @Service
 public class UserServiceImpl implements UserService, InitializingBean {
-    @Autowired()
+    @Autowired
     private TemplateEngine templateEngine;
 
-    @Autowired()
+    @Autowired
     private MailService mailService;
 
     private Keycloak keycloak;

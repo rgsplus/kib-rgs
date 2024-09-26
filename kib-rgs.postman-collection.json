@@ -20,7 +20,7 @@
 								"header": [
 									{
 										"key": "api-key",
-										"value": "e0e4fe66-5114-4bd8-83f7-28c4bd3461a6",
+										"value": "{api-key}",
 										"type": "text"
 									}
 								],
@@ -44,19 +44,49 @@
 								"header": [
 									{
 										"key": "api-key",
-										"value": "e0e4fe66-5114-4bd8-83f7-28c4bd3461a6",
+										"value": "{api-key}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "{{base-url}}/api/inspection-list/669a73b006cc8a6d5729abc1",
+									"raw": "{{base-url}}/api/inspection-list/{id}",
 									"host": [
 										"{{base-url}}"
 									],
 									"path": [
 										"api",
 										"inspection-list",
-										"669a73b006cc8a6d5729abc1"
+										"{id}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "KibFile",
+					"item": [
+						{
+							"name": "FindById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "api-key",
+										"value": "{api-key}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base-url}}/api/kib-file/{id}",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"api",
+										"kib-file",
+										"{id}"
 									]
 								}
 							},

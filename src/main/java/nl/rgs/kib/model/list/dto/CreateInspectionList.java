@@ -22,18 +22,18 @@ import java.util.List;
  * @param items
  */
 public record CreateInspectionList(
-        @NotBlank()
+        @NotBlank
         @Schema(example = "RGS+ NEN_2767")
         String name,
 
-        @NotNull()
+        @NotNull
         @Schema(example = "DEFINITIVE")
         InspectionListStatus status,
 
-        @Valid()
-        @NotNull()
-        @UniqueIds()
-        @ValidIndexes()
+        @Valid
+        @NotNull
+        @UniqueIds
+        @ValidIndexes
         List<InspectionListItem> items
 ) {
 }

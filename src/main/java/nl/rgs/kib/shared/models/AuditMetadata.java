@@ -30,19 +30,19 @@ But it doesn't work on MongoDB as the documentation says as other users have rep
  * Metadata for auditing purposes.
  * Contains the created and updated date and the user that created and updated the object.
  */
-@Data()
-@AllArgsConstructor()
-@NoArgsConstructor()
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuditMetadata {
-    @CreatedBy()
+    @CreatedBy
     private String createdBy;
 
-    @LastModifiedDate()
+    @LastModifiedDate
     private LocalDateTime updated;
 
-    @LastModifiedBy()
+    @LastModifiedBy
     private String updatedBy;
     
-    @CreatedDate()
+    @CreatedDate
     private LocalDateTime created;
 }

@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.service.InspectionListService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/api/inspection-list")
 @Tag(name = "Inspection List")
 public class ApiInspectionListController {
     @Autowired
     private InspectionListService inspectionListService;
 
-    @GetMapping()
+    @GetMapping
     @Operation(
             summary = "Find all inspection lists",
             description = "Find all inspection lists",
@@ -45,9 +44,14 @@ public class ApiInspectionListController {
                             description = "Found all inspection list"
                     ),
                     @ApiResponse(
+                            responseCode = "400",
+                            description = "Missing API Key",
+                            content = @Content
+                    ),
+                    @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content()
+                            description = "Invalid API Key || Expired API Key || Inactive API Key",
+                            content = @Content
                     ),
             }
     )
@@ -74,19 +78,24 @@ public class ApiInspectionListController {
                             description = "Found the inspection list"
                     ),
                     @ApiResponse(
+                            responseCode = "400",
+                            description = "Missing API Key",
+                            content = @Content
+                    ),
+                    @ApiResponse(
                             responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content()
+                            description = "Invalid API Key || Expired API Key || Inactive API Key",
+                            content = @Content
                     ),
                     @ApiResponse(
                             responseCode = "404",
                             description = "Inspection list not found",
-                            content = @Content()
+                            content = @Content
                     ),
             }
     )
-    public ResponseEntity<InspectionList> findById(@PathVariable() String id) {
-        return inspectionListService.findById(new ObjectId(id))
+    public ResponseEntity<InspectionList> findById(@PathVariable String id) {
+        return inspectionListService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

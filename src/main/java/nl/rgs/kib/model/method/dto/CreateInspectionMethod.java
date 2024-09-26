@@ -23,20 +23,20 @@ import java.util.List;
  * @param stages
  */
 public record CreateInspectionMethod(
-        @NotBlank()
+        @NotBlank
         @Schema(example = "QuickScan")
         String name,
 
-        @NotNull()
+        @NotNull
         @Schema(example = "STAGE")
         InspectionMethodInput input,
 
         @Schema(example = "NEN2767")
         InspectionMethodCalculationMethod calculationMethod,
 
-        @Valid()
-        @NotNull()
-        @UniqueStages()
+        @Valid
+        @NotNull
+        @UniqueStages
         List<InspectionMethodStage> stages
 ) {
 }
