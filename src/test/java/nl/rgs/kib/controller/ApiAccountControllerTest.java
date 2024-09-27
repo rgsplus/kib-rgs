@@ -98,6 +98,7 @@ public class ApiAccountControllerTest {
     public void create_Returns201() throws Exception {
         CreateApiAccount createApiAccount = new CreateApiAccount(
                 "test",
+                "Api account for testing",
                 "Facebook",
                 new Date(),
                 null,

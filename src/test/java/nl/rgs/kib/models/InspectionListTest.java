@@ -44,7 +44,7 @@ public class InspectionListTest {
         stage2.setImages(List.of());
 
         return new InspectionListItem(UUID.randomUUID().toString(), 0, "Fundering", "Veiligheid", "Constructief",
-                name, "1", "Visuele beoordeling fundering door gevel en vloeren", inspectionMethod, List.of(stage1, stage2));
+                name, "1", "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
     }
 
     private InspectionListItem createInspectionListItem(String name, String id) {

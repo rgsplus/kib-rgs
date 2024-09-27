@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
+import nl.rgs.kib.model.list.dto.InspectionListSummary;
 import nl.rgs.kib.service.InspectionListService;
 import nl.rgs.kib.shared.models.ImportDocument;
 import nl.rgs.kib.shared.models.ImportResult;
@@ -45,6 +46,27 @@ public class InspectionListController {
     )
     public ResponseEntity<List<InspectionList>> findAll() {
         return ResponseEntity.ok(inspectionListService.findAll());
+    }
+
+    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
+    @GetMapping("/summaries")
+    @Operation(
+            summary = "Find all inspection list summaries",
+            description = "Find all inspection list summaries",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Found all inspection list summaries"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content
+                    ),
+            }
+    )
+    public ResponseEntity<List<InspectionListSummary>> findAllSummaries() {
+        return ResponseEntity.ok(inspectionListService.findAllSummaries());
     }
 
     @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")

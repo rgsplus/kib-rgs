@@ -53,6 +53,9 @@ public class InspectionListItem implements Indexable, Ideable {
     @Schema(example = "Visuele beoordeling fundering door gevel en vloeren")
     private String measuringMethod;
 
+    @Schema(example = "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.")
+    private String description;
+
     @DBRef
     @NotNull
     @JsonIgnoreProperties({"metadata"})
