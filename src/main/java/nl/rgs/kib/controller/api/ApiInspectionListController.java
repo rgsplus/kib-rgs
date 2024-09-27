@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.rgs.kib.model.list.InspectionList;
+import nl.rgs.kib.model.list.dto.SummaryInspectionList;
 import nl.rgs.kib.service.InspectionListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ public class ApiInspectionListController {
 
     @GetMapping
     @Operation(
-            summary = "Find all inspection lists",
-            description = "Find all inspection lists",
+            summary = "Find all summaries inspection list",
+            description = "Find all summaries inspection list",
             parameters = {
                     @Parameter(
                             name = "api-key",
@@ -41,7 +42,7 @@ public class ApiInspectionListController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found all inspection list"
+                            description = "Found all summaries inspection list"
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -55,8 +56,8 @@ public class ApiInspectionListController {
                     ),
             }
     )
-    public ResponseEntity<List<InspectionList>> findAll() {
-        return ResponseEntity.ok(inspectionListService.findAll());
+    public ResponseEntity<List<SummaryInspectionList>> findAllSummaries() {
+        return ResponseEntity.ok(inspectionListService.findAllSummaries());
     }
 
     @GetMapping("/{id}")
