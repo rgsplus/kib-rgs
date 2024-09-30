@@ -44,11 +44,6 @@ public class InspectionListServiceImpl implements InspectionListService {
     private MessageSource messageSource;
 
     @Override
-    public List<InspectionList> findAll() {
-        return inspectionListRepository.findAll();
-    }
-
-    @Override
     public List<SummaryInspectionList> findAllSummaries() {
         return inspectionListRepository.findAllSummaries();
     }

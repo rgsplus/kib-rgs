@@ -28,27 +28,6 @@ public class InspectionListController {
     private InspectionListService inspectionListService;
 
     @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping
-    @Operation(
-            summary = "Find all inspection lists",
-            description = "Find all inspection lists",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Found all inspection list"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content
-                    ),
-            }
-    )
-    public ResponseEntity<List<InspectionList>> findAll() {
-        return ResponseEntity.ok(inspectionListService.findAll());
-    }
-
-    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/summaries")
     @Operation(
             summary = "Find all summaries inspection list",

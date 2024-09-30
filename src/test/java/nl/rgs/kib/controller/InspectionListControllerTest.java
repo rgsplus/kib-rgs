@@ -40,17 +40,7 @@ public class InspectionListControllerTest {
 
     @MockBean
     private ApiAccountService apiAccountService;
-
-    @Test
-    @WithMockUser
-    public void findAll_Returns200() throws Exception {
-        mockMvc.perform(get(domain)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(inspectionListService).findAll();
-    }
-
+    
     @Test
     public void findAll_WithoutAuthentication_Returns401() throws Exception {
         mockMvc.perform(get(domain)

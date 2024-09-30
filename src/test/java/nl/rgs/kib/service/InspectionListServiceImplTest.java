@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.MessageSource;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -40,19 +39,7 @@ public class InspectionListServiceImplTest {
 
     @Mock
     private KibFileServiceImpl kibFileService;
-
-    @Test
-    public void findAll_ReturnsAllInspectionLists() {
-        InspectionList list1 = new InspectionList();
-        InspectionList list2 = new InspectionList();
-        List<InspectionList> expectedList = Arrays.asList(list1, list2);
-        when(inspectionListRepository.findAll()).thenReturn(expectedList);
-
-        List<InspectionList> result = inspectionListService.findAll();
-
-        assertEquals(expectedList, result);
-        verify(inspectionListRepository).findAll();
-    }
+    
 
     @Test
     public void findById_ReturnsInspectionList() {

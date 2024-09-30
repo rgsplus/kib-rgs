@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InspectionListService {
-    List<InspectionList> findAll();
-
     List<SummaryInspectionList> findAllSummaries();
 
     Optional<InspectionList> findById(String id);
