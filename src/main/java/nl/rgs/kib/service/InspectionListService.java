@@ -2,7 +2,7 @@ package nl.rgs.kib.service;
 
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
-import nl.rgs.kib.model.list.dto.InspectionListSummary;
+import nl.rgs.kib.model.list.dto.SummaryInspectionList;
 import nl.rgs.kib.shared.models.ImportDocument;
 import nl.rgs.kib.shared.models.ImportResult;
 
@@ -11,9 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface InspectionListService {
-    List<InspectionList> findAll();
-
-    List<InspectionListSummary> findAllSummaries();
+    List<SummaryInspectionList> findAllSummaries();
 
     Optional<InspectionList> findById(String id);
 

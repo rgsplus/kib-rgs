@@ -8,7 +8,7 @@ import nl.rgs.kib.model.list.InspectionListItem;
 import nl.rgs.kib.model.list.InspectionListItemStage;
 import nl.rgs.kib.model.list.InspectionListItemStageImage;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
-import nl.rgs.kib.model.list.dto.InspectionListSummary;
+import nl.rgs.kib.model.list.dto.SummaryInspectionList;
 import nl.rgs.kib.repository.InspectionListRepository;
 import nl.rgs.kib.service.FileImportService;
 import nl.rgs.kib.service.InspectionListService;
@@ -44,12 +44,7 @@ public class InspectionListServiceImpl implements InspectionListService {
     private MessageSource messageSource;
 
     @Override
-    public List<InspectionList> findAll() {
-        return inspectionListRepository.findAll();
-    }
-
-    @Override
-    public List<InspectionListSummary> findAllSummaries() {
+    public List<SummaryInspectionList> findAllSummaries() {
         return inspectionListRepository.findAllSummaries();
     }
 

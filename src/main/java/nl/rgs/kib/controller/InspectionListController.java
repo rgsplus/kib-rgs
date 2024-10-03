@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import nl.rgs.kib.model.list.InspectionList;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
-import nl.rgs.kib.model.list.dto.InspectionListSummary;
+import nl.rgs.kib.model.list.dto.SummaryInspectionList;
 import nl.rgs.kib.service.InspectionListService;
 import nl.rgs.kib.shared.models.ImportDocument;
 import nl.rgs.kib.shared.models.ImportResult;
@@ -28,35 +28,14 @@ public class InspectionListController {
     private InspectionListService inspectionListService;
 
     @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
-    @GetMapping
-    @Operation(
-            summary = "Find all inspection lists",
-            description = "Find all inspection lists",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "Found all inspection list"
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized",
-                            content = @Content
-                    ),
-            }
-    )
-    public ResponseEntity<List<InspectionList>> findAll() {
-        return ResponseEntity.ok(inspectionListService.findAll());
-    }
-
-    @PreAuthorize("hasRole('ROLE_KIB_USER') or hasRole('ROLE_KIB_ADMIN')")
     @GetMapping("/summaries")
     @Operation(
-            summary = "Find all inspection list summaries",
-            description = "Find all inspection list summaries",
+            summary = "Find all summaries inspection list",
+            description = "Find all summaries inspection list",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found all inspection list summaries"
+                            description = "Found all summaries inspection list"
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -65,7 +44,7 @@ public class InspectionListController {
                     ),
             }
     )
-    public ResponseEntity<List<InspectionListSummary>> findAllSummaries() {
+    public ResponseEntity<List<SummaryInspectionList>> findAllSummaries() {
         return ResponseEntity.ok(inspectionListService.findAllSummaries());
     }
 

@@ -55,19 +55,6 @@ public class ApiInspectionListControllerTest {
     }
 
     @Test
-    @WithMockUser
-    public void findAll_Returns200() throws Exception {
-        String apiKey = ApiAccount.generateApiKey();
-        apiAccount.setApiKey(apiKey);
-        when(apiAccountService.findByApiKey(apiKey)).thenReturn(Optional.of(apiAccount));
-
-        mockMvc.perform(get(domain).contentType(MediaType.APPLICATION_JSON).header("api-key", apiKey)).andExpect(status().isOk());
-
-        verify(apiAccountService).findByApiKey(apiKey);
-        verify(inspectionListService).findAll();
-    }
-
-    @Test
     public void findAll_WithoutApiKey_Returns401() throws Exception {
         mockMvc.perform(get(domain)
                         .contentType(MediaType.APPLICATION_JSON))

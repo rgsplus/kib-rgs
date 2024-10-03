@@ -85,7 +85,6 @@ public class InspectionList extends BaseObject {
                         .flatMap(stage -> stage.getImages().stream())
                         .noneMatch(image -> image.getFileId().equals(existingImage.getFileId())))
                 .map(InspectionListItemStageImage::getFileId)
-                .map(String::new)
                 .toList();
     }
 
@@ -105,7 +104,6 @@ public class InspectionList extends BaseObject {
                 .flatMap(stage -> stage.getImages().stream())
                 .map(InspectionListItemStageImage::getFileId)
                 .filter(Objects::nonNull)
-                .map(String::new)
                 .toList();
     }
 }
