@@ -50,6 +50,7 @@ public class InspectionListItem implements Indexable, Ideable, StandarNoable {
     @Schema(example = "Constructieve staat fundering en gevelmetselwerk")
     private String name;
 
+    @NotBlank
     @Schema(example = "10B")
     private String standardNo;
 

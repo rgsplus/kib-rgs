@@ -447,6 +447,48 @@ public class InspectionListTest {
             }
 
             @Test
+            public void testInspectionListItemGroupsNotNullValidator() {
+                InspectionListItem item = createInspectionListItem("Item 1");
+                item.setGroups(null);
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setId(new ObjectId().toHexString());
+                inspectionList.setName("test");
+                inspectionList.setItems(List.of(item));
+                inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Groups should not be null.");
+            }
+
+            @Test
+            public void testInspectionListItemStandardNoNotNullValidator() {
+                InspectionListItem item = createInspectionListItem("Item 1");
+                item.setStandardNo(null);
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setId(new ObjectId().toHexString());
+                inspectionList.setName("test");
+                inspectionList.setItems(List.of(item));
+                inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Standard no should not be null.");
+            }
+
+            @Test
+            public void testInspectionListItemStandardNoNotBlankValidator() {
+                InspectionListItem item = createInspectionListItem("Item 1");
+                item.setStandardNo(" ");
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setId(new ObjectId().toHexString());
+                inspectionList.setName("test");
+                inspectionList.setItems(List.of(item));
+                inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Standard no should not be blank.");
+            }
+
+            @Test
             public void testInspectionListItemInspectionMethodNotNullValidator() {
                 InspectionListItem item = createInspectionListItem("Item 1");
                 item.setInspectionMethod(null);
