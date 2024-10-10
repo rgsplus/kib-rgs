@@ -160,7 +160,7 @@ public class InspectionListServiceImpl implements InspectionListService {
             copiedItem.setGroups(item.getGroups());
             copiedItem.setTheme(item.getTheme());
             copiedItem.setField(item.getField());
-            copiedItem.setStandardNo(item.getStandardNo());
+            copiedItem.setStandardNo(item.getStandardNo() + " " + separator + " " + copySuffix);
             copiedItem.setMeasuringMethod(item.getMeasuringMethod());
             copiedItem.setDescription(item.getDescription());
             copiedItem.setInspectionMethod(item.getInspectionMethod());
