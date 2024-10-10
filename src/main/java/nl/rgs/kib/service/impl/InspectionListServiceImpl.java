@@ -155,12 +155,13 @@ public class InspectionListServiceImpl implements InspectionListService {
             Locale locale = LocaleContextHolder.getLocale();
             String copySuffix = messageSource.getMessage("copy.suffix", null, locale);
             String separator = messageSource.getMessage("copy.separator", null, locale);
+            String random5 = UUID.randomUUID().toString().substring(0, 5);
             copiedItem.setName(item.getName() + " " + separator + " " + copySuffix);
 
             copiedItem.setGroups(item.getGroups());
             copiedItem.setTheme(item.getTheme());
             copiedItem.setField(item.getField());
-            copiedItem.setStandardNo(item.getStandardNo() + " " + separator + " " + copySuffix);
+            copiedItem.setStandardNo(item.getStandardNo() + " " + separator + " " + copySuffix + " " + separator + " " + random5);
             copiedItem.setMeasuringMethod(item.getMeasuringMethod());
             copiedItem.setDescription(item.getDescription());
             copiedItem.setInspectionMethod(item.getInspectionMethod());
