@@ -44,7 +44,7 @@ public class InspectionListTest {
         stage2.setImages(List.of());
 
         return new InspectionListItem(UUID.randomUUID().toString(), 0, "Fundering", "Veiligheid", "Constructief",
-                name, "1", "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
+                name, new ObjectId().toHexString(), "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
     }
 
     private InspectionListItem createInspectionListItem(String name, String id) {
@@ -146,6 +146,23 @@ public class InspectionListTest {
             inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
 
             assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique indexes.");
+        }
+
+        @Test
+        public void testInspectionListItemsUniqueStandardNosValidator() {
+            InspectionListItem item1 = createInspectionListItem("Item 1", 0);
+            InspectionListItem item2 = createInspectionListItem("Item 2", 1);
+
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of(item1, item2));
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+            inspectionList.getItems().get(0).setStandardNo("standardNo");
+            inspectionList.getItems().get(1).setStandardNo("standardNo");
+
+            assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique standardNos.");
         }
 
         @Test

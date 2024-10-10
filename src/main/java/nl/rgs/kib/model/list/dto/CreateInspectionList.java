@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import nl.rgs.kib.model.list.InspectionListItem;
 import nl.rgs.kib.model.list.InspectionListStatus;
 import nl.rgs.kib.shared.validators.UniqueIds;
+import nl.rgs.kib.shared.validators.UniqueStandardNos;
 import nl.rgs.kib.shared.validators.ValidIndexes;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public record CreateInspectionList(
         @NotNull
         @UniqueIds
         @ValidIndexes
+        @UniqueStandardNos
         List<InspectionListItem> items
 ) {
 }

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.shared.models.Ideable;
 import nl.rgs.kib.shared.models.Indexable;
+import nl.rgs.kib.shared.models.StandarNoable;
 import nl.rgs.kib.shared.validators.UniqueStages;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -22,7 +23,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InspectionListItem implements Indexable, Ideable {
+public class InspectionListItem implements Indexable, Ideable, StandarNoable {
 
     @NotNull
     @Schema(example = "93c897cc-1ff0-4a38-8d89-cfe91fa3c66b")
