@@ -102,7 +102,9 @@ public class FileImportServiceImpl implements FileImportService {
                         if (cell.getCellType().equals(CellType.STRING) && cell.getStringCellValue() != null) {
                             currentGroup = cell.getStringCellValue();
                         }
-                        inspectionListItem.getGroups().add(currentGroup);
+                        Set<String> groups = new HashSet<>(inspectionListItem.getGroups());
+                        groups.add(currentGroup);
+                        inspectionListItem.setGroups(groups);
 
                         cell = sheet.getRow(rowno).getCell(1);
                         if (cell.getCellType().equals(CellType.STRING) && cell.getStringCellValue() != null) {
@@ -162,11 +164,12 @@ public class FileImportServiceImpl implements FileImportService {
 
                         if (existingItem == null) {
                             inspectionList.getItems().add(inspectionListItem);
+                            index++;
                         } else {
-                            existingItem.getGroups().addAll(inspectionListItem.getGroups());
+                            Set<String> existingGroups = new HashSet<>(existingItem.getGroups());
+                            existingGroups.addAll(inspectionListItem.getGroups());
+                            existingItem.setGroups(existingGroups);
                         }
-
-                        index++;
                     }
                 }
             }
