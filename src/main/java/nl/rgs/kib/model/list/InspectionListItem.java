@@ -19,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -35,8 +36,9 @@ public class InspectionListItem implements Indexable, Ideable, StandarNoable {
     @Schema(example = "1", minimum = "0")
     private Integer index;
 
-    @Schema(example = "Fundering")
-    private String group;
+    @NotNull
+    @Schema(example = "[\"Fundering\",\"Constructie\"]")
+    private Set<String> groups = Set.of();
 
     @Schema(example = "Veiligheid")
     private String theme;

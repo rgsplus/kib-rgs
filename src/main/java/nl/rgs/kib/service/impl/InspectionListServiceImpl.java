@@ -111,7 +111,7 @@ public class InspectionListServiceImpl implements InspectionListService {
                 copiedItem.setId(item.getId());
                 copiedItem.setIndex(item.getIndex());
                 copiedItem.setName(item.getName());
-                copiedItem.setGroup(item.getGroup());
+                copiedItem.setGroups(item.getGroups());
                 copiedItem.setTheme(item.getTheme());
                 copiedItem.setField(item.getField());
                 copiedItem.setStandardNo(item.getStandardNo());
@@ -157,7 +157,7 @@ public class InspectionListServiceImpl implements InspectionListService {
             String separator = messageSource.getMessage("copy.separator", null, locale);
             copiedItem.setName(item.getName() + " " + separator + " " + copySuffix);
 
-            copiedItem.setGroup(item.getGroup());
+            copiedItem.setGroups(item.getGroups());
             copiedItem.setTheme(item.getTheme());
             copiedItem.setField(item.getField());
             copiedItem.setStandardNo(item.getStandardNo());
