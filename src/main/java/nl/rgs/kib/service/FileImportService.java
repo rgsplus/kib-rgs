@@ -8,4 +8,6 @@ import java.io.IOException;
 public interface FileImportService {
 
     ImportResult<InspectionList> importExcelBluePrint(byte[] blueprint, String name) throws IOException;
+
+    void importRGS(byte[] rgsFile) throws IOException;
 }
