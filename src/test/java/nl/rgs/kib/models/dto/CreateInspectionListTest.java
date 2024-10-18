@@ -2,10 +2,7 @@ package nl.rgs.kib.models.dto;
 
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
-import nl.rgs.kib.model.list.InspectionListItem;
-import nl.rgs.kib.model.list.InspectionListItemStage;
-import nl.rgs.kib.model.list.InspectionListItemStageImage;
-import nl.rgs.kib.model.list.InspectionListStatus;
+import nl.rgs.kib.model.list.*;
 import nl.rgs.kib.model.list.dto.CreateInspectionList;
 import nl.rgs.kib.model.method.InspectionMethod;
 import nl.rgs.kib.model.method.InspectionMethodCalculationMethod;
@@ -16,6 +13,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -45,8 +43,8 @@ public class CreateInspectionListTest {
         stage2.setName("Stage 2");
         stage2.setImages(List.of());
 
-        return new InspectionListItem(UUID.randomUUID().toString(), 0, "Fundering", "Veiligheid", "Constructief",
-                name, "1", "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
+        return new InspectionListItem(UUID.randomUUID().toString(), 0, Set.of("Fundering"), "Veiligheid", "Constructief",
+                name, new ObjectId().toHexString(), "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
     }
 
     private InspectionListItem createInspectionListItem(String name, String id) {
@@ -145,6 +143,23 @@ public class CreateInspectionListTest {
             assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique indexes.");
         }
 
+        @Test
+        public void testInspectionListItemsUniqueStandardNosValidator() {
+            InspectionListItem item1 = createInspectionListItem("Item 1", 0);
+            InspectionListItem item2 = createInspectionListItem("Item 2", 1);
+
+            InspectionList inspectionList = new InspectionList();
+            inspectionList.setId(new ObjectId().toHexString());
+            inspectionList.setName("test");
+            inspectionList.setItems(List.of(item1, item2));
+            inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+            inspectionList.getItems().get(0).setStandardNo("standardNo");
+            inspectionList.getItems().get(1).setStandardNo("standardNo");
+
+            assertEquals(1, validator.validate(inspectionList).size(), "Items should have unique standardNos.");
+        }
+
         @Nested
         public class CreateInspectionListItemValidations {
             @Test
@@ -162,7 +177,8 @@ public class CreateInspectionListTest {
                 InspectionListItem item = new InspectionListItem();
                 item.setId("id");
                 item.setName("test");
-                item.setGroup("group");
+                item.setStandardNo("standardNo");
+                item.setGroups(Set.of("Fundering"));
                 item.setInspectionMethod(inspectionMethod);
                 item.setStages(List.of(stage1, stage2));
 
@@ -191,7 +207,8 @@ public class CreateInspectionListTest {
                 item.setIndex(-1);
                 item.setId("id");
                 item.setName("test");
-                item.setGroup("group");
+                item.setStandardNo("standardNo");
+                item.setGroups(Set.of("Fundering"));
                 item.setInspectionMethod(inspectionMethod);
                 item.setStages(List.of(stage1, stage2));
 
@@ -219,7 +236,8 @@ public class CreateInspectionListTest {
                 InspectionListItem item = new InspectionListItem();
                 item.setIndex(0);
                 item.setName("test");
-                item.setGroup("group");
+                item.setStandardNo("standardNo");
+                item.setGroups(Set.of("Fundering"));
                 item.setInspectionMethod(inspectionMethod);
                 item.setStages(List.of(stage1, stage2));
 
@@ -258,6 +276,48 @@ public class CreateInspectionListTest {
                 );
 
                 assertEquals(1, validator.validate(inspectionList).size(), "Name should not be blank.");
+            }
+
+            @Test
+            public void testCreateInspectionListItemGroupsNotNullValidator() {
+                InspectionListItem item = createInspectionListItem("Item 1");
+                item.setGroups(null);
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setId(new ObjectId().toHexString());
+                inspectionList.setName("test");
+                inspectionList.setItems(List.of(item));
+                inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Groups should not be null.");
+            }
+
+            @Test
+            public void testCreateInspectionListItemStandardNoNotNullValidator() {
+                InspectionListItem item = createInspectionListItem("Item 1");
+                item.setStandardNo(null);
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setId(new ObjectId().toHexString());
+                inspectionList.setName("test");
+                inspectionList.setItems(List.of(item));
+                inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Standard no should not be null.");
+            }
+
+            @Test
+            public void testCreateInspectionListItemStandardNoNotBlankValidator() {
+                InspectionListItem item = createInspectionListItem("Item 1");
+                item.setStandardNo(" ");
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setId(new ObjectId().toHexString());
+                inspectionList.setName("test");
+                inspectionList.setItems(List.of(item));
+                inspectionList.setStatus(InspectionListStatus.DEFINITIVE);
+
+                assertEquals(1, validator.validate(inspectionList).size(), "Standard no should not be blank.");
             }
 
             @Test

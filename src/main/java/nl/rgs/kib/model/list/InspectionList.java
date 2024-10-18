@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.UniqueIds;
+import nl.rgs.kib.shared.validators.UniqueStandardNos;
 import nl.rgs.kib.shared.validators.ValidIndexes;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -37,6 +38,7 @@ public class InspectionList extends BaseObject {
     @NotNull
     @UniqueIds
     @ValidIndexes
+    @UniqueStandardNos
     private List<InspectionListItem> items = List.of();
 
     /**
