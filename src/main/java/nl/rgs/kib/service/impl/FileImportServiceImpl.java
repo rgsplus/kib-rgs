@@ -28,6 +28,8 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static nl.rgs.kib.shared.models.ImportResultError.convertToImplSet;
 
@@ -197,4 +199,42 @@ public class FileImportServiceImpl implements FileImportService {
         return importResult;
     }
 
+    public void importRGS(byte[] rgsFile) throws IOException {
+        Workbook workbook = new XSSFWorkbook(new ByteArrayInputStream(rgsFile));
+        Sheet sheet = workbook.getSheetAt(0);
+
+        Optional<InspectionList> inspectionListOptional = inspectionListService.findById("66cde85b9b63fe49154ae853");
+        if ( inspectionListOptional.isEmpty() ) {
+            return;
+        }
+        InspectionList inspectionList = inspectionListOptional.get();
+
+        for (int rowno = 1; rowno < sheet.getLastRowNum(); rowno++) {
+            if ( sheet.getRow(rowno).getCell(0) == null ) {
+                return;
+            }
+            String naam = sheet.getRow(rowno).getCell(0).getStringCellValue();
+            if ( naam == null ) {
+                return;
+            }
+            Matcher matcher = Pattern.compile("^(KIB-+)(\\d+[A-Z]?)(.*)").matcher(naam);
+            while (matcher.find()) {
+                final String naam3Elements = matcher.group(2);
+                final int row = rowno;
+                inspectionList.getItems().stream().filter(inspectionListItem -> inspectionListItem.getStandardNo().equals(naam3Elements)).forEach(inspectionListItem -> {
+                    inspectionListItem.getStages().forEach(inspectionListItemStage -> {
+                        Cell cell = sheet.getRow(row).getCell(inspectionListItemStage.getStage() + 3);
+                        if ( cell != null ) {
+                            final String stageDesc = cell.getStringCellValue();
+                            if (stageDesc != null) {
+                                inspectionListItemStage.setName(stageDesc);
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        inspectionListService.update(inspectionList);
+    }
 }
