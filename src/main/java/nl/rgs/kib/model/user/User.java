@@ -38,6 +38,7 @@ public class User {
     @Schema(example = "true")
     private Boolean twoFactorAuthentication;
 
+    @SuppressWarnings("deprecation")
     public User(UserRepresentation userRepresentation, UsersResource usersResource) {
         this.id = userRepresentation.getId();
         this.firstName = userRepresentation.getFirstName();

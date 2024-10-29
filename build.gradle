@@ -48,6 +48,7 @@ dependencies {
     implementation 'org.apache.poi:poi:5.3.0'
     implementation 'org.apache.poi:poi-ooxml:5.3.0'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
 }
 
 tasks.named('test') {
