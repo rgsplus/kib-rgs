@@ -16,6 +16,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -72,13 +74,13 @@ public class InspectionList extends BaseObject {
      *
      * @param existingList the existing inspection list
      * @param updatedList  the updated inspection list
-     * @return the list of file IDs of the deleted images
+     * @return the set of file IDs of the deleted images
      * @see InspectionList
      * @see InspectionListItem
      * @see InspectionListItemStage
      * @see InspectionListItemStageImage
      */
-    public static List<String> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
+    public static Set<String> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
         return existingList.getItems().stream()
                 .flatMap(item -> item.getStages().stream())
                 .flatMap(stage -> stage.getImages().stream())
@@ -87,25 +89,25 @@ public class InspectionList extends BaseObject {
                         .flatMap(stage -> stage.getImages().stream())
                         .noneMatch(image -> image.getFileId().equals(existingImage.getFileId())))
                 .map(InspectionListItemStageImage::getFileId)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     /**
      * Returns all file IDs of the images in the inspection list.
      *
      * @param list the inspection list
-     * @return the list of file IDs of the images
+     * @return the set of file IDs of the images
      * @see InspectionList
      * @see InspectionListItem
      * @see InspectionListItemStage
      * @see InspectionListItemStageImage
      */
-    public static List<String> getAllFileIds(InspectionList list) {
+    public static Set<String> getAllFileIds(InspectionList list) {
         return list.getItems().stream()
                 .flatMap(item -> item.getStages().stream())
                 .flatMap(stage -> stage.getImages().stream())
                 .map(InspectionListItemStageImage::getFileId)
                 .filter(Objects::nonNull)
-                .toList();
+                .collect(Collectors.toSet());
     }
 }

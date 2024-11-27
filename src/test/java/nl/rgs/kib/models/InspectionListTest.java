@@ -243,7 +243,7 @@ public class InspectionListTest {
             InspectionList updatedList = new InspectionList();
             updatedList.setItems(List.of(updatedInspectionListItem));
 
-            assertEquals(List.of(fileId2), InspectionList.getDeletedFileIds(existingList, updatedList), "Deleted file ids should contain one element.");
+            assertEquals(Set.of(fileId2), InspectionList.getDeletedFileIds(existingList, updatedList), "Deleted file ids should contain one element.");
         }
 
         @Test
@@ -343,7 +343,7 @@ public class InspectionListTest {
             InspectionList list = new InspectionList();
             list.setItems(List.of(item1, item2));
 
-            assertEquals(List.of(fileId1, fileId2, fileId3, fileId4), InspectionList.getAllFileIds(list), "File ids should contain all file ids.");
+            assertEquals(Set.of(fileId1, fileId2, fileId3, fileId4), InspectionList.getAllFileIds(list), "File ids should contain all file ids.");
         }
 
         @Test
@@ -370,7 +370,7 @@ public class InspectionListTest {
             InspectionList list = new InspectionList();
             list.setItems(List.of(item1, item2));
 
-            assertEquals(List.of(fileId1, fileId2, fileId3), InspectionList.getAllFileIds(list), "File ids should contain all file ids except null.");
+            assertEquals(Set.of(fileId1, fileId2, fileId3), InspectionList.getAllFileIds(list), "File ids should contain all file ids except null.");
         }
 
         @Nested

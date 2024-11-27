@@ -67,7 +67,7 @@ public class InspectionListServiceImpl implements InspectionListService {
     @Transactional
     public Optional<InspectionList> update(@NotNull InspectionList inspectionList) {
         return inspectionListRepository.findById(inspectionList.getId()).map(existingList -> {
-            List<String> deletedFileIds = InspectionList.getDeletedFileIds(existingList, inspectionList);
+            Set<String> deletedFileIds = InspectionList.getDeletedFileIds(existingList, inspectionList);
             kibFileService.deleteByIds(deletedFileIds);
 
             existingList.setName(inspectionList.getName());
@@ -84,7 +84,7 @@ public class InspectionListServiceImpl implements InspectionListService {
         Optional<InspectionList> inspectionList = inspectionListRepository.findById(id);
         inspectionList.ifPresent(list ->
                 {
-                    List<String> allFileIds = InspectionList.getAllFileIds(list);
+                    Set<String> allFileIds = InspectionList.getAllFileIds(list);
                     kibFileService.deleteByIds(allFileIds);
 
                     inspectionListRepository.deleteById(id);

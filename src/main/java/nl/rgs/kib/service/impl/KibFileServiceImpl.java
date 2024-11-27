@@ -107,7 +107,7 @@ public class KibFileServiceImpl implements KibFileService {
 
     @Override
     @Transactional
-    public List<KibFile> deleteByIds(List<String> ids) {
+    public List<KibFile> deleteByIds(Set<String> ids) {
         return ids.stream()
                 .map(this::deleteById)
                 .filter(Optional::isPresent)
