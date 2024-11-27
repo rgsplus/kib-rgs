@@ -55,12 +55,14 @@ public class InspectionList extends BaseObject {
     public static List<InspectionListItem> sortItemsStagesAndImages(List<InspectionListItem> items) {
         return items.stream()
                 .sorted(Comparator.comparing(InspectionListItem::getIndex))
-                .peek(item -> item.setStages(item.getStages().stream()
-                        .sorted(Comparator.comparing(InspectionListItemStage::getStage))
-                        .peek(stage -> stage.setImages(stage.getImages().stream()
-                                .sorted(Comparator.comparing(InspectionListItemStageImage::getMain).reversed())
-                                .toList()))
-                        .toList()))
+                .peek(item ->
+                        item.setStages(item.getStages().stream()
+                                .sorted(Comparator.comparing(InspectionListItemStage::getStage))
+                                .peek(stage -> stage.setImages(stage.getImages().stream()
+                                        .sorted(Comparator.comparing(InspectionListItemStageImage::getMain).reversed())
+                                        .toList()))
+                                .toList())
+                )
                 .toList();
     }
 

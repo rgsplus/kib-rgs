@@ -11,10 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,7 +41,7 @@ public class InspectionListTest {
         stage2.setName("Stage 2");
         stage2.setImages(List.of());
 
-        return new InspectionListItem(UUID.randomUUID().toString(), 0, Set.of("Fundering"), "Veiligheid", "Constructief",
+        return new InspectionListItem(UUID.randomUUID().toString(), 0, new TreeSet<>(Set.of("Fundering")), "Veiligheid", "Constructief",
                 name, new ObjectId().toHexString(), "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
     }
 

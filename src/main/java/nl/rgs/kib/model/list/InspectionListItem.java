@@ -19,7 +19,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Data
 @NoArgsConstructor
@@ -38,7 +39,7 @@ public class InspectionListItem implements Indexable, Ideable, StandarNoable {
 
     @NotNull
     @Schema(example = "[\"Fundering\",\"Constructie\"]")
-    private Set<String> groups = Set.of();
+    private SortedSet<String> groups = new TreeSet<>();
 
     @Schema(example = "Veiligheid")
     private String theme;
