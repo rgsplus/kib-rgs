@@ -188,7 +188,7 @@ public class KibFileServiceImpl implements KibFileService {
      * @param kibFile    The KibFile. If not an image, or type is not supported, no resize will be done.
      * @param resolution The KibFileResolution. If null or ORIGINAL, no resize will be done.
      */
-    private void resizeImage(KibFile kibFile, KibFileResolution resolution) {
+    public void resizeImage(KibFile kibFile, KibFileResolution resolution) {
         final Set<String> supportedTypes = Set.of("image/jpeg", "image/jpg", "image/png", "image/gif");
         final Map<KibFileResolution, Integer> resolutions = Map.of(
                 KibFileResolution.THUMBNAIL, 100,
