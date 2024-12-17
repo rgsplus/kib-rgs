@@ -372,7 +372,7 @@ public class KibFileServiceImplTest {
         kibFile.setName(multipartFile.getOriginalFilename());
         kibFile.setId(ObjectId.get().toHexString());
 
-        kibFileService.resizeImage(kibFile, KibFileResolution.ORIGINAL);
+        KibFile.resizeImage(kibFile, KibFileResolution.ORIGINAL);
 
         assertEquals(multipartFile.getSize(), kibFile.getData().length);
     }
@@ -387,7 +387,7 @@ public class KibFileServiceImplTest {
         kibFile.setName(multipartFile.getOriginalFilename());
         kibFile.setId(ObjectId.get().toHexString());
 
-        kibFileService.resizeImage(kibFile, KibFileResolution.THUMBNAIL);
+        KibFile.resizeImage(kibFile, KibFileResolution.THUMBNAIL);
 
         assertTrue(kibFile.getData().length < multipartFile.getSize());
     }
@@ -402,7 +402,7 @@ public class KibFileServiceImplTest {
         kibFile.setName(multipartFile.getOriginalFilename());
         kibFile.setId(ObjectId.get().toHexString());
 
-        kibFileService.resizeImage(kibFile, null);
+        KibFile.resizeImage(kibFile, null);
 
         assertEquals(multipartFile.getSize(), kibFile.getData().length);
     }
