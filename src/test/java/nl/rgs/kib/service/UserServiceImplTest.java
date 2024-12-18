@@ -234,4 +234,146 @@ public class UserServiceImplTest {
         verify(realmResource, times(1)).users();
         verify(usersResource, times(1)).get(userId);
     }
+
+    @Test
+    public void testEmailExists_True() {
+        // Arrange
+        String email = "test@email.com";
+
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setId(UUID.randomUUID().toString());
+        userRepresentation.setEmail(email);
+        userRepresentation.setUsername("username");
+        userRepresentation.setTotp(true);
+        userRepresentation.setRealmRoles(List.of("kib_core", "kib_admin"));
+        userRepresentation.setClientRoles(Map.of());
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.searchByEmail(email, true)).thenReturn(List.of(userRepresentation));
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Boolean emailExists = userService.emailExists(email);
+
+        // Assert
+        assertTrue(emailExists);
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(1)).searchByEmail(email, true);
+    }
+
+
+    @Test
+    public void testEmailExists_False() {
+        // Arrange
+        String email = "test@email.com";
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.searchByEmail(email, true)).thenReturn(List.of());
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Boolean emailExists = userService.emailExists(email);
+
+        // Assert
+        assertFalse(emailExists);
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(1)).searchByEmail(email, true);
+    }
+
+    @Test
+    public void testUsernameExists_True() {
+        // Arrange
+        String username = "username";
+
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setId(UUID.randomUUID().toString());
+        userRepresentation.setEmail("test@email.com");
+        userRepresentation.setUsername(username);
+        userRepresentation.setTotp(true);
+        userRepresentation.setRealmRoles(List.of("kib_core", "kib_admin"));
+        userRepresentation.setClientRoles(Map.of());
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.searchByUsername(username, true)).thenReturn(List.of(userRepresentation));
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Boolean usernameExists = userService.usernameExists(username);
+
+        // Assert
+        assertTrue(usernameExists);
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(1)).searchByUsername(username, true);
+    }
+
+    @Test
+    public void testUsernameExists_False() {
+        // Arrange
+        String username = "username";
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.searchByUsername(username, true)).thenReturn(List.of());
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Boolean usernameExists = userService.usernameExists(username);
+
+        // Assert
+        assertFalse(usernameExists);
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(1)).searchByUsername(username, true);
+    }
+
+    @Test
+    public void testAdminUsersCount() {
+        // Arrange
+        UserRepresentation userRepresentation1 = new UserRepresentation();
+        userRepresentation1.setId(UUID.randomUUID().toString());
+        userRepresentation1.setEmail("test@email.com");
+        userRepresentation1.setUsername("username1");
+        userRepresentation1.setTotp(true);
+        userRepresentation1.setRealmRoles(List.of("kib_core", "kib_admin"));
+        userRepresentation1.setClientRoles(Map.of());
+
+        RoleResource roleResource = mock(RoleResource.class);
+        when(roleResource.getUserMembers(0, 1000)).thenReturn(List.of(userRepresentation1));
+
+        RolesResource rolesResource = mock(RolesResource.class);
+        when(rolesResource.get(anyString())).thenReturn(roleResource);
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.roles()).thenReturn(rolesResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Long adminUsersCount = userService.adminUsersCount();
+
+        // Assert
+        assertEquals(1, adminUsersCount);
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(2)).roles();
+        verify(rolesResource, times(1)).get("kib_admin");
+        verify(rolesResource, times(1)).get("kib_core");
+    }
 }
