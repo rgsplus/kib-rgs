@@ -1,17 +1,23 @@
 package nl.rgs.kib.service;
 
+import jakarta.mail.MessagingException;
+import jakarta.ws.rs.core.Response;
 import nl.rgs.kib.model.user.User;
+import nl.rgs.kib.model.user.UserRole;
+import nl.rgs.kib.model.user.dto.CreateUser;
 import nl.rgs.kib.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.*;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.thymeleaf.TemplateEngine;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -375,5 +381,104 @@ public class UserServiceImplTest {
         verify(realmResource, times(1)).roles();
         verify(rolesResource, times(1)).get("kib_admin");
         verify(rolesResource, times(1)).get("kib_core");
+    }
+
+    @Test
+    public void testCreateUser_Success() throws MessagingException {
+        // Arrange
+        CreateUser createUser = new CreateUser(
+                "firstName",
+                "lastName",
+                "test@email.com",
+                UserRole.USER,
+                true
+        );
+
+        UserRepresentation expectedUserRepresentation = new UserRepresentation();
+        expectedUserRepresentation.setId(UUID.randomUUID().toString());
+        expectedUserRepresentation.setEmail(createUser.email());
+        expectedUserRepresentation.setUsername(createUser.email());
+        expectedUserRepresentation.setFirstName(createUser.firstName());
+        expectedUserRepresentation.setLastName(createUser.lastName());
+        expectedUserRepresentation.setTotp(true);
+        expectedUserRepresentation.setRealmRoles(List.of("kib_core", "kib_user"));
+
+        RoleMappingResource roleMappingResource = mock(RoleMappingResource.class);
+        when(roleMappingResource.realmLevel()).thenReturn(mock(RoleScopeResource.class));
+
+        UserResource expectedUserResource = mock(UserResource.class);
+        when(expectedUserResource.roles()).thenReturn(roleMappingResource);
+        when(expectedUserResource.toRepresentation()).thenReturn(expectedUserRepresentation);
+
+        User expectedUser = new User();
+        expectedUser.setId(expectedUserRepresentation.getId());
+        expectedUser.setEmail(expectedUserRepresentation.getEmail());
+        expectedUser.setFirstName(expectedUserRepresentation.getFirstName());
+        expectedUser.setLastName(expectedUserRepresentation.getLastName());
+        expectedUser.setRole(createUser.role());
+        expectedUser.setTwoFactorAuthentication(createUser.twoFactorAuthentication());
+
+        RealmResource realmResource = mock(RealmResource.class);
+        UsersResource usersResource = mock(UsersResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        Response response = mock(Response.class);
+        when(response.getStatus()).thenReturn(201);
+
+        URI uri = mock(URI.class);
+        when(uri.getPath()).thenReturn("/realms/kib/users/" + expectedUser.getId());
+        when(response.getLocation()).thenReturn(uri);
+        when(response.getStatusInfo()).thenReturn(Response.Status.CREATED);
+
+        when(usersResource.create(any())).thenReturn(response);
+
+        when(usersResource.get(expectedUser.getId())).thenReturn(expectedUserResource);
+
+        RolesResource rolesResource = mock(RolesResource.class);
+        when(realmResource.roles()).thenReturn(rolesResource);
+
+        RoleResource kibCoreRoleResource = mock(RoleResource.class);
+        when(rolesResource.get("kib_core")).thenReturn(kibCoreRoleResource);
+
+        RoleResource kibUserRoleResource = mock(RoleResource.class);
+        when(rolesResource.get("kib_user")).thenReturn(kibUserRoleResource);
+
+        RoleRepresentation kibCoreRole = new RoleRepresentation();
+        kibCoreRole.setId(UUID.randomUUID().toString());
+        kibCoreRole.setName("kib_core");
+        kibCoreRole.setDescription("KIB Core Role");
+
+        RoleRepresentation kibUserRole = new RoleRepresentation();
+        kibUserRole.setId(UUID.randomUUID().toString());
+        kibUserRole.setName("kib_user");
+        kibUserRole.setDescription("KIB User Role");
+
+        when(kibCoreRoleResource.toRepresentation()).thenReturn(kibCoreRole);
+        when(kibUserRoleResource.toRepresentation()).thenReturn(kibUserRole);
+
+        // Act
+        User user = userService.create(createUser);
+
+        // Assert
+        assertEquals(expectedUser.getId(), user.getId());
+        assertEquals(expectedUser.getEmail(), user.getEmail());
+        assertEquals(expectedUser.getFirstName(), user.getFirstName());
+        assertEquals(expectedUser.getLastName(), user.getLastName());
+        assertEquals(expectedUser.getRole(), user.getRole());
+        assertEquals(expectedUser.getTwoFactorAuthentication(), user.getTwoFactorAuthentication());
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(1)).create(any());
+        verify(usersResource, times(4)).get(expectedUser.getId());
+        verify(expectedUserResource, times(2)).roles();
+        verify(expectedUserResource, times(1)).toRepresentation();
+        verify(rolesResource, times(1)).get("kib_core");
+        verify(rolesResource, times(1)).get("kib_user");
+        verify(rolesResource, never()).get("kib_admin");
+        verify(kibCoreRoleResource, times(1)).toRepresentation();
+        verify(kibUserRoleResource, times(1)).toRepresentation();
+        verify(mailService, times(1)).sendMail(any(), any(), any(), any(), any(), any());
     }
 }
