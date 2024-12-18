@@ -138,7 +138,7 @@ public class UserServiceImplTest {
         assertEquals(userRepresentation.getLastName(), user.get().getLastName());
         verify(keycloak, times(1)).realm(any());
         verify(realmResource, times(1)).users();
-        verify(usersResource, times(2)).get(userId);
+        verify(usersResource, times(1)).get(userId);
     }
 
     @Test

@@ -81,8 +81,9 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public Optional<User> findById(String id) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
-        UserRepresentation userRepresentation = usersResource.get(id).toRepresentation();
-        return Optional.ofNullable(userRepresentation).map(u -> new User(u, usersResource));
+        UserResource userResource = usersResource.get(id);
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+        return Optional.ofNullable(userRepresentation).map(u -> new User(u, userResource));
     }
 
     @Override
