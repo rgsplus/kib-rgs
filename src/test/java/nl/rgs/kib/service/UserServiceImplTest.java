@@ -166,4 +166,72 @@ public class UserServiceImplTest {
         verify(realmResource, times(1)).users();
         verify(usersResource, times(1)).get(userId);
     }
+
+    @Test
+    public void testDeleteById_Success() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setId(userId);
+        userRepresentation.setEmail("test@email.com");
+        userRepresentation.setUsername("username");
+        userRepresentation.setTotp(true);
+        userRepresentation.setRealmRoles(List.of("kib_core", "kib_admin"));
+        userRepresentation.setClientRoles(Map.of());
+
+        RoleMappingResource roleMappingResource = mock(RoleMappingResource.class);
+        when(roleMappingResource.realmLevel()).thenReturn(mock(RoleScopeResource.class));
+
+        UserResource userResource = mock(UserResource.class);
+        when(userResource.roles()).thenReturn(roleMappingResource);
+        when(userResource.toRepresentation()).thenReturn(userRepresentation);
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.get(userId)).thenReturn(userResource);
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Optional<User> user = userService.deleteById(userId);
+
+        // Assert
+        assertTrue(user.isPresent());
+        assertEquals(userId, user.get().getId());
+        assertEquals(userRepresentation.getEmail(), user.get().getEmail());
+        assertEquals(userRepresentation.getFirstName(), user.get().getFirstName());
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(2)).get(userId);
+        verify(usersResource, times(1)).delete(userId);
+    }
+
+    @Test
+    public void testDeleteById_NotFound() {
+        // Arrange
+        String userId = UUID.randomUUID().toString();
+
+        UserResource userResource = mock(UserResource.class);
+        when(userResource.toRepresentation()).thenReturn(null);
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.get(userId)).thenReturn(userResource);
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Optional<User> user = userService.deleteById(userId);
+
+        // Assert
+        assertFalse(user.isPresent());
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(1)).get(userId);
+    }
 }
