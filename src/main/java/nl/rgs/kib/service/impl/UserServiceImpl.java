@@ -75,7 +75,10 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         List<UserRepresentation> users = realmResource.roles().get("kib_core").getUserMembers(0, 1000);
 
-        return users.stream().map(u -> new User(u, usersResource)).toList();
+        return users.stream().map(userRepresentation -> {
+            UserResource userResource = usersResource.get(userRepresentation.getId());
+            return new User(userResource);
+        }).toList();
     }
 
     @Override
@@ -83,8 +86,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
         UserResource userResource = usersResource.get(id);
-        UserRepresentation userRepresentation = userResource.toRepresentation();
-        return Optional.ofNullable(userRepresentation).map(u -> new User(u, userResource));
+        return Optional.ofNullable(userResource).map(User::new);
     }
 
     @Override
@@ -136,7 +138,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         userResource.update(userRepresentation);
 
-        User user = new User(userRepresentation, userResource);
+        User user = new User(userResource);
 
         this.sendActivationMail(user, tempPassword);
 
@@ -179,7 +181,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         usersResource.get(user.getId()).update(userRepresentation);
 
-        return Optional.of(userRepresentation).map(u -> new User(u, usersResource));
+        return Optional.of(userResource).map(User::new);
     }
 
     @Override
@@ -187,8 +189,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
         UserResource userResource = usersResource.get(id);
-        UserRepresentation userRepresentation = userResource.toRepresentation();
-        Optional<User> user = Optional.ofNullable(userRepresentation).map(u -> new User(u, userResource));
+        Optional<User> user = Optional.ofNullable(userResource).map(User::new);
         usersResource.delete(id);
         return user;
     }
