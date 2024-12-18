@@ -184,8 +184,9 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public Optional<User> deleteById(String id) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
-        UserRepresentation userRepresentation = usersResource.get(id).toRepresentation();
-        Optional<User> user = Optional.ofNullable(userRepresentation).map(u -> new User(u, usersResource));
+        UserResource userResource = usersResource.get(id);
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+        Optional<User> user = Optional.ofNullable(userRepresentation).map(u -> new User(u, userResource));
         usersResource.delete(id);
         return user;
     }
