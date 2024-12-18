@@ -372,7 +372,7 @@ public class UserServiceImplTest {
         // Assert
         assertEquals(1, adminUsersCount);
         verify(keycloak, times(1)).realm(any());
-        verify(realmResource, times(2)).roles();
+        verify(realmResource, times(1)).roles();
         verify(rolesResource, times(1)).get("kib_admin");
         verify(rolesResource, times(1)).get("kib_core");
     }

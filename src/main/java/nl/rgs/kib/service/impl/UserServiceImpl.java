@@ -15,6 +15,7 @@ import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -211,8 +212,10 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public Long adminUsersCount() {
         RealmResource realmResource = keycloak.realm(realm);
 
-        List<UserRepresentation> adminUsers = realmResource.roles().get("kib_admin").getUserMembers(0, 1000);
-        List<UserRepresentation> coreUsers = realmResource.roles().get("kib_core").getUserMembers(0, 1000);
+        RolesResource rolesResource = realmResource.roles();
+        
+        List<UserRepresentation> adminUsers = rolesResource.get("kib_admin").getUserMembers(0, 1000);
+        List<UserRepresentation> coreUsers = rolesResource.get("kib_core").getUserMembers(0, 1000);
 
         return adminUsers.stream().filter(adminUser -> coreUsers.stream().anyMatch(coreUser -> coreUser.getId().equals(adminUser.getId()))).count();
     }
