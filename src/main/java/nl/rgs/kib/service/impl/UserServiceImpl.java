@@ -91,6 +91,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public User create(CreateUser createUser) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
+        RolesResource rolesResource = realmResource.roles();
 
         final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         final String tempPassword = RandomStringUtils.random(15, characters);
@@ -112,7 +113,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         String userId = CreatedResponseUtil.getCreatedId(response);
         UserResource userResource = usersResource.get(userId);
-        userRepresentation = usersResource.get(userId).toRepresentation();
+        userRepresentation = userResource.toRepresentation();
 
         List<String> requiredActions = userRepresentation.getRequiredActions() != null ? userRepresentation.getRequiredActions() : new ArrayList<>();
 
@@ -125,17 +126,17 @@ public class UserServiceImpl implements UserService, InitializingBean {
             otpCredentialRepresentation.ifPresent(representation -> userResource.removeCredential(representation.getId()));
         }
 
-        RoleRepresentation kibCoreRole = realmResource.roles().get("kib_core").toRepresentation();
+        RoleRepresentation kibCoreRole = rolesResource.get("kib_core").toRepresentation();
         RoleRepresentation roleRepresentation = switch (createUser.role()) {
-            case ADMIN -> realmResource.roles().get("kib_admin").toRepresentation();
-            case USER -> realmResource.roles().get("kib_user").toRepresentation();
+            case ADMIN -> rolesResource.get("kib_admin").toRepresentation();
+            case USER -> rolesResource.get("kib_user").toRepresentation();
         };
 
         userResource.roles().realmLevel().add(List.of(kibCoreRole, roleRepresentation));
 
-        usersResource.get(userId).update(userRepresentation);
+        userResource.update(userRepresentation);
 
-        User user = new User(userRepresentation, usersResource);
+        User user = new User(userRepresentation, userResource);
 
         this.sendActivationMail(user, tempPassword);
 
@@ -213,7 +214,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
 
         RolesResource rolesResource = realmResource.roles();
-        
+
         List<UserRepresentation> adminUsers = rolesResource.get("kib_admin").getUserMembers(0, 1000);
         List<UserRepresentation> coreUsers = rolesResource.get("kib_core").getUserMembers(0, 1000);
 

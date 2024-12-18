@@ -471,7 +471,7 @@ public class UserServiceImplTest {
         verify(keycloak, times(1)).realm(any());
         verify(realmResource, times(1)).users();
         verify(usersResource, times(1)).create(any());
-        verify(usersResource, times(4)).get(expectedUser.getId());
+        verify(usersResource, times(1)).get(expectedUser.getId());
         verify(expectedUserResource, times(2)).roles();
         verify(expectedUserResource, times(1)).toRepresentation();
         verify(rolesResource, times(1)).get("kib_core");
