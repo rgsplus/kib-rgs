@@ -18,10 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.thymeleaf.TemplateEngine;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -56,6 +53,7 @@ public class UserServiceImplTest {
         when(roleMappingResource1.realmLevel()).thenReturn(mock(RoleScopeResource.class));
 
         UserResource userResource1 = mock(UserResource.class);
+        when(userResource1.toRepresentation()).thenReturn(userRepresentation1);
         when(userResource1.roles()).thenReturn(roleMappingResource1);
 
         UserRepresentation userRepresentation2 = new UserRepresentation();
@@ -70,6 +68,7 @@ public class UserServiceImplTest {
         when(roleMappingResource2.realmLevel()).thenReturn(mock(RoleScopeResource.class));
 
         UserResource userResource2 = mock(UserResource.class);
+        when(userResource2.toRepresentation()).thenReturn(userRepresentation2);
         when(userResource2.roles()).thenReturn(roleMappingResource2);
 
         UsersResource usersResource = mock(UsersResource.class);
@@ -152,11 +151,8 @@ public class UserServiceImplTest {
         // Arrange
         String userId = UUID.randomUUID().toString();
 
-        UserResource userResource = mock(UserResource.class);
-        when(userResource.toRepresentation()).thenReturn(null);
-
         UsersResource usersResource = mock(UsersResource.class);
-        when(usersResource.get(userId)).thenReturn(userResource);
+        when(usersResource.get(userId)).thenReturn(null);
 
         RealmResource realmResource = mock(RealmResource.class);
         when(realmResource.users()).thenReturn(usersResource);
@@ -220,11 +216,8 @@ public class UserServiceImplTest {
         // Arrange
         String userId = UUID.randomUUID().toString();
 
-        UserResource userResource = mock(UserResource.class);
-        when(userResource.toRepresentation()).thenReturn(null);
-
         UsersResource usersResource = mock(UsersResource.class);
-        when(usersResource.get(userId)).thenReturn(userResource);
+        when(usersResource.get(userId)).thenReturn(null);
 
         RealmResource realmResource = mock(RealmResource.class);
         when(realmResource.users()).thenReturn(usersResource);
@@ -473,7 +466,7 @@ public class UserServiceImplTest {
         verify(usersResource, times(1)).create(any());
         verify(usersResource, times(1)).get(expectedUser.getId());
         verify(expectedUserResource, times(2)).roles();
-        verify(expectedUserResource, times(1)).toRepresentation();
+        verify(expectedUserResource, times(2)).toRepresentation();
         verify(rolesResource, times(1)).get("kib_core");
         verify(rolesResource, times(1)).get("kib_user");
         verify(rolesResource, never()).get("kib_admin");
@@ -481,4 +474,87 @@ public class UserServiceImplTest {
         verify(kibUserRoleResource, times(1)).toRepresentation();
         verify(mailService, times(1)).sendMail(any(), any(), any(), any(), any(), any());
     }
+
+    @Test
+    public void testUpdate_Success() {
+        // Arrange
+        User user = new User();
+        user.setId(UUID.randomUUID().toString());
+        user.setEmail("email@email.com");
+        user.setFirstName("firstName");
+        user.setLastName("lastName");
+        user.setRole(UserRole.USER);
+        user.setTwoFactorAuthentication(true);
+
+        UserRepresentation userRepresentation = new UserRepresentation();
+        userRepresentation.setId(user.getId());
+        userRepresentation.setEmail(user.getEmail());
+        userRepresentation.setUsername(user.getEmail());
+        userRepresentation.setFirstName(user.getFirstName());
+        userRepresentation.setLastName(user.getLastName());
+        userRepresentation.setTotp(true);
+        userRepresentation.setRealmRoles(List.of("kib_core", "kib_user"));
+        userRepresentation.setClientRoles(Map.of());
+        userRepresentation.setRequiredActions(new ArrayList<>());
+
+        RoleMappingResource roleMappingResource = mock(RoleMappingResource.class);
+        when(roleMappingResource.realmLevel()).thenReturn(mock(RoleScopeResource.class));
+
+        UserResource userResource = mock(UserResource.class);
+        when(userResource.toRepresentation()).thenReturn(userRepresentation);
+        when(userResource.roles()).thenReturn(roleMappingResource);
+
+        UsersResource usersResource = mock(UsersResource.class);
+        when(usersResource.get(user.getId())).thenReturn(userResource);
+
+        RoleRepresentation kibCoreRole = new RoleRepresentation();
+        kibCoreRole.setId(UUID.randomUUID().toString());
+        kibCoreRole.setName("kib_core");
+        kibCoreRole.setDescription("KIB Core Role");
+
+        RoleRepresentation kibUserRole = new RoleRepresentation();
+        kibUserRole.setId(UUID.randomUUID().toString());
+        kibUserRole.setName("kib_user");
+        kibUserRole.setDescription("KIB User Role");
+
+        RoleResource kibUserRoleResource = mock(RoleResource.class);
+        when(kibUserRoleResource.toRepresentation()).thenReturn(kibUserRole);
+
+        RoleRepresentation kibAdminRole = new RoleRepresentation();
+        kibAdminRole.setId(UUID.randomUUID().toString());
+        kibAdminRole.setName("kib_admin");
+        kibAdminRole.setDescription("KIB Admin Role");
+
+        RoleResource kibAdminRoleResource = mock(RoleResource.class);
+        when(kibAdminRoleResource.toRepresentation()).thenReturn(kibAdminRole);
+
+        RolesResource rolesResource = mock(RolesResource.class);
+        when(rolesResource.get("kib_user")).thenReturn(kibUserRoleResource);
+        when(rolesResource.get("kib_admin")).thenReturn(kibAdminRoleResource);
+
+        RealmResource realmResource = mock(RealmResource.class);
+        when(realmResource.users()).thenReturn(usersResource);
+        when(realmResource.roles()).thenReturn(rolesResource);
+
+        when(keycloak.realm(any())).thenReturn(realmResource);
+
+        // Act
+        Optional<User> updatedUser = userService.update(user);
+
+        // Assert
+        assertTrue(updatedUser.isPresent());
+        assertEquals(user.getId(), updatedUser.get().getId());
+        assertEquals(user.getEmail(), updatedUser.get().getEmail());
+        assertEquals(user.getFirstName(), updatedUser.get().getFirstName());
+        assertEquals(user.getLastName(), updatedUser.get().getLastName());
+        assertEquals(user.getRole(), updatedUser.get().getRole());
+        assertEquals(user.getTwoFactorAuthentication(), updatedUser.get().getTwoFactorAuthentication());
+        verify(keycloak, times(1)).realm(any());
+        verify(realmResource, times(1)).users();
+        verify(usersResource, times(3)).get(user.getId());
+        verify(userResource, times(2)).toRepresentation();
+        verify(userResource, times(3)).roles();
+        verify(userResource, times(1)).update(userRepresentation);
+    }
+
 }

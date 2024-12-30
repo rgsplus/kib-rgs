@@ -86,7 +86,12 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
         UserResource userResource = usersResource.get(id);
-        return Optional.ofNullable(userResource).map(User::new);
+
+        if (userResource == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(userResource).map(User::new);
     }
 
     @Override
@@ -189,7 +194,12 @@ public class UserServiceImpl implements UserService, InitializingBean {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
         UserResource userResource = usersResource.get(id);
-        Optional<User> user = Optional.ofNullable(userResource).map(User::new);
+
+        if (userResource == null) {
+            return Optional.empty();
+        }
+
+        Optional<User> user = Optional.of(userResource).map(User::new);
         usersResource.delete(id);
         return user;
     }
