@@ -18,6 +18,7 @@ import nl.rgs.kib.shared.validators.UniqueStages;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -25,7 +26,7 @@ import java.util.TreeSet;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InspectionListItem implements Indexable, Ideable, StandarNoable {
+public class InspectionListItem implements Indexable, Ideable, StandarNoable, Comparable<InspectionListItem> {
 
     @NotNull
     @Schema(example = "93c897cc-1ff0-4a38-8d89-cfe91fa3c66b")
@@ -38,7 +39,7 @@ public class InspectionListItem implements Indexable, Ideable, StandarNoable {
     private Integer index;
 
     @NotNull
-    @Schema(example = "[\"Fundering\",\"Constructie\"]")
+    @Schema(example = "[\"Constructie\",\"Fundering\"]")
     private SortedSet<String> groups = new TreeSet<>();
 
     @Schema(example = "Veiligheid")
@@ -70,5 +71,10 @@ public class InspectionListItem implements Indexable, Ideable, StandarNoable {
     @Size(min = 2, max = 10)
     @NotNull
     @UniqueStages
-    private List<InspectionListItemStage> stages = List.of();
+    private List<InspectionListItemStage> stages = new ArrayList<>();
+
+    @Override
+    public int compareTo(InspectionListItem o) {
+        return this.index.compareTo(o.index);
+    }
 }

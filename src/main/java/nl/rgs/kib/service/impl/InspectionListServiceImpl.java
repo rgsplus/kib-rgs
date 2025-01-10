@@ -58,7 +58,7 @@ public class InspectionListServiceImpl implements InspectionListService {
         InspectionList inspectionList = new InspectionList();
         inspectionList.setName(createInspectionList.name());
         inspectionList.setStatus(createInspectionList.status());
-        inspectionList.setItems(InspectionList.sortItemsStagesAndImages(createInspectionList.items()));
+        inspectionList.setItems(createInspectionList.items());
 
         return inspectionListRepository.save(inspectionList);
     }
@@ -72,8 +72,8 @@ public class InspectionListServiceImpl implements InspectionListService {
 
             existingList.setName(inspectionList.getName());
             existingList.setStatus(inspectionList.getStatus());
-            existingList.setItems(InspectionList.sortItemsStagesAndImages(inspectionList.getItems()));
-
+            existingList.setItems(inspectionList.getItems());
+            
             return inspectionListRepository.save(existingList);
         });
     }

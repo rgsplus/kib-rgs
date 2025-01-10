@@ -10,6 +10,7 @@ import nl.rgs.kib.model.method.InspectionMethodStage;
 import nl.rgs.kib.shared.validators.MainImage;
 import nl.rgs.kib.shared.validators.UniqueFileIds;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,5 +22,5 @@ public class InspectionListItemStage extends InspectionMethodStage {
     @NotNull
     @MainImage
     @UniqueFileIds
-    private List<InspectionListItemStageImage> images = List.of();
+    private List<InspectionListItemStageImage> images = new ArrayList<>();
 }

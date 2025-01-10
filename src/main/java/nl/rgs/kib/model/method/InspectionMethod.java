@@ -7,17 +7,18 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
+import nl.rgs.kib.shared.models.Sortable;
 import nl.rgs.kib.shared.validators.UniqueStages;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_method")
-public class InspectionMethod extends BaseObject {
+public class InspectionMethod extends BaseObject implements Sortable {
     @Id
     @NotBlank
     @Schema(example = "5f622c23a8efb61a54365f33")
@@ -37,18 +38,18 @@ public class InspectionMethod extends BaseObject {
     @Valid
     @NotNull
     @UniqueStages
-    private List<InspectionMethodStage> stages = List.of();
+    private List<InspectionMethodStage> stages = new ArrayList<>();
+
 
     /**
-     * Sorts the stages by <b>stage</b>.
+     * Applies the sort to the stages of the inspection method.
      *
-     * @param stages the list of stages to sort
-     * @return the sorted list of stages
      * @see InspectionMethodStage
      */
-    public static List<InspectionMethodStage> sortStages(List<InspectionMethodStage> stages) {
-        return stages.stream()
-                .sorted(Comparator.comparing(InspectionMethodStage::getStage))
-                .toList();
+    @Override
+    public void applySort() {
+        List<InspectionMethodStage> mutableStages = new ArrayList<>(this.getStages());
+        mutableStages.sort(null);
+        this.setStages(mutableStages);
     }
 }
