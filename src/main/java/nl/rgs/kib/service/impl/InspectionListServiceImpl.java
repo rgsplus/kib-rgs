@@ -73,7 +73,7 @@ public class InspectionListServiceImpl implements InspectionListService {
             existingList.setName(inspectionList.getName());
             existingList.setStatus(inspectionList.getStatus());
             existingList.setItems(inspectionList.getItems());
-            
+
             return inspectionListRepository.save(existingList);
         });
     }
@@ -91,6 +91,32 @@ public class InspectionListServiceImpl implements InspectionListService {
                 }
         );
         return inspectionList;
+    }
+
+    @Override
+    public Optional<InspectionList> sortInspectionListItemsByNorm(String id) {
+        return inspectionListRepository.findById(id).map(existingList -> {
+            List<InspectionListItem> sortedItems = existingList.getItems().stream().sorted((o1, o2) -> {
+                Integer o1Number = Integer.parseInt(o1.getStandardNo().replaceAll("[^0-9]", ""));
+                Integer o2Number = Integer.parseInt(o2.getStandardNo().replaceAll("[^0-9]", ""));
+
+                String o1Letter = o1.getStandardNo().replaceAll("[^a-zA-Z]", "");
+                String o2Letter = o2.getStandardNo().replaceAll("[^a-zA-Z]", "");
+
+                if (o1Number.equals(o2Number)) {
+                    return o1Letter.compareTo(o2Letter);
+                }
+
+                return o1Number.compareTo(o2Number);
+            }).toList();
+
+            for (int i = 0; i < sortedItems.size(); i++) {
+                sortedItems.get(i).setIndex(i);
+            }
+
+            existingList.setItems(sortedItems);
+            return inspectionListRepository.save(existingList);
+        });
     }
 
     @Override

@@ -245,4 +245,32 @@ public class InspectionListController {
     public ResponseEntity<ImportResult<InspectionList>> importInspectionList(@Valid @RequestBody ImportDocument inspectionList) throws IOException {
         return ResponseEntity.ok(inspectionListService.importInspectionList(inspectionList));
     }
+
+    @PreAuthorize("hasRole('ROLE_KIB_ADMIN')")
+    @PutMapping("/{id}/sort-items-by-norm")
+    @Operation(
+            summary = "Sort inspection list items based on norm",
+            description = "Sort inspection list items based on norm",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Sorted the inspection list items"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized",
+                            content = @Content
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Inspection list not found",
+                            content = @Content
+                    ),
+            }
+    )
+    public ResponseEntity<InspectionList> sortInspectionListItemsByNorm(@PathVariable String id) {
+        return inspectionListService.sortInspectionListItemsByNorm(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
