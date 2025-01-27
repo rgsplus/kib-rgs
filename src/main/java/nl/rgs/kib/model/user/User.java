@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.rgs.kib.model.user.dto.CreateUser;
-import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 
@@ -39,14 +39,15 @@ public class User {
     private Boolean twoFactorAuthentication;
 
     @SuppressWarnings("deprecation")
-    public User(UserRepresentation userRepresentation, UsersResource usersResource) {
+    public User(UserResource userResource) {
+        List<RoleRepresentation> roles = userResource.roles().realmLevel().listAll();
+        UserRepresentation userRepresentation = userResource.toRepresentation();
+
         this.id = userRepresentation.getId();
         this.firstName = userRepresentation.getFirstName();
         this.lastName = userRepresentation.getLastName();
         this.email = userRepresentation.getEmail();
         this.twoFactorAuthentication = userRepresentation.isTotp() || userRepresentation.getRequiredActions().contains("CONFIGURE_TOTP");
-
-        List<RoleRepresentation> roles = usersResource.get(this.id).roles().realmLevel().listAll();
         this.role = roles.stream().anyMatch(role -> role.getName().equals("kib_admin")) ? UserRole.ADMIN : UserRole.USER;
     }
 

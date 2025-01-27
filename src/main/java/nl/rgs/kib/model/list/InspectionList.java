@@ -7,20 +7,23 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
+import nl.rgs.kib.shared.models.Sortable;
 import nl.rgs.kib.shared.validators.UniqueIds;
 import nl.rgs.kib.shared.validators.UniqueStandardNos;
 import nl.rgs.kib.shared.validators.ValidIndexes;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_list")
-public class InspectionList extends BaseObject {
+public class InspectionList extends BaseObject implements Sortable {
     @Id
     @NotBlank
     @Schema(example = "5f622c23a8efb61a54365f33")
@@ -39,28 +42,7 @@ public class InspectionList extends BaseObject {
     @UniqueIds
     @ValidIndexes
     @UniqueStandardNos
-    private List<InspectionListItem> items = List.of();
-
-    /**
-     * Sorts the items by <b>index</b>, stages by <b>stage</b> and images by <b>main image</b> first.
-     *
-     * @param items the list of items to sort
-     * @return the sorted list of items
-     * @see InspectionListItem
-     * @see InspectionListItemStage
-     * @see InspectionListItemStageImage
-     */
-    public static List<InspectionListItem> sortItemsStagesAndImages(List<InspectionListItem> items) {
-        return items.stream()
-                .sorted(Comparator.comparing(InspectionListItem::getIndex))
-                .peek(item -> item.setStages(item.getStages().stream()
-                        .sorted(Comparator.comparing(InspectionListItemStage::getStage))
-                        .peek(stage -> stage.setImages(stage.getImages().stream()
-                                .sorted(Comparator.comparing(InspectionListItemStageImage::getMain).reversed())
-                                .toList()))
-                        .toList()))
-                .toList();
-    }
+    private List<InspectionListItem> items = new ArrayList<>();
 
     /**
      * Returns the file IDs of the images that are deleted from the updated list.
@@ -72,13 +54,13 @@ public class InspectionList extends BaseObject {
      *
      * @param existingList the existing inspection list
      * @param updatedList  the updated inspection list
-     * @return the list of file IDs of the deleted images
+     * @return the set of file IDs of the deleted images
      * @see InspectionList
      * @see InspectionListItem
      * @see InspectionListItemStage
      * @see InspectionListItemStageImage
      */
-    public static List<String> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
+    public static Set<String> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
         return existingList.getItems().stream()
                 .flatMap(item -> item.getStages().stream())
                 .flatMap(stage -> stage.getImages().stream())
@@ -87,25 +69,59 @@ public class InspectionList extends BaseObject {
                         .flatMap(stage -> stage.getImages().stream())
                         .noneMatch(image -> image.getFileId().equals(existingImage.getFileId())))
                 .map(InspectionListItemStageImage::getFileId)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     /**
      * Returns all file IDs of the images in the inspection list.
      *
      * @param list the inspection list
-     * @return the list of file IDs of the images
+     * @return the set of file IDs of the images
      * @see InspectionList
      * @see InspectionListItem
      * @see InspectionListItemStage
      * @see InspectionListItemStageImage
      */
-    public static List<String> getAllFileIds(InspectionList list) {
+    public static Set<String> getAllFileIds(InspectionList list) {
         return list.getItems().stream()
                 .flatMap(item -> item.getStages().stream())
                 .flatMap(stage -> stage.getImages().stream())
                 .map(InspectionListItemStageImage::getFileId)
                 .filter(Objects::nonNull)
-                .toList();
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Sort all the properties that implement Comparable class.
+     *
+     * <ul>
+     *     <li>Sort the items of the inspection list.</li>
+     *     <li>Sort the item stages of the items.</li>
+     *     <li>Sort the images of the item stages.</li>
+     *     <li>Execute "applySort" method of the inspection method.</li>
+     * </ul>
+     *
+     * @see InspectionList
+     * @see InspectionListItem
+     * @see InspectionListItemStage
+     * @see InspectionListItemStageImage
+     */
+    @Override
+    public void applySort() {
+        List<InspectionListItem> mutableItems = new ArrayList<>(this.items);
+        mutableItems.sort(null);
+        for (InspectionListItem item : mutableItems) {
+            item.getInspectionMethod().applySort();
+
+            List<InspectionListItemStage> mutableStages = new ArrayList<>(item.getStages());
+            mutableStages.sort(null);
+            for (InspectionListItemStage stage : mutableStages) {
+                List<InspectionListItemStageImage> mutableImages = new ArrayList<>(stage.getImages());
+                mutableImages.sort(null);
+                stage.setImages(mutableImages);
+            }
+            item.setStages(mutableStages);
+        }
+        this.items = mutableItems;
     }
 }

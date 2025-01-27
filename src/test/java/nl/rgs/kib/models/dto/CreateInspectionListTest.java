@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +44,7 @@ public class CreateInspectionListTest {
         stage2.setName("Stage 2");
         stage2.setImages(List.of());
 
-        return new InspectionListItem(UUID.randomUUID().toString(), 0, Set.of("Fundering"), "Veiligheid", "Constructief",
+        return new InspectionListItem(UUID.randomUUID().toString(), 0, new TreeSet<>(Set.of("Fundering")), "Veiligheid", "Constructief",
                 name, new ObjectId().toHexString(), "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
     }
 
@@ -178,7 +179,7 @@ public class CreateInspectionListTest {
                 item.setId("id");
                 item.setName("test");
                 item.setStandardNo("standardNo");
-                item.setGroups(Set.of("Fundering"));
+                item.setGroups(new TreeSet<>(Set.of("Fundering")));
                 item.setInspectionMethod(inspectionMethod);
                 item.setStages(List.of(stage1, stage2));
 
@@ -208,7 +209,7 @@ public class CreateInspectionListTest {
                 item.setId("id");
                 item.setName("test");
                 item.setStandardNo("standardNo");
-                item.setGroups(Set.of("Fundering"));
+                item.setGroups(new TreeSet<>(Set.of("Fundering")));
                 item.setInspectionMethod(inspectionMethod);
                 item.setStages(List.of(stage1, stage2));
 
@@ -237,7 +238,7 @@ public class CreateInspectionListTest {
                 item.setIndex(0);
                 item.setName("test");
                 item.setStandardNo("standardNo");
-                item.setGroups(Set.of("Fundering"));
+                item.setGroups(new TreeSet<>(Set.of("Fundering")));
                 item.setInspectionMethod(inspectionMethod);
                 item.setStages(List.of(stage1, stage2));
 

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "521b646b-4201-493a-acd6-9d6184766994",
+		"_postman_id": "4b179364-4b4b-445f-a237-5e411e40d556",
 		"name": "KIB-RGS",
 		"description": "API REST for a simple registration system of `InspectionMethods` and `InspectionLists.`\n\n<img src=\"https://rgsplus.com/wp-content/uploads/2021/10/logo-RGS-300x113-1.png\">",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -20,7 +20,7 @@
 								"header": [
 									{
 										"key": "api-key",
-										"value": "{api-key}",
+										"value": "{{api-key}}",
 										"type": "text"
 									}
 								],
@@ -44,7 +44,7 @@
 								"header": [
 									{
 										"key": "api-key",
-										"value": "{api-key}",
+										"value": "{{api-key}}",
 										"type": "text"
 									}
 								],
@@ -74,7 +74,7 @@
 								"header": [
 									{
 										"key": "api-key",
-										"value": "{api-key}",
+										"value": "{{api-key}}",
 										"type": "text"
 									}
 								],
@@ -398,12 +398,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{base-url}}/inspection-list",
+									"raw": "{{base-url}}/inspection-list/summaries",
 									"host": [
 										"{{base-url}}"
 									],
 									"path": [
-										"inspection-list"
+										"inspection-list",
+										"summaries"
 									]
 								}
 							},
@@ -564,6 +565,25 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "SortItemsByNorm",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base-url}}/inspection-list/{id}/sort-items-by-norm",
+									"host": [
+										"{{base-url}}"
+									],
+									"path": [
+										"inspection-list",
+										"{id}",
+										"sort-items-by-norm"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -715,6 +735,38 @@
 						}
 					]
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		}
 	],
@@ -744,6 +796,16 @@
 		{
 			"key": "base-url",
 			"value": "http://localhost:8081"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "api-key",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

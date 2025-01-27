@@ -81,7 +81,7 @@ public class InspectionMethodServiceImplTest {
         expected.setName(createInspectionMethod.name());
         expected.setInput(createInspectionMethod.input());
         expected.setCalculationMethod(createInspectionMethod.calculationMethod());
-        expected.setStages(InspectionMethod.sortStages(createInspectionMethod.stages()));
+        expected.setStages(createInspectionMethod.stages());
 
         when(inspectionMethodRepository.save(expected)).thenReturn(expected);
 
