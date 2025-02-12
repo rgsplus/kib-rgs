@@ -36,7 +36,7 @@ import static nl.rgs.kib.shared.models.ImportResultError.convertToImplSet;
 @Service
 public class FileImportServiceImpl implements FileImportService {
     @Autowired
-    private Validator validator = null;
+    private Validator validator;
 
     @Autowired
     private InspectionMethodService inspectionMethodService;
