@@ -74,6 +74,7 @@ server.port=RECOMMENDED
 spring.data.mongodb.host=REQUIRED *
 spring.data.mongodb.port=REQUIRED *
 spring.data.mongodb.database=REQUIRED *
+spring.data.mongodb.auto-index-creation=REQUIRED *
 # Spring Main
 spring.main.allow-circular-references=true REQUIRED *
 # Spring Multipart
