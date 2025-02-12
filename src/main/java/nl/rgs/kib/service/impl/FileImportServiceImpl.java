@@ -1,6 +1,5 @@
 package nl.rgs.kib.service.impl;
 
-import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import nl.rgs.kib.model.list.InspectionList;
@@ -36,7 +35,8 @@ import static nl.rgs.kib.shared.models.ImportResultError.convertToImplSet;
 @Slf4j
 @Service
 public class FileImportServiceImpl implements FileImportService {
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    @Autowired
+    private Validator validator = null;
 
     @Autowired
     private InspectionMethodService inspectionMethodService;
@@ -54,7 +54,7 @@ public class FileImportServiceImpl implements FileImportService {
         inspectionList.setName(name);
         inspectionList.setStatus(InspectionListStatus.CONCEPT);
 
-        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodService.findByName("Conditiescore");
+        Optional<InspectionMethod> inspectionMethodOptional = inspectionMethodService.findByName("Inspectieklasse");
         InspectionMethod inspectionMethod = inspectionMethodOptional.orElseGet(() -> {
             InspectionMethod newInspectionMethod = new InspectionMethod();
             newInspectionMethod.setName("Conditiescore");
@@ -203,7 +203,7 @@ public class FileImportServiceImpl implements FileImportService {
         Workbook workbook = new XSSFWorkbook(new ByteArrayInputStream(rgsFile));
         Sheet sheet = workbook.getSheetAt(0);
 
-        Optional<InspectionList> inspectionListOptional = inspectionListService.findById("66cde85b9b63fe49154ae853");
+        Optional<InspectionList> inspectionListOptional = inspectionListService.findById("67326c69509fb80d9461995b");
         if (inspectionListOptional.isEmpty()) {
             return;
         }
@@ -222,7 +222,9 @@ public class FileImportServiceImpl implements FileImportService {
                 final String naam3Elements = matcher.group(2);
                 final int row = rowno;
                 inspectionList.getItems().stream().filter(inspectionListItem -> inspectionListItem.getStandardNo().equals(naam3Elements)).forEach(inspectionListItem -> {
+                    Set<InspectionListItemStage> stageToRemove = new HashSet<>();
                     inspectionListItem.getStages().forEach(inspectionListItemStage -> {
+                        inspectionListItemStage.setName(null);
                         Cell cell = sheet.getRow(row).getCell(inspectionListItemStage.getStage() + 3);
                         if (cell != null) {
                             final String stageDesc = cell.getStringCellValue();
@@ -230,7 +232,11 @@ public class FileImportServiceImpl implements FileImportService {
                                 inspectionListItemStage.setName(stageDesc);
                             }
                         }
+                        if ( inspectionListItemStage.getName() == null ) {
+                            stageToRemove.add(inspectionListItemStage);
+                        }
                     });
+                    inspectionListItem.getStages().removeAll(stageToRemove);
                 });
             }
         }
