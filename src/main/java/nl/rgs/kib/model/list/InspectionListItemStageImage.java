@@ -8,9 +8,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InspectionListItemStageImage {
+public class InspectionListItemStageImage implements Comparable<InspectionListItemStageImage> {
     private Boolean main;
 
     @NotNull
     private String fileId;
+
+    @Override
+    public int compareTo(InspectionListItemStageImage o) {
+        if (this.main && !o.main) {
+            return -1;
+        } else if (!this.main && o.main) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

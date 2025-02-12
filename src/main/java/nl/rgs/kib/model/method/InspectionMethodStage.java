@@ -13,7 +13,7 @@ import nl.rgs.kib.shared.models.Stageable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class InspectionMethodStage implements Stageable {
+public class InspectionMethodStage implements Stageable, Comparable<InspectionMethodStage> {
     @NotNull
     @Min(1)
     @Max(10)
@@ -23,4 +23,9 @@ public class InspectionMethodStage implements Stageable {
     @NotBlank
     @Schema(example = "Good")
     private String name;
+
+    @Override
+    public int compareTo(InspectionMethodStage o) {
+        return this.stage.compareTo(o.stage);
+    }
 }

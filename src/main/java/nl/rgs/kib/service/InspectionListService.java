@@ -21,6 +21,8 @@ public interface InspectionListService {
 
     Optional<InspectionList> deleteById(String id);
 
+    Optional<InspectionList> sortInspectionListItemsByNorm(String id);
+
     Optional<InspectionList> copy(String id);
 
     Optional<InspectionList> copyItem(String String, String itemId);

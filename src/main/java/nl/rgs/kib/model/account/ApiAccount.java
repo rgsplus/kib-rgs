@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.validators.EndDateAfterStartDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class ApiAccount extends BaseObject {
     private String id;
 
     @NotBlank
+    @Indexed(unique = true)
     @Schema(example = "e0e4fe66-5114-4bd8-83f7-28c4bd3461a6")
     private String apiKey;
 

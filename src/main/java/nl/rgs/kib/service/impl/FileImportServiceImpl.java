@@ -104,7 +104,7 @@ public class FileImportServiceImpl implements FileImportService {
                         if (cell.getCellType().equals(CellType.STRING) && cell.getStringCellValue() != null) {
                             currentGroup = cell.getStringCellValue();
                         }
-                        Set<String> groups = new HashSet<>(inspectionListItem.getGroups());
+                        SortedSet<String> groups = new TreeSet<>(inspectionListItem.getGroups());
                         groups.add(currentGroup);
                         inspectionListItem.setGroups(groups);
 
@@ -168,7 +168,7 @@ public class FileImportServiceImpl implements FileImportService {
                             inspectionList.getItems().add(inspectionListItem);
                             index++;
                         } else {
-                            Set<String> existingGroups = new HashSet<>(existingItem.getGroups());
+                            SortedSet<String> existingGroups = new TreeSet<>(existingItem.getGroups());
                             existingGroups.addAll(inspectionListItem.getGroups());
                             existingItem.setGroups(existingGroups);
                         }
@@ -204,17 +204,17 @@ public class FileImportServiceImpl implements FileImportService {
         Sheet sheet = workbook.getSheetAt(0);
 
         Optional<InspectionList> inspectionListOptional = inspectionListService.findById("66cde85b9b63fe49154ae853");
-        if ( inspectionListOptional.isEmpty() ) {
+        if (inspectionListOptional.isEmpty()) {
             return;
         }
         InspectionList inspectionList = inspectionListOptional.get();
 
         for (int rowno = 1; rowno < sheet.getLastRowNum(); rowno++) {
-            if ( sheet.getRow(rowno).getCell(0) == null ) {
+            if (sheet.getRow(rowno).getCell(0) == null) {
                 return;
             }
             String naam = sheet.getRow(rowno).getCell(0).getStringCellValue();
-            if ( naam == null ) {
+            if (naam == null) {
                 return;
             }
             Matcher matcher = Pattern.compile("^(KIB-+)(\\d+[A-Z]?)(.*)").matcher(naam);
@@ -224,7 +224,7 @@ public class FileImportServiceImpl implements FileImportService {
                 inspectionList.getItems().stream().filter(inspectionListItem -> inspectionListItem.getStandardNo().equals(naam3Elements)).forEach(inspectionListItem -> {
                     inspectionListItem.getStages().forEach(inspectionListItemStage -> {
                         Cell cell = sheet.getRow(row).getCell(inspectionListItemStage.getStage() + 3);
-                        if ( cell != null ) {
+                        if (cell != null) {
                             final String stageDesc = cell.getStringCellValue();
                             if (stageDesc != null) {
                                 inspectionListItemStage.setName(stageDesc);

@@ -17,6 +17,7 @@ import org.springframework.context.MessageSource;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,7 +40,7 @@ public class InspectionListServiceImplTest {
 
     @Mock
     private KibFileServiceImpl kibFileService;
-    
+
 
     @Test
     public void findById_ReturnsInspectionList() {
@@ -101,7 +102,7 @@ public class InspectionListServiceImplTest {
         updatedList.setItems(List.of());
 
         when(inspectionListRepository.findById(existingList.getId())).thenReturn(Optional.of(existingList));
-        when(kibFileService.deleteByIds(List.of())).thenReturn(List.of());
+        when(kibFileService.deleteByIds(Set.of())).thenReturn(List.of());
         when(inspectionListRepository.save(existingList)).thenReturn(existingList);
 
         Optional<InspectionList> result = inspectionListService.update(updatedList);
@@ -109,7 +110,7 @@ public class InspectionListServiceImplTest {
         assertTrue(result.isPresent());
         assertEquals(existingList, result.get());
         verify(inspectionListRepository).findById(existingList.getId());
-        verify(kibFileService).deleteByIds(List.of());
+        verify(kibFileService).deleteByIds(Set.of());
         verify(inspectionListRepository).save(existingList);
     }
 
@@ -136,14 +137,14 @@ public class InspectionListServiceImplTest {
         list.setItems(List.of());
 
         when(inspectionListRepository.findById(id)).thenReturn(Optional.of(list));
-        when(kibFileService.deleteByIds(List.of())).thenReturn(List.of());
+        when(kibFileService.deleteByIds(Set.of())).thenReturn(List.of());
 
         Optional<InspectionList> result = inspectionListService.deleteById(id);
 
         assertTrue(result.isPresent());
         assertEquals(list, result.get());
         verify(inspectionListRepository).findById(id);
-        verify(kibFileService).deleteByIds(List.of());
+        verify(kibFileService).deleteByIds(Set.of());
         verify(inspectionListRepository).deleteById(id);
     }
 

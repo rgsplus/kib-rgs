@@ -15,6 +15,7 @@ import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -74,21 +75,30 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         List<UserRepresentation> users = realmResource.roles().get("kib_core").getUserMembers(0, 1000);
 
-        return users.stream().map(u -> new User(u, usersResource)).toList();
+        return users.stream().map(userRepresentation -> {
+            UserResource userResource = usersResource.get(userRepresentation.getId());
+            return new User(userResource);
+        }).toList();
     }
 
     @Override
     public Optional<User> findById(String id) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
-        UserRepresentation userRepresentation = usersResource.get(id).toRepresentation();
-        return Optional.ofNullable(userRepresentation).map(u -> new User(u, usersResource));
+        UserResource userResource = usersResource.get(id);
+
+        if (userResource == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(userResource).map(User::new);
     }
 
     @Override
     public User create(CreateUser createUser) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
+        RolesResource rolesResource = realmResource.roles();
 
         final String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         final String tempPassword = RandomStringUtils.random(15, characters);
@@ -110,7 +120,7 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         String userId = CreatedResponseUtil.getCreatedId(response);
         UserResource userResource = usersResource.get(userId);
-        userRepresentation = usersResource.get(userId).toRepresentation();
+        userRepresentation = userResource.toRepresentation();
 
         List<String> requiredActions = userRepresentation.getRequiredActions() != null ? userRepresentation.getRequiredActions() : new ArrayList<>();
 
@@ -123,17 +133,17 @@ public class UserServiceImpl implements UserService, InitializingBean {
             otpCredentialRepresentation.ifPresent(representation -> userResource.removeCredential(representation.getId()));
         }
 
-        RoleRepresentation kibCoreRole = realmResource.roles().get("kib_core").toRepresentation();
+        RoleRepresentation kibCoreRole = rolesResource.get("kib_core").toRepresentation();
         RoleRepresentation roleRepresentation = switch (createUser.role()) {
-            case ADMIN -> realmResource.roles().get("kib_admin").toRepresentation();
-            case USER -> realmResource.roles().get("kib_user").toRepresentation();
+            case ADMIN -> rolesResource.get("kib_admin").toRepresentation();
+            case USER -> rolesResource.get("kib_user").toRepresentation();
         };
 
         userResource.roles().realmLevel().add(List.of(kibCoreRole, roleRepresentation));
 
-        usersResource.get(userId).update(userRepresentation);
+        userResource.update(userRepresentation);
 
-        User user = new User(userRepresentation, usersResource);
+        User user = new User(userResource);
 
         this.sendActivationMail(user, tempPassword);
 
@@ -176,15 +186,20 @@ public class UserServiceImpl implements UserService, InitializingBean {
 
         usersResource.get(user.getId()).update(userRepresentation);
 
-        return Optional.of(userRepresentation).map(u -> new User(u, usersResource));
+        return Optional.of(userResource).map(User::new);
     }
 
     @Override
     public Optional<User> deleteById(String id) {
         RealmResource realmResource = keycloak.realm(realm);
         UsersResource usersResource = realmResource.users();
-        UserRepresentation userRepresentation = usersResource.get(id).toRepresentation();
-        Optional<User> user = Optional.ofNullable(userRepresentation).map(u -> new User(u, usersResource));
+        UserResource userResource = usersResource.get(id);
+
+        if (userResource == null) {
+            return Optional.empty();
+        }
+
+        Optional<User> user = Optional.of(userResource).map(User::new);
         usersResource.delete(id);
         return user;
     }
@@ -209,8 +224,10 @@ public class UserServiceImpl implements UserService, InitializingBean {
     public Long adminUsersCount() {
         RealmResource realmResource = keycloak.realm(realm);
 
-        List<UserRepresentation> adminUsers = realmResource.roles().get("kib_admin").getUserMembers(0, 1000);
-        List<UserRepresentation> coreUsers = realmResource.roles().get("kib_core").getUserMembers(0, 1000);
+        RolesResource rolesResource = realmResource.roles();
+
+        List<UserRepresentation> adminUsers = rolesResource.get("kib_admin").getUserMembers(0, 1000);
+        List<UserRepresentation> coreUsers = rolesResource.get("kib_core").getUserMembers(0, 1000);
 
         return adminUsers.stream().filter(adminUser -> coreUsers.stream().anyMatch(coreUser -> coreUser.getId().equals(adminUser.getId()))).count();
     }

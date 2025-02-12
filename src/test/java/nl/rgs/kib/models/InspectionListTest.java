@@ -11,10 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -44,7 +41,7 @@ public class InspectionListTest {
         stage2.setName("Stage 2");
         stage2.setImages(List.of());
 
-        return new InspectionListItem(UUID.randomUUID().toString(), 0, Set.of("Fundering"), "Veiligheid", "Constructief",
+        return new InspectionListItem(UUID.randomUUID().toString(), 0, new TreeSet<>(Set.of("Fundering")), "Veiligheid", "Constructief",
                 name, new ObjectId().toHexString(), "Visuele beoordeling fundering door gevel en vloeren", "Deze inspectie is bedoeld om de constructieve staat van de fundering en gevelmetselwerk te beoordelen.", inspectionMethod, List.of(stage1, stage2));
     }
 
@@ -243,7 +240,7 @@ public class InspectionListTest {
             InspectionList updatedList = new InspectionList();
             updatedList.setItems(List.of(updatedInspectionListItem));
 
-            assertEquals(List.of(fileId2), InspectionList.getDeletedFileIds(existingList, updatedList), "Deleted file ids should contain one element.");
+            assertEquals(Set.of(fileId2), InspectionList.getDeletedFileIds(existingList, updatedList), "Deleted file ids should contain one element.");
         }
 
         @Test
@@ -343,7 +340,7 @@ public class InspectionListTest {
             InspectionList list = new InspectionList();
             list.setItems(List.of(item1, item2));
 
-            assertEquals(List.of(fileId1, fileId2, fileId3, fileId4), InspectionList.getAllFileIds(list), "File ids should contain all file ids.");
+            assertEquals(Set.of(fileId1, fileId2, fileId3, fileId4), InspectionList.getAllFileIds(list), "File ids should contain all file ids.");
         }
 
         @Test
@@ -370,7 +367,7 @@ public class InspectionListTest {
             InspectionList list = new InspectionList();
             list.setItems(List.of(item1, item2));
 
-            assertEquals(List.of(fileId1, fileId2, fileId3), InspectionList.getAllFileIds(list), "File ids should contain all file ids except null.");
+            assertEquals(Set.of(fileId1, fileId2, fileId3), InspectionList.getAllFileIds(list), "File ids should contain all file ids except null.");
         }
 
         @Nested
@@ -691,26 +688,34 @@ public class InspectionListTest {
         }
 
         @Nested
-        public class InspectionListSortItemsStagesAndImagesMethod {
+        public class InspectionListApplySort {
             @Test
-            public void testSortItemsStagesAndImagesWithEmptyList() {
-                assertTrue(InspectionList.sortItemsStagesAndImages(List.of()).isEmpty(), "Sorted list should be empty.");
+            public void testApplySortWithEmptyList() {
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(new ArrayList<>());
+
+                inspectionList.applySort();
+
+                assertTrue(inspectionList.getItems().isEmpty(), "Sorted list should be empty.");
             }
 
             @Test
-            public void testSortItemsStagesAndImagesWithMultipleItems() {
+            public void testApplySortWithMultipleItems() {
                 InspectionListItem item1 = createInspectionListItem("Item 1", "id1", 1);
                 InspectionListItem item2 = createInspectionListItem("Item 2", "id2", 0);
 
-                List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(Arrays.asList(item1, item2));
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(Arrays.asList(item1, item2));
 
-                assertEquals("id2", sortedItems.get(0).getId(), "First item should be 'Item 2'.");
-                assertEquals("id1", sortedItems.get(1).getId(), "Second item should be 'Item 1'.");
-                assertEquals(Integer.valueOf(1), sortedItems.get(0).getStages().getFirst().getStage(), "First stage of first item should be in order.");
+                inspectionList.applySort();
+
+                assertEquals("id2", inspectionList.getItems().get(0).getId(), "First item should be 'Item 2'.");
+                assertEquals("id1", inspectionList.getItems().get(1).getId(), "Second item should be 'Item 1'.");
+                assertEquals(Integer.valueOf(1), inspectionList.getItems().get(0).getStages().getFirst().getStage(), "First stage of first item should be in order.");
             }
 
             @Test
-            public void testSortItemsStagesAndImagesWithSingleItem() {
+            public void testApplySortWithSingleItem() {
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(1);
                 stage1.setName("Stage 1");
@@ -719,14 +724,17 @@ public class InspectionListTest {
                 InspectionListItem item = createInspectionListItem("Item 1");
                 item.setStages(List.of(stage1));
 
-                List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(List.of(item));
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(List.of(item));
 
-                assertEquals(1, sortedItems.size(), "Sorted list should contain one element.");
-                assertEquals(stage1, sortedItems.getFirst().getStages().getFirst(), "The single element should match the original.");
+                inspectionList.applySort();
+
+                assertEquals(1, inspectionList.getItems().size(), "Sorted list should contain one element.");
+                assertEquals(stage1, inspectionList.getItems().getFirst().getStages().getFirst(), "The single element should match the original.");
             }
 
             @Test
-            public void testSortItemsStagesAndImagesWithUnorderedItems() {
+            public void testApplySortWithUnorderedItems() {
                 InspectionListItemStage stage1 = new InspectionListItemStage();
                 stage1.setStage(5);
                 stage1.setName("Stage 5");
@@ -740,7 +748,6 @@ public class InspectionListTest {
                 stage3.setName("Stage 3");
                 stage3.setImages(List.of());
 
-
                 InspectionListItem item1 = createInspectionListItem("Item 5", 2);
                 item1.setStages(List.of(stage1));
                 InspectionListItem item2 = createInspectionListItem("Item 1", 0);
@@ -748,16 +755,20 @@ public class InspectionListTest {
                 InspectionListItem item3 = createInspectionListItem("Item 3", 1);
                 item3.setStages(List.of(stage3));
                 List<InspectionListItem> unorderedItems = Arrays.asList(item1, item2, item3);
-                List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(unorderedItems);
 
-                assertEquals(3, sortedItems.size(), "Sorted list should contain three elements.");
-                assertEquals(1, sortedItems.get(0).getStages().getFirst().getStage(), "First element should be Stage 1.");
-                assertEquals(3, sortedItems.get(1).getStages().getFirst().getStage(), "Second element should be Stage 3.");
-                assertEquals(5, sortedItems.get(2).getStages().getFirst().getStage(), "Third element should be Stage 5.");
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(unorderedItems);
+
+                inspectionList.applySort();
+
+                assertEquals(3, inspectionList.getItems().size(), "Sorted list should contain three elements.");
+                assertEquals(1, inspectionList.getItems().get(0).getStages().getFirst().getStage(), "First element should be Stage 1.");
+                assertEquals(3, inspectionList.getItems().get(1).getStages().getFirst().getStage(), "Second element should be Stage 3.");
+                assertEquals(5, inspectionList.getItems().get(2).getStages().getFirst().getStage(), "Third element should be Stage 5.");
             }
 
             @Test
-            public void testSortItemsStagesAndImagesWithUnorderedImages() {
+            public void testApplySortWithUnorderedImages() {
                 InspectionListItemStageImage image1 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
                 InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId().toHexString());
                 InspectionListItemStageImage image3 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
@@ -770,13 +781,90 @@ public class InspectionListTest {
                 InspectionListItem item1 = createInspectionListItem("Item 1");
                 item1.setStages(List.of(stage1));
 
-                List<InspectionListItem> unorderedItems = List.of(item1);
-                List<InspectionListItem> sortedItems = InspectionList.sortItemsStagesAndImages(unorderedItems);
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(List.of(item1));
 
-                assertEquals(1, sortedItems.size(), "Sorted list should contain one element.");
-                assertEquals(3, sortedItems.getFirst().getStages().getFirst().getImages().size(), "Sorted list should contain three images.");
-                assertEquals(image2, sortedItems.getFirst().getStages().getFirst().getImages().getFirst(), "First image should be the main image.");
-                assertEquals(true, sortedItems.getFirst().getStages().getFirst().getImages().getFirst().getMain(), "First image should be the main image.");
+                inspectionList.applySort();
+
+                assertEquals(1, inspectionList.getItems().size(), "Sorted list should contain one element.");
+                assertEquals(3, inspectionList.getItems().getFirst().getStages().getFirst().getImages().size(), "Sorted list should contain three images.");
+                assertEquals(image2, inspectionList.getItems().getFirst().getStages().getFirst().getImages().getFirst(), "First image should be the main image.");
+                assertEquals(true, inspectionList.getItems().getFirst().getStages().getFirst().getImages().getFirst().getMain(), "First image should be the main image.");
+            }
+
+            @Test
+            public void testApplySortWithUnorderedStages() {
+                InspectionListItemStageImage image1 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
+                InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId().toHexString());
+                InspectionListItemStageImage image3 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
+
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of(image1, image2, image3));
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(3);
+                stage2.setName("Stage 3");
+                stage2.setImages(List.of());
+
+                InspectionListItemStage stage3 = new InspectionListItemStage();
+                stage3.setStage(2);
+                stage3.setName("Stage 2");
+                stage3.setImages(List.of());
+
+                InspectionListItem item1 = createInspectionListItem("Item 1");
+                item1.setStages(List.of(stage1, stage2, stage3));
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(List.of(item1));
+
+                inspectionList.applySort();
+
+                assertEquals(1, inspectionList.getItems().size(), "Sorted list should contain one element.");
+                assertEquals(3, inspectionList.getItems().getFirst().getStages().size(), "Sorted list should contain three stages.");
+                assertEquals(1, inspectionList.getItems().getFirst().getStages().get(0).getStage(), "First stage should be Stage 1.");
+                assertEquals(2, inspectionList.getItems().getFirst().getStages().get(1).getStage(), "Second stage should be Stage 2.");
+                assertEquals(3, inspectionList.getItems().getFirst().getStages().get(2).getStage(), "Third stage should be Stage 3.");
+            }
+
+            @Test
+            public void testApplySortWithUnorderedStagesAndImages() {
+                InspectionListItemStageImage image1 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
+                InspectionListItemStageImage image2 = new InspectionListItemStageImage(true, new ObjectId().toHexString());
+                InspectionListItemStageImage image3 = new InspectionListItemStageImage(false, new ObjectId().toHexString());
+
+                InspectionListItemStage stage1 = new InspectionListItemStage();
+                stage1.setStage(1);
+                stage1.setName("Stage 1");
+                stage1.setImages(List.of(image1, image2, image3));
+
+                InspectionListItemStage stage2 = new InspectionListItemStage();
+                stage2.setStage(3);
+                stage2.setName("Stage 3");
+                stage2.setImages(List.of());
+
+                InspectionListItemStage stage3 = new InspectionListItemStage();
+                stage3.setStage(2);
+                stage3.setName("Stage 2");
+                stage3.setImages(List.of());
+
+                InspectionListItem item1 = createInspectionListItem("Item 1");
+                item1.setStages(List.of(stage1, stage2, stage3));
+
+                InspectionList inspectionList = new InspectionList();
+                inspectionList.setItems(List.of(item1));
+
+                inspectionList.applySort();
+
+                assertEquals(1, inspectionList.getItems().size(), "Sorted list should contain one element.");
+                assertEquals(3, inspectionList.getItems().getFirst().getStages().size(), "Sorted list should contain three stages.");
+                assertEquals(1, inspectionList.getItems().getFirst().getStages().get(0).getStage(), "First stage should be Stage 1.");
+                assertEquals(2, inspectionList.getItems().getFirst().getStages().get(1).getStage(), "Second stage should be Stage 2.");
+                assertEquals(3, inspectionList.getItems().getFirst().getStages().get(2).getStage(), "Third stage should be Stage 3.");
+                assertEquals(3, inspectionList.getItems().getFirst().getStages().get(0).getImages().size(), "First stage should contain three images.");
+                assertEquals(image2, inspectionList.getItems().getFirst().getStages().get(0).getImages().getFirst(), "First image should be the main image.");
+                assertEquals(true, inspectionList.getItems().getFirst().getStages().getFirst().getImages().getFirst().getMain(), "First image should be the");
             }
         }
     }
