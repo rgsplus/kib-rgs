@@ -1,6 +1,7 @@
 package nl.rgs.kib.model.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class User {
     @Schema(example = "Doe")
     private String lastName;
 
+    @Email
     @NotBlank
     @Schema(example = "john.doe@gmail.com")
     private String email;
