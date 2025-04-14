@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import nl.rgs.kib.model.method.InspectionMethodStage;
 import nl.rgs.kib.shared.models.BaseObject;
 import nl.rgs.kib.shared.models.Sortable;
 import nl.rgs.kib.shared.validators.UniqueIds;
@@ -55,7 +56,7 @@ public class InspectionList extends BaseObject implements Sortable {
      * @param existingList The original inspection list before updates.
      * @param updatedList  The inspection list after updates have been applied.
      * @return A {@link Set} containing the unique file IDs of images present in {@code existingList} but absent in {@code updatedList}.
-     *         Returns an empty set if no images were deleted or if {@code existingList} has no images.
+     * Returns an empty set if no images were deleted or if {@code existingList} has no images.
      */
     public static Set<String> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
         return existingList.getItems().stream()
@@ -74,7 +75,7 @@ public class InspectionList extends BaseObject implements Sortable {
      *
      * @param list The inspection list from which to extract file IDs.
      * @return A {@link Set} containing all unique, non-null file IDs found in the list's images.
-     *         Returns an empty set if the list contains no items or no images with file IDs.
+     * Returns an empty set if the list contains no items or no images with file IDs.
      */
     public static Set<String> getAllFileIds(InspectionList list) {
         return list.getItems().stream()
@@ -96,9 +97,9 @@ public class InspectionList extends BaseObject implements Sortable {
      *     <li>For each stage, sorts its {@code images} list based on {@link InspectionListItemStageImage#compareTo}.</li>
      *     <li>Recursively calls {@link Sortable#applySort()} on the {@code inspectionMethod} of each item.</li>
      * </ul>
-     * 
+     *
      * @see InspectionListItem#compareTo(InspectionListItem)
-     * @see InspectionListItemStage#compareTo(InspectionListItemStage)
+     * @see InspectionListItemStage#compareTo(InspectionMethodStage)
      * @see InspectionListItemStageImage#compareTo(InspectionListItemStageImage)
      * @see Sortable#applySort()
      */
