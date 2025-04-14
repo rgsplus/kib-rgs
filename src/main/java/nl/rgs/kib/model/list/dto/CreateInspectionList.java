@@ -13,14 +13,19 @@ import nl.rgs.kib.shared.validators.ValidIndexes;
 import java.util.List;
 
 /**
- * CreateInspectionList
- * <p>
- * DTO for creating an InspectionList
- * <p>
+ * Data Transfer Object (DTO) for creating a new InspectionList.
+ * Contains the necessary information to create an inspection list, including its name,
+ * initial status, and the list of items it contains. Includes validation constraints
+ * to ensure data integrity.
  *
- * @param name
- * @param status
- * @param items
+ * @param name   The name of the inspection list (e.g., "RGS+ NEN_2767"). Cannot be blank.
+ * @param status The initial status of the inspection list (e.g., DEFINITIVE). Cannot be null.
+ * @param items  A list of {@link InspectionListItem} objects belonging to this inspection list.
+ *               Cannot be null. The list itself and its elements are validated:
+ *               - {@code @Valid}: Ensures nested validation of each {@link InspectionListItem}.
+ *               - {@code @UniqueIds}: Ensures all item IDs within the list are unique.
+ *               - {@code @ValidIndexes}: Ensures item indexes are sequential and start from 1.
+ *               - {@code @UniqueStandardNos}: Ensures all item standard numbers within the list are unique.
  */
 public record CreateInspectionList(
         @NotBlank

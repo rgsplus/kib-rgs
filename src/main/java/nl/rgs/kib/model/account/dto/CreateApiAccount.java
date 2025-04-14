@@ -8,16 +8,16 @@ import nl.rgs.kib.shared.validators.EndDateAfterStartDate;
 import java.util.Date;
 
 /**
- * CreateApiAccount
- * <p>
- * DTO for creating an ApiAccount
- * <p>
+ * Data Transfer Object (DTO) for creating a new API Account.
+ * Contains validation constraints and schema descriptions for API documentation.
+ * Ensures the end date is after the start date using a custom validator.
  *
- * @param name
- * @param businessName
- * @param startDate
- * @param endDate
- * @param active
+ * @param name         The name of the account holder (e.g., "John Doe"). Cannot be blank.
+ * @param description  A description for the API account (e.g., "API account for Facebook integration"). Optional.
+ * @param businessName The name of the associated business (e.g., "Facebook"). Cannot be blank.
+ * @param startDate    The date when the account becomes active. Cannot be null.
+ * @param endDate      The date when the account expires. Optional. Must be after startDate if provided.
+ * @param active       Indicates whether the account is currently active. Cannot be null.
  */
 @EndDateAfterStartDate
 public record CreateApiAccount(
