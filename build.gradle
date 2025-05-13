@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.25'
     implementation('org.keycloak:keycloak-admin-client:24.0.2') {
         exclude group: "com.sun.activation", module: "jakarta.activation"
     }
