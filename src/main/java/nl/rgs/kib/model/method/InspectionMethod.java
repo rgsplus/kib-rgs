@@ -42,9 +42,13 @@ public class InspectionMethod extends BaseObject implements Sortable {
 
 
     /**
-     * Applies the sort to the stages of the inspection method.
+     * Sorts the {@code stages} list of this inspection method in place based on their natural order.
+     * This method ensures that the stages within the inspection method are consistently ordered,
+     * typically relying on the {@link Comparable} implementation of {@link InspectionMethodStage}.
+     * <p>
      *
-     * @see InspectionMethodStage
+     * @see InspectionMethodStage#compareTo(InspectionMethodStage)
+     * @see Sortable#applySort()
      */
     @Override
     public void applySort() {

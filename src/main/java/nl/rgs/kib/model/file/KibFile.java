@@ -32,23 +32,39 @@ public class KibFile {
     private byte[] data;
 
     /**
-     * Resize an image to the specified resolution.
-     * <p>
-     * Supported types: image/jpeg, image/jpg, image/png, image/gif
-     * </p>
+     * Resizes the image data within the provided {@link KibFile} object to a specified resolution,
+     * maintaining the original aspect ratio. The resizing is done in place, modifying the {@code data}
+     * field of the {@code kibFile} object.
      *
-     * <p>
-     * Resolutions:
+     * <p>Supported image MIME types for resizing:</p>
      * <ul>
-     *   <li>THUMBNAIL: 100px</li>
-     *   <li>MEDIUM: 500px</li>
-     *   <li>LARGE: 1000px</li>
-     *   <li>ORIGINAL: no resize</li>
+     *   <li>image/jpeg</li>
+     *   <li>image/jpg</li>
+     *   <li>image/png</li>
+     *   <li>image/gif</li>
      * </ul>
-     * </p>
      *
-     * @param kibFile    The KibFile. If not an image, or type is not supported, no resize will be done.
-     * @param resolution The KibFileResolution. If null or ORIGINAL, no resize will be done.
+     * <p>Available target resolutions (width in pixels):</p>
+     * <ul>
+     *   <li>{@link KibFileResolution#THUMBNAIL}: 100px</li>
+     *   <li>{@link KibFileResolution#MEDIUM}: 500px</li>
+     *   <li>{@link KibFileResolution#LARGE}: 1000px</li>
+     *   <li>{@link KibFileResolution#ORIGINAL}: No resizing is performed.</li>
+     * </ul>
+     *
+     * <p>Resizing is skipped if:</p>
+     * <ul>
+     *     <li>The provided {@code kibFile} is null.</li>
+     *     <li>The {@code kibFile}'s MIME type is not among the supported types.</li>
+     *     <li>The specified {@code resolution} is null or {@link KibFileResolution#ORIGINAL}.</li>
+     * </ul>
+     *
+     * <p>Note: The output format after resizing is always JPEG, regardless of the original format.</p>
+     *
+     * @param kibFile    The {@link KibFile} object containing the image data to resize. Its {@code data} field will be updated.
+     *                   If the file is not a supported image type, it remains unchanged.
+     * @param resolution The target {@link KibFileResolution}. If null or {@code ORIGINAL}, the image data remains unchanged.
+     * @throws RuntimeException if an {@link IOException} occurs during image reading or writing.
      */
     public static void resizeImage(KibFile kibFile, KibFileResolution resolution) {
         final Set<String> supportedTypes = Set.of("image/jpeg", "image/jpg", "image/png", "image/gif");

@@ -45,20 +45,17 @@ public class InspectionList extends BaseObject implements Sortable {
     private List<InspectionListItem> items = new ArrayList<>();
 
     /**
-     * Returns the file IDs of the images that are deleted from the updated list.
-     * <ul>
-     *     <li>The file IDs are extracted from the images of the stages of the items in the existing list.</li>
-     *     <li>The file IDs are compared with the file IDs of the images of the stages of the items in the updated list.</li>
-     *     <li>The file IDs that are not present in the updated list are returned.</li>
-     * </ul>
+     * Calculates the set of image file IDs that are present in the {@code existingList}
+     * but not in the {@code updatedList}. This is useful for identifying images
+     * that may need to be deleted after an update operation.
+     * <p>
+     * It iterates through all images in all stages of all items in the {@code existingList}
+     * and checks if their file IDs exist in any image within the {@code updatedList}.
      *
-     * @param existingList the existing inspection list
-     * @param updatedList  the updated inspection list
-     * @return the set of file IDs of the deleted images
-     * @see InspectionList
-     * @see InspectionListItem
-     * @see InspectionListItemStage
-     * @see InspectionListItemStageImage
+     * @param existingList The original inspection list before updates.
+     * @param updatedList  The inspection list after updates have been applied.
+     * @return A {@link Set} containing the unique file IDs of images present in {@code existingList} but absent in {@code updatedList}.
+     *         Returns an empty set if no images were deleted or if {@code existingList} has no images.
      */
     public static Set<String> getDeletedFileIds(InspectionList existingList, InspectionList updatedList) {
         return existingList.getItems().stream()
@@ -73,14 +70,11 @@ public class InspectionList extends BaseObject implements Sortable {
     }
 
     /**
-     * Returns all file IDs of the images in the inspection list.
+     * Collects all unique, non-null image file IDs from all items and their stages within the given inspection list.
      *
-     * @param list the inspection list
-     * @return the set of file IDs of the images
-     * @see InspectionList
-     * @see InspectionListItem
-     * @see InspectionListItemStage
-     * @see InspectionListItemStageImage
+     * @param list The inspection list from which to extract file IDs.
+     * @return A {@link Set} containing all unique, non-null file IDs found in the list's images.
+     *         Returns an empty set if the list contains no items or no images with file IDs.
      */
     public static Set<String> getAllFileIds(InspectionList list) {
         return list.getItems().stream()
@@ -92,19 +86,21 @@ public class InspectionList extends BaseObject implements Sortable {
     }
 
     /**
-     * Sort all the properties that implement Comparable class.
-     *
+     * Sorts the nested elements of this {@code InspectionList} in place based on their natural order (implementation of {@link Comparable}).
+     * This method ensures that items, their stages, and the images within those stages are consistently ordered.
+     * <p>
+     * Specifically, it performs the following sorting actions:
      * <ul>
-     *     <li>Sort the items of the inspection list.</li>
-     *     <li>Sort the item stages of the items.</li>
-     *     <li>Sort the images of the item stages.</li>
-     *     <li>Execute "applySort" method of the inspection method.</li>
+     *     <li>Sorts the {@code items} list based on {@link InspectionListItem#compareTo}.</li>
+     *     <li>For each item, sorts its {@code stages} list based on {@link InspectionListItemStage#compareTo}.</li>
+     *     <li>For each stage, sorts its {@code images} list based on {@link InspectionListItemStageImage#compareTo}.</li>
+     *     <li>Recursively calls {@link Sortable#applySort()} on the {@code inspectionMethod} of each item.</li>
      * </ul>
-     *
-     * @see InspectionList
-     * @see InspectionListItem
-     * @see InspectionListItemStage
-     * @see InspectionListItemStageImage
+     * 
+     * @see InspectionListItem#compareTo(InspectionListItem)
+     * @see InspectionListItemStage#compareTo(InspectionListItemStage)
+     * @see InspectionListItemStageImage#compareTo(InspectionListItemStageImage)
+     * @see Sortable#applySort()
      */
     @Override
     public void applySort() {
