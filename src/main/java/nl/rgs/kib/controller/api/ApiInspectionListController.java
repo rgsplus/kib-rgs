@@ -20,16 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/inspection-list")
-@Tag(name = "Inspection List")
+@RequestMapping("/api/standard")
+@Tag(name = "Standard")
 public class ApiInspectionListController {
     @Autowired
     private InspectionListService inspectionListService;
 
     @GetMapping
     @Operation(
-            summary = "Find all summaries inspection list",
-            description = "Find all summaries inspection list",
+            summary = "Find all summaries standard",
+            description = "Find all summaries standard",
             parameters = {
                     @Parameter(
                             name = "api-key",
@@ -42,7 +42,7 @@ public class ApiInspectionListController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found all summaries inspection list"
+                            description = "Found all summaries standard"
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -62,8 +62,8 @@ public class ApiInspectionListController {
 
     @GetMapping("/{id}")
     @Operation(
-            summary = "Find an inspection list by id",
-            description = "Find an inspection list by id",
+            summary = "Find an standard by id",
+            description = "Find an standard by id",
             parameters = {
                     @Parameter(
                             name = "api-key",
@@ -76,7 +76,7 @@ public class ApiInspectionListController {
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "Found the inspection list"
+                            description = "Found the standard"
                     ),
                     @ApiResponse(
                             responseCode = "400",
@@ -90,7 +90,7 @@ public class ApiInspectionListController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description = "Inspection list not found",
+                            description = "Standard not found",
                             content = @Content
                     ),
             }

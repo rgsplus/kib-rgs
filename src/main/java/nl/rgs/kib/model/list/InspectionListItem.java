@@ -26,6 +26,7 @@ import java.util.TreeSet;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "StandardItem")
 public class InspectionListItem implements Indexable, Ideable, StandarNoable, Comparable<InspectionListItem> {
 
     @NotNull

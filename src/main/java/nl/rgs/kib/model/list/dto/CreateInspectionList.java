@@ -27,6 +27,7 @@ import java.util.List;
  *               - {@code @ValidIndexes}: Ensures item indexes are sequential and start from 1.
  *               - {@code @UniqueStandardNos}: Ensures all item standard numbers within the list are unique.
  */
+@Schema(name = "CreateStandard")
 public record CreateInspectionList(
         @NotBlank
         @Schema(example = "RGS+ NEN_2767")

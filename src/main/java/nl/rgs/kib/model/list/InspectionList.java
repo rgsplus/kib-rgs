@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "inspection_list")
+@Schema(name = "Standard")
 public class InspectionList extends BaseObject implements Sortable {
     @Id
     @NotBlank

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4b179364-4b4b-445f-a237-5e411e40d556",
+		"_postman_id": "6c6614c8-2988-49ee-89ad-49e3c8c1250c",
 		"name": "KIB-RGS",
 		"description": "API REST for a simple registration system of `InspectionMethods` and `InspectionLists.`\n\n<img src=\"https://rgsplus.com/wp-content/uploads/2021/10/logo-RGS-300x113-1.png\">",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -11,7 +11,7 @@
 			"name": "Public API",
 			"item": [
 				{
-					"name": "InspectionList",
+					"name": "Standard",
 					"item": [
 						{
 							"name": "FindAll",
@@ -25,13 +25,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base-url}}/api/inspection-list",
+									"raw": "{{base-url}}/api/standard",
 									"host": [
 										"{{base-url}}"
 									],
 									"path": [
 										"api",
-										"inspection-list"
+										"standard"
 									]
 								}
 							},
@@ -49,13 +49,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{base-url}}/api/inspection-list/{id}",
+									"raw": "{{base-url}}/api/standard/{id}",
 									"host": [
 										"{{base-url}}"
 									],
 									"path": [
 										"api",
-										"inspection-list",
+										"standard",
 										"{id}"
 									]
 								}
