@@ -3,9 +3,10 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - echo Logging in to GitHub Container Registry...
-      - echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
-      - REPOSITORY_URI=ghcr.io/$GITHUB_USERNAME/kib-rgs
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 670559189604.dkr.ecr.eu-west-1.amazonaws.com
+      - REPOSITORY_URI=670559189604.dkr.ecr.eu-west-1.amazonaws.com/kib-rgs
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
