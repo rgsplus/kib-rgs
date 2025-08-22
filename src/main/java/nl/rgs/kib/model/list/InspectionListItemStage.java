@@ -1,5 +1,6 @@
 package nl.rgs.kib.model.list;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Schema(name = "StandardItemStage")
 public class InspectionListItemStage extends InspectionMethodStage {
     @Valid
     @NotNull

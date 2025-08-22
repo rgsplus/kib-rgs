@@ -1,9 +1,9 @@
 version: "3.8"
+
 services:
   mongo:
     image: mongo:latest
     container_name: mongo-db
-    restart: always
     ports:
       - "27017:27017"
     environment:
@@ -15,7 +15,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: java-app
-    restart: always
     ports:
       - "8081:8081"
     depends_on:

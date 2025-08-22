@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
  * @param totalItems The total count of items within the InspectionList (e.g., 25). Cannot be null.
  * @param metadata   The audit metadata associated with the InspectionList (creation/update timestamps and users). Cannot be null.
  */
+@Schema(name = "SummaryStandard")
 public record SummaryInspectionList(
         @NotBlank
         @Schema(example = "5f622c23a8efb61a54365f33")
